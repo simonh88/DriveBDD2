@@ -76,7 +76,7 @@ class Panier{
         
         $i = 0;
         while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
-            $client = new Client($row);
+            $client = new Panier($row);
             $data[$i] = $client;
             $i++;
         }

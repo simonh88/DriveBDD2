@@ -47,7 +47,7 @@ class P_lot extends Promotion{
         
         $i = 0;
         while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
-            $client = new Client($row);
+            $client = new P_lot($row);
             $data[$i] = $client;
             $i++;
         }

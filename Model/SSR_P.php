@@ -32,7 +32,7 @@ class SRR_P{
     public static function getAll() { // exemple, a suprimer
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, 'SELECT * FROM SSR_P.php'); // prepare le code
+        $stid = oci_parse($oci, 'SELECT * FROM SSR_P'); // prepare le code
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);
@@ -43,7 +43,7 @@ class SRR_P{
         
         $i = 0;
         while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
-            $client = new Client($row);
+            $client = new SSR_P($row);
             $data[$i] = $client;
             $i++;
         }

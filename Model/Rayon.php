@@ -45,7 +45,7 @@ class Rayon{
         
         $i = 0;
         while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
-            $client = new Client($row);
+            $client = new Rayon($row);
             $data[$i] = $client;
             $i++;
         }
