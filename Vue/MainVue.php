@@ -36,7 +36,7 @@ abstract class MainVue { // page d'accueil du site
 
         public function css() {
             ?>
-            <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-theme.css" />
+            <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css" />
             <?php
         }
         
