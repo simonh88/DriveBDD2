@@ -5,7 +5,7 @@ class Base {
     /**
      * Connexion en cours
      */
-    public static $db;
+    private static $db;
 
     /**
      * Retourne la connexion, en crée une si besoin
@@ -19,12 +19,12 @@ class Base {
             $database = new Database();
 
 // Connexion au service XE (i.e. la base de données) sur la machine "localhost"
-            $conn = oci_connect(database::$user, database::$password, database::$host);
-            if (!$conn) {
+            $db = oci_connect(database::$user, database::$password, database::$host);
+            if (!$db) {
                 $e = oci_error();
                 trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
             }
-            return $con;
+            return $db;
         }
     }
 
