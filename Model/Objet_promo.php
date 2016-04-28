@@ -53,5 +53,24 @@ class Objet_promo{
         return $data;
     }
 
+    /** En fonction de la référence, on renvois toute les infos de la promo**/
+    public static function getInfosPromoFref($ref){
+        $oci = Base::getConnexion();
+        $stid = oci_parse($oci, 'SELECT date_debut, date_fin, max_par_client,code_promo,reduction_absolue_reduction_relative,
+            immediat_vf,nb_achetes_nb_gratuits FROM Objet_promo JOIN P_lot USING (code_promo) JOIN
+            P_individuelle USING (code_promo) JOIN promotion USING (code_promo)
+                WHERE reference = :ref'); // prepare le cod 
+  
+        oci_bind_by_name($stid, ':ref', $ref);
+        
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+        $data = array();
+        return $data;
+    }    
+    
 
 }

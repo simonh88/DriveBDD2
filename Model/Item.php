@@ -61,5 +61,21 @@ class Item{
         
         return $data;
     }
+    /**à partir du no_carte on recup les infos du panier**/
+    public static function getInfosPanier($id_carte){
+        $oci = Base::getConnexion();
+        $stid = oci_parse($oci, 'SELECT date_heure, vide_VF, date_validation, montant
+                FROM Item WHERE no_carte = :id'); // prepare le cod 
+  
+        oci_bind_by_name($stid, ':id', $id_carte);
+        
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+        $data = array();
+        return $data;
+    }
 }
 
