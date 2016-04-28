@@ -6,7 +6,15 @@ class Promotion{
 	private $date_debut;
 	private $date_fin;
 	private $max_par_client;
-	
+        
+        function __construct($row) {
+            $this->code_promo = $row['CODE_PROMO'];
+            $this->date_debut = $row['DATE_DEBUT'];
+            $this->date_fin = $row['DATE_FIN'];
+            $this->max_par_client = $row['MAX_PAR_CLIENT'];
+        }
+
+        
         //GETTER
         function getCode_promo() {
             return $this->code_promo;

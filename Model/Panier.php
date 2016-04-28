@@ -9,6 +9,15 @@ class Panier{
     private $date_validation;
     private $montant;
     
+    function __construct($row) {
+        $this->no_carte = $row['NO_CARTE'];
+        $this->date_heure = $row['DATE_HEURE'];
+        $this->vide_VF = $row['VIDE_VF'];
+        $this->date_validation = $row['DATE_VALIDATION'];
+        $this->montant = $row['MONTANT'];
+    }
+
+    
     //GETTER
     function getNo_carte() {
         return $this->no_carte;

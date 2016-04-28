@@ -2,16 +2,19 @@
 
 class P_individuelle extends Promotion{
 	
-    private $code_promo;
     private $reduction_absolue;
     private $reduction_relative;
     private $immediate_VF;
-        
-    //GETTER
-    function getCode_promo() {
-        return $this->code_promo;
+    
+    function __construct($row) {
+        parent::__construct(array_slice($row,0,4));
+        $this->reduction_absolue = $row['REDUCTION_ABSOLUE'];
+        $this->reduction_relative = $row['REDUCTION_RELATIVE'];
+        $this->immediate_VF = $row['IMMEDIAT_VF'];
     }
 
+    
+    //GETTER
     function getReduction_absolue() {
         return $this->reduction_absolue;
     }
@@ -25,10 +28,6 @@ class P_individuelle extends Promotion{
     }
 
     //SETTER
-    function setCode_promo($code_promo) {
-        $this->code_promo = $code_promo;
-    }
-
     function setReduction_absolue($reduction_absolue) {
         $this->reduction_absolue = $reduction_absolue;
     }

@@ -1,14 +1,17 @@
 <?php
 
 class P_lot extends Promotion{
-        private $code_promo;
 	private $nb_achetes;
 	private $nb_gratuits;
         
-        //GETTER
-        function getCode_promo() {
-            return $this->code_promo;
+        function __construct($row) {
+            parent::__construct(array_slice($row,0,4));
+            $this->nb_achetes = $row['NB_ACHETES'];
+            $this->nb_gratuits = $row['NB_GRATUITS'];
         }
+
+        
+        //GETTER
 
         function getNb_achetes() {
             return $this->nb_achetes;
@@ -19,9 +22,6 @@ class P_lot extends Promotion{
         }
 
         //SETTER
-        function setCode_promo($code_promo) {
-            $this->code_promo = $code_promo;
-        }
 
         function setNb_achetes($nb_achetes) {
             $this->nb_achetes = $nb_achetes;

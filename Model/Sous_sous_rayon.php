@@ -1,36 +1,32 @@
 <?php
 
-class SR_P{
-
-    private $reference;
+class Sous_sous_rayon{
     private $nom_ssr;
-    
+    private $nom_sr;
+
     function __construct($row) {
-        $this->reference = $row['REFERENCE'];
         $this->nom_ssr = $row['NOM_SSR'];
+        $this->nom_sr = $row['NOM_SR'];
     }
-
     
-    //GETTER
-    function getReference() {
-        return $this->reference;
-    }
-
+    //SETTER
     function getNom_ssr() {
         return $this->nom_ssr;
     }
 
-    //SETTER
-    function setReference($reference) {
-        $this->reference = $reference;
+    function getNom_sr() {
+        return $this->nom_sr;
     }
 
+    //GETTER
     function setNom_ssr($nom_ssr) {
         $this->nom_ssr = $nom_ssr;
     }
 
+    function setNom_sr($nom_sr) {
+        $this->nom_sr = $nom_sr;
+    }
 
-    
 
 
 }

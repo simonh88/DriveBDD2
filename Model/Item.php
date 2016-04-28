@@ -5,6 +5,13 @@ class Item{
     private $reference;
     private $quantite;
     
+    function __construct($row) {
+        $this->no_carte = $row['NO_CARTE'];
+        $this->reference = $row['REFERENCE'];
+        $this->quantite = $row['QUANTITE'];
+    }
+
+    
     //GETTER
     function getNo_carte() {
         return $this->no_carte;
@@ -30,9 +37,6 @@ class Item{
     function setQuantite($quantite) {
         $this->quantite = $quantite;
     }
-
-
-
 
 }
 

@@ -5,6 +5,12 @@ class Planning{
     private $date_heure;
     private $nombre_livraison_max;
     
+    function __construct($row) {
+        $this->date_heure = $row['DATE_HEURE'];
+        $this->nombre_livraison_max = $row['NOMBRE_LIVRAISON_MAX'];
+    }
+
+    
     //GETTER
     function getDate_heure() {
         return $this->date_heure;

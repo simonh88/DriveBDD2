@@ -4,6 +4,13 @@ class Rayon{
     private $nom_rayon;
     private $nom_categorie;
     
+    
+    function __construct($row) {
+        $this->nom_rayon = $row['NOM_RAYON'];
+        $this->nom_categorie = $row['NOM_CATEGORIE'];
+    }
+
+    
     //GETTER
     function getNom_rayon() {
         return $this->nom_rayon;

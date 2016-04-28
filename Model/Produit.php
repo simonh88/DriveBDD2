@@ -9,7 +9,19 @@ Class Produit{
 	private $prix_unit_HT;
 	private $liquide_VF;
 	private $prix_kilo_ou_litre;
-	private $quandtite_stock;
+	private $quantite_stock;
+        
+        function __construct($row) {
+            $this->reference = $row['REFERENCE'];
+            $this->libelle = $row['LIBELLE'];
+            $this->marque = $row['MARQUE'];
+            $this->fichier_image = $row['FICHIER_IMAGE'];
+            $this->prix_unit_HT = $row['PRIX_UNIT_HT'];
+            $this->liquide_VF = $row['LIQUIDE_VF'];
+            $this->prix_kilo_ou_litre = $row['PRIX_KILO_OU_LITRE'];
+            $this->quantite_stock = $row['QUANTITE_STOCK'];
+        }
+
         
         //GETTER 
         function getReference() {
@@ -41,7 +53,7 @@ Class Produit{
         }
 
         function getQuandtite_stock() {
-            return $this->quandtite_stock;
+            return $this->quantite_stock;
         }
 
         
@@ -74,8 +86,8 @@ Class Produit{
             $this->prix_kilo_ou_litre = $prix_kilo_ou_litre;
         }
 
-        function setQuandtite_stock($quandtite_stock) {
-            $this->quandtite_stock = $quandtite_stock;
+        function setQuandtite_stock($quantite_stock) {
+            $this->quantite_stock = $quantite_stock;
         }
 
 

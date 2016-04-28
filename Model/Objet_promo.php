@@ -4,6 +4,12 @@ class Objet_promo{
     private $code_promo;
     private $reference;
     
+    function __construct($row) {
+        $this->code_promo = $row['CODE_PROMO'];
+        $this->reference = $row['REFERENCE'];
+    }
+
+    
     //GETTER
     function getCode_promo() {
         return $this->code_promo;

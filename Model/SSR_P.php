@@ -4,6 +4,12 @@ class SRR_P{
     private $reference;
     private $nom_ssr;
     
+    function __construct($row) {
+        $this->reference = $row['REFERENCE'];
+        $this->nom_ssr = $row['NOM_SSR'];
+    }
+
+    
     //GETTER
     function getReference() {
         return $this->reference;
