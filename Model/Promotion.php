@@ -9,15 +9,4 @@ class Promotion{
 	
 }
 
-class P_individuelle extends Promotion{
-	
-	private $reduction_absolue;
-	private $reduction_relative;
-	private $immediate_VF;
-}
-
-class P_lot extends Promotion{
-	private $nb_achetes;
-	private $nb_gratuits;
-}
 ?>
