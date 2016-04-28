@@ -28,8 +28,4 @@ class Rayon{
     function setNom_categorie($nom_categorie) {
         $this->nom_categorie = $nom_categorie;
     }
-
-
-
-
 }
