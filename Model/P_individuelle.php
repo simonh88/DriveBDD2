@@ -1,19 +1,18 @@
 <?php
 
-class P_individuelle extends Promotion{
-	
+class P_individuelle extends Promotion {
+
     private $reduction_absolue;
     private $reduction_relative;
     private $immediate_VF;
-    
+
     function __construct($row) {
-        parent::__construct(array_slice($row,0,4));
+        parent::__construct(array_slice($row, 0, 4));
         $this->reduction_absolue = $row['REDUCTION_ABSOLUE'];
         $this->reduction_relative = $row['REDUCTION_RELATIVE'];
         $this->immediate_VF = $row['IMMEDIAT_VF'];
     }
 
-    
     //GETTER
     function getReduction_absolue() {
         return $this->reduction_absolue;
@@ -40,6 +39,26 @@ class P_individuelle extends Promotion{
         $this->immediate_VF = $immediate_VF;
     }
 
+    public static function getAll() { // exemple, a suprimer
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
+        $stid = oci_parse($oci, 'SELECT * FROM P_individuelle'); // prepare le code
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+
+        $data = array();
+
+        $i = 0;
+        while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+            $client = new Client($row);
+            $data[$i] = $client;
+            $i++;
+        }
+
+        return $data;
+    }
 
 }
