@@ -7,5 +7,40 @@ class Promotion{
 	private $date_fin;
 	private $max_par_client;
 	
+        //GETTER
+        function getCode_promo() {
+            return $this->code_promo;
+        }
+
+        function getDate_debut() {
+            return $this->date_debut;
+        }
+
+        function getDate_fin() {
+            return $this->date_fin;
+        }
+
+        function getMax_par_client() {
+            return $this->max_par_client;
+        }
+
+        //SETTER
+        function setCode_promo($code_promo) {
+            $this->code_promo = $code_promo;
+        }
+
+        function setDate_debut($date_debut) {
+            $this->date_debut = $date_debut;
+        }
+
+        function setDate_fin($date_fin) {
+            $this->date_fin = $date_fin;
+        }
+
+        function setMax_par_client($max_par_client) {
+            $this->max_par_client = $max_par_client;
+        }
+
+
 }
 ?>
