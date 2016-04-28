@@ -47,8 +47,16 @@ abstract class MainVue { // page d'accueil du site
             
         }
         
+        
+        //Dropdown rayon sous rayons avec logo en haut a droite
+        // et mon compte et mon panier
         public function displayBandeau(){
-            
+            $data = Categorie::getAll();
+            echo("<table class='table table-hover'><tr>");
+            foreach($data as  $name){
+                echo("<td>".$name->getNom_categorie()."</td>");
+            }
+            echo("</tr></table>");
         }
     }
     
