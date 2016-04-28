@@ -11,13 +11,13 @@ class ProduitControler extends Controler{
         static $action = array(
             //TODO plus d'action possible ( une action = 1 URL : drive.com/a=Accueil renvera sur la fonction static home()
                     "Accueil" => "home" //accueil
-                    
+
 );
         
         public function home() {
             
-        /*$view = new AccueilView();
-	$view->displayPage();*/
         }
+        
+
         
 }
