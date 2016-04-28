@@ -8,5 +8,4 @@ class Promotion{
 	private $max_par_client;
 	
 }
-
 ?>
