@@ -12,6 +12,7 @@ class Client {
     private $e_mail;
     private $telephone;
 
+    
     function __construct($row) {
         $this->no_carte = $row['NO_CARTE'];
         $this->credit_carte = $row['CREDIT_CARTE'];
