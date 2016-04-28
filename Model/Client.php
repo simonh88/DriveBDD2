@@ -29,6 +29,7 @@ class Client {
     function setCredit_carte($credit_carte) {
         $this->credit_carte = $credit_carte;
     }
+    
 
     function setNom($nom) {
         $this->nom = $nom;
