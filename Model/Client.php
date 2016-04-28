@@ -11,7 +11,6 @@ class Client {
     private $adresse;
     private $e_mail;
     private $telephone;
-
     
     function __construct($row) {
         $this->no_carte = $row['NO_CARTE'];
