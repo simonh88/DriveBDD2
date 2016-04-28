@@ -4,7 +4,7 @@
  * Classe générique des contrôleurs
  *
  */
-abstract class Controller {
+abstract class Controler {
 
     
     /**

@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-class ProduitController extends Controller{
+class ProduitControler extends Controler{
     
     
         static $action = array(
@@ -19,4 +19,5 @@ class ProduitController extends Controller{
         /*$view = new AccueilView();
 	$view->displayPage();*/
         }
+        
 }

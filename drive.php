@@ -1,5 +1,7 @@
 <?php
 
+require_once('common.php');
+
 try {
 
  // A completer si pkus de 1 controler (Connexion controler par exemples
