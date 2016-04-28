@@ -15,6 +15,7 @@ abstract class MainVue { // page d'accueil du site
             <head>
 
                 <?php
+                
                 $this->displayHead(); // affiche les information du header de la page html
                 $this->css();   //permet l'import de fichier css contenu dans le dosier lib/css
                 
@@ -25,7 +26,9 @@ abstract class MainVue { // page d'accueil du site
 
             <body>
 
-                <?php $this->displayBody(); ?>
+                <?php 
+                $this->displayBandeau();
+                $this->displayBody(); ?>
 
             </body>
 
@@ -43,6 +46,9 @@ abstract class MainVue { // page d'accueil du site
         public function displayHead(){
             
         }
-
+        
+        public function displayBandeau(){
+            
+        }
     }
     
