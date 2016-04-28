@@ -31,6 +31,9 @@ abstract class MainView { // page d'accueil du site
 
             <?php
         }
+        
+        abstract function displayBody();
+        
 
     }
     
