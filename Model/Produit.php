@@ -11,6 +11,7 @@ Class Produit{
 	private $prix_kilo_ou_litre;
 	private $quantite_stock;
         
+        
         function __construct($row) {
             $this->reference = $row['REFERENCE'];
             $this->libelle = $row['LIBELLE'];
