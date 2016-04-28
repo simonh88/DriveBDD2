@@ -14,10 +14,13 @@ class ProduitControler extends Controler{
 
 );
         
-        public function home() {
+        public function home() { // test d'affichage de client
+            $data = Client::getAll();
+            $pv = new ProduitVue($data);
+            $pv->displayPage();
             
         }
-        
+         
 
         
 }

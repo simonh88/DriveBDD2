@@ -12,18 +12,93 @@ class Client {
     private $e_mail;
     private $telephone;
 
-    public static function getAll() { // exemple, a suprimer
-        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        
-        $stid = oci_parse($conn, 'SELECT * FROM Client'); // prepare le code
-        oci_execute($stid); // on l'execute
-        
+    function __construct($row) {
+        $this->no_carte = $row['NO_CARTE'];
+        $this->credit_carte = $row['CREDIT_CARTE'];
+        $this->nom = $row['NOM'];
+        $this->prenom = $row['PRENOM'];
+        $this->adresse = $row['ADRESSE'];
+        $this->e_mail = $row['E_MAIL'];
+        $this->telephone = $row['TELEPHONE'];
     }
 
-    public static function getNoCarte($nocarte) {
-        
+    function setNo_carte($no_carte) {
+        $this->no_carte = $no_carte;
     }
-    //oci_commit($conn); pour commt insert / delete / update
+
+    function setCredit_carte($credit_carte) {
+        $this->credit_carte = $credit_carte;
+    }
+
+    function setNom($nom) {
+        $this->nom = $nom;
+    }
+
+    function setPrenom($prenom) {
+        $this->prenom = $prenom;
+    }
+
+    function setAdresse($adresse) {
+        $this->adresse = $adresse;
+    }
+
+    function setE_mail($e_mail) {
+        $this->e_mail = $e_mail;
+    }
+
+    function setTelephone($telephone) {
+        $this->telephone = $telephone;
+    }
+
+    function getNo_carte() {
+        return $this->no_carte;
+    }
+
+    function getCredit_carte() {
+        return $this->credit_carte;
+    }
+
+    function getNom() {
+        return $this->nom;
+    }
+
+    function getPrenom() {
+        return $this->prenom;
+    }
+
+    function getAdresse() {
+        return $this->adresse;
+    }
+
+    function getE_mail() {
+        return $this->e_mail;
+    }
+
+    function getTelephone() {
+        return $this->telephone;
+    }
+
+    public static function getAll() { // exemple, a suprimer
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
+
+        $stid = oci_parse($oci, 'SELECT * FROM Client'); // prepare le code
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+
+        $data = array();
+        $i = 0;
+        while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+            $client = new Client($row);
+            $data[$i] = $client;
+            $i++;
+        }
+        
+        return $data;
+    }
+
 }
 
 ?>
