@@ -8,7 +8,7 @@ class Planning {
 
     function __construct($row) {
         $this->date_heure = $row['DATE_HEURE'];
-        $this->nombre_livraison_max = $row['NOMBRE_LIVRAISON_MAX'];
+        $this->nombre_livraison_max = $row['NOMBRE_LIVRAISONS_MAX'];
     }
 
     //GETTER
