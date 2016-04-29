@@ -90,7 +90,6 @@ class Promotion {
         if(P_individuelle::exist($code_promo) == true) {
             $promotion = P_individuelle::getPromotion($code_promo);
         } else {   
-            var_dump($code_promo);
             $promotion = P_lot::getPromotion($code_promo);
         }
         return $promotion;
