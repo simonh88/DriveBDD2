@@ -4,4 +4,6 @@ require_once('common.php');
 
 
 
-$client = Client::getAll();
+$promotion = Promotion::getPromotion('1951761830');
+
+var_dump($promotion);
