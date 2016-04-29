@@ -61,4 +61,15 @@ class P_individuelle extends Promotion {
         return $data;
     }
 
+    public static function exist($code_promo) {
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
+
+        $stid = oci_parse($oci, 'SELECT * FROM Promotion where CODE_PROMO = :promo'); // prepare le code
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+
 }
