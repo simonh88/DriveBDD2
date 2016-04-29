@@ -43,22 +43,47 @@ class Planning {
 
         $i = 0;
         while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
-            $client = new Planning($row);
-            $data[$i] = $client;
+            $pla = new Planning($row);
+            $data[$i] = $pla;
             $i++;
         }
 
         return $data;
     }
-
+    /**En fonction de la date, on retourne les infos du planning**/
     public static function getInfosPlanning($date) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
         $stid = oci_parse($oci, 'SELECT * FROM Planning where date_heure = :id'); // prepare le code
 
-        oci_bind_by_name($stid, ':id', $id_carte);
+        oci_bind_by_name($stid, ':id', $date);
 
         $r = oci_execute($stid); // on l'execute
-    }
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
 
+        $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
+            $p = new Planning($row);
+        return $p;
+    }
+    /**En fonction de la date, on renvoit le nb de paniers déjà inscrits**/
+    public static function getInfosPlanning($date) {
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
+
+        $stid = oci_parse($oci, 'SELECT count(*) FROM Planning JOIN Panier USING(date_heure) WHERE date_heure = :id'); // prepare le code
+
+        oci_bind_by_name($stid, ':id', $date);
+
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+
+        $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
+        return $row;//Return un nombre de paniers
+    } 
+    
 }
