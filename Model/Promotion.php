@@ -83,12 +83,15 @@ class Promotion {
         }
 
         oci_bind_by_name($stid, ':promo', $code_promo);
-        
+
         while (($row = oci_fetch_array($stid, OCI_BOTH)) != false) {
-            
-            
-            
+            if (P_individuelle::exist($code_promo)) {
+                $promotion = P_individuelle::getPromotion($code_promo);
+            } else {
+                $promotion = P_lot::getPromotion($code_promo);
+            }
         }
+        return $promotion;
     }
 
 }
