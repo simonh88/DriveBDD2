@@ -13,7 +13,7 @@ Class Produit{
         
         
         function __construct($row) {
-            var_dump($row);
+
             $this->reference = $row['REFERENCE'];
             $this->libelle = $row['LIBELLE'];
             $this->marque = $row['MARQUE'];
@@ -119,7 +119,7 @@ Class Produit{
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
         $stid = oci_parse($oci, 'SELECT * FROM Produit WHERE reference = :ref'); // prepare le code
-        oci_bind_by_name($stid, ':promo', $ref);
+        oci_bind_by_name($stid, ':ref', $ref);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);
@@ -127,6 +127,7 @@ Class Produit{
         }
 
         $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
+        
         $p = new Produit($row);        
         return $p;
     }

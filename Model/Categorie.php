@@ -80,8 +80,8 @@ class Categorie {
 
         $i = 0;
         while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
-            Produit::get
-            $client = new Produit($row);
+            
+            $client = Produit::getProduit($row['REFERENCE']);
             $data[$i] = $client;
             $i++;
         }

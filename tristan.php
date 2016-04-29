@@ -2,9 +2,9 @@
 require_once('common.php');
 
 
-$cat = Categorie::getSesRayon('Boissons');
-
-var_dump($cat); 
+$cat = Rayon::getSesSRayon('Eaux');
+//$cat = Rayon::getAll();
+//var_dump($cat); 
 
 
 $prod = Categorie::getAllProduit('Boissons');

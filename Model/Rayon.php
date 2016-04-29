@@ -1,16 +1,15 @@
 <?php
 
-class Rayon{
+class Rayon {
+
     private $nom_rayon;
     private $nom_categorie;
-    
-    
+
     function __construct($row) {
         $this->nom_rayon = $row['NOM_RAYON'];
         $this->nom_categorie = $row['NOM_CATEGORIE'];
     }
 
-    
     //GETTER
     function getNom_rayon() {
         return $this->nom_rayon;
@@ -19,7 +18,7 @@ class Rayon{
     function getNom_categorie() {
         return $this->nom_categorie;
     }
-    
+
     //SETTER
     function setNom_rayon($nom_rayon) {
         $this->nom_rayon = $nom_rayon;
@@ -28,9 +27,7 @@ class Rayon{
     function setNom_categorie($nom_categorie) {
         $this->nom_categorie = $nom_categorie;
     }
-    
-    
-    
+
     public static function getAll() { // exemple, a suprimer
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
@@ -42,14 +39,39 @@ class Rayon{
         }
 
         $data = array();
-        
+
         $i = 0;
         while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
             $client = new Rayon($row);
             $data[$i] = $client;
             $i++;
         }
-        
+
         return $data;
     }
+
+    public static function getSesSRayon($categorie) {
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
+
+        $stid = oci_parse($oci, "SELECT * FROM SOUS_RAYON where NOM_RAYON LIKE :cat "); // prepare le code
+        $categorie = $categorie . "%";
+        oci_bind_by_name($stid, ':cat', $categorie);
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+
+        $data = array();
+
+        $i = 0;
+        while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+            $client = new Sous_rayon($row);
+            $data[$i] = $client;
+            $i++;
+        }
+
+        return $data;
+    }
+
 }
