@@ -13,6 +13,7 @@ Class Produit{
         
         
         function __construct($row) {
+            var_dump($row);
             $this->reference = $row['REFERENCE'];
             $this->libelle = $row['LIBELLE'];
             $this->marque = $row['MARQUE'];

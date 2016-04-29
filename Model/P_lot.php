@@ -56,7 +56,8 @@ class P_lot extends Promotion {
     public static function exist($code_promo) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, 'SELECT * FROM P_Individuelle where CODE_PROMO = :promo'); // prepare le code
+        $stid = oci_parse($oci, 'SELECT * FROM P_LOT JOIN PROMOTION USING(code_promo) where CODE_PROMO = :promo'); // prepare le code
+        oci_bind_by_name($stid, ':promo', $code_promo);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);
