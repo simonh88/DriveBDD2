@@ -62,7 +62,7 @@ class Panier{
 
 
     
-    public static function getAll() { // exemple, a suprimer
+    public static function getAll() {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
         $stid = oci_parse($oci, 'SELECT * FROM Panier'); // prepare le code
@@ -84,8 +84,7 @@ class Panier{
         return $data;
     }
  
-    
-    /** A partir du no_carte, on retourne les infos du client**/
+
     public static function getInfos($id_carte) {
         $oci = Base::getConnexion();
         $stid = oci_parse($oci, 'SELECT credit_carte, nom, prenom, adresse, e_mail, telephone

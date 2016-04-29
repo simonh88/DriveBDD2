@@ -2,5 +2,5 @@
 require_once('common.php');
 
 
-$cat = Rayon::getSesSRayon('Eaux');
+$cat = Sous_Rayon::getSesSSRayon('Eaux');
 var_dump($cat); 
