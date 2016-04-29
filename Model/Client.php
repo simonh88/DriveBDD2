@@ -114,6 +114,12 @@ class Client {
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
         $data = array();
+        $i = 0;
+        while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+            $client = new Objet_promo($row);
+            $data[$i] = $client;
+            $i++;
+        }
         return $data;
     }
     

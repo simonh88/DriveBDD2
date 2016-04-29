@@ -34,8 +34,8 @@ class Categorie{
         
         $i = 0;
         while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
-            $client = new Categorie($row);
-            $data[$i] = $client;
+            $cate = new Categorie($row);
+            $data[$i] = $cate;
             $i++;
         }
         

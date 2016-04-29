@@ -1,5 +1,5 @@
 <?php
-class Promotion{
+abstract class Promotion{
     //Attributs de promotion
 
     private $code_promo;

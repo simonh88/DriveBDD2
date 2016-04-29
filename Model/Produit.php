@@ -1,5 +1,5 @@
 <?php
-Class Produit{
+abstract Class Produit{
 	//Attributs de Produit
 	
 	private $reference;
