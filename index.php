@@ -35,12 +35,13 @@ header('location:drive.php?a=Accueil');
      * 
      * pour lors du choix de la date de livraison
      * 
-     * INSERT PLanning
-     * INSERT PANIER
-     * DELETE ON CASCADE PANIER
-     * DELETE ITEM
-     * UPDATE ITEM & PANIER
-     * fonction getNBPanier -> verifNombreLivraison
+     * INSERT PLanning -> Simon
+     * INSERT PANIER -> Tristan
+     * DELETE ON CASCADE PANIER -> Tristan
+     * UPDATE PANIER -> Tristan
+     * DELETE ITEM -> SImon
+     * UPDATE ITEM  -> Simon
+     * fonction getNBPanier -> verifNombreLivraison -> SImon
      */
 ?>
 
