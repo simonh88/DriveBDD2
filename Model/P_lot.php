@@ -1,38 +1,36 @@
 <?php
 
-class P_lot extends Promotion{
-	private $nb_achetes;
-	private $nb_gratuits;
-        
-        function __construct($row) {
-            parent::__construct(array_slice($row,0,4));
-            $this->nb_achetes = $row['NB_ACHETES'];
-            $this->nb_gratuits = $row['NB_GRATUITS'];
-        }
+class P_lot extends Promotion {
 
-        
-        //GETTER
+    private $nb_achetes;
+    private $nb_gratuits;
 
-        function getNb_achetes() {
-            return $this->nb_achetes;
-        }
+    function __construct($row) {
+        parent::__construct(array_slice($row, 0, 4));
+        $this->nb_achetes = $row['NB_ACHETES'];
+        $this->nb_gratuits = $row['NB_GRATUITS'];
+    }
 
-        function getNb_gratuits() {
-            return $this->nb_gratuits;
-        }
+    //GETTER
 
-        //SETTER
+    function getNb_achetes() {
+        return $this->nb_achetes;
+    }
 
-        function setNb_achetes($nb_achetes) {
-            $this->nb_achetes = $nb_achetes;
-        }
+    function getNb_gratuits() {
+        return $this->nb_gratuits;
+    }
 
-        function setNb_gratuits($nb_gratuits) {
-            $this->nb_gratuits = $nb_gratuits;
-        }
+    //SETTER
 
+    function setNb_achetes($nb_achetes) {
+        $this->nb_achetes = $nb_achetes;
+    }
 
-        
+    function setNb_gratuits($nb_gratuits) {
+        $this->nb_gratuits = $nb_gratuits;
+    }
+
     public static function getAll() { // exemple, a suprimer
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
@@ -44,18 +42,18 @@ class P_lot extends Promotion{
         }
 
         $data = array();
-        
+
         $i = 0;
         while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
             $client = new P_lot($row);
             $data[$i] = $client;
             $i++;
         }
-        
+
         return $data;
     }
-    
-        public static function exist($code_promo) {
+
+    public static function exist($code_promo) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
         $stid = oci_parse($oci, 'SELECT COUNT(*) FROM P_Individuelle where CODE_PROMO = :promo'); // prepare le code
@@ -64,25 +62,25 @@ class P_lot extends Promotion{
             $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
-        
-        if( oci_num_rows($stid) > 0)
+
+        if (oci_num_rows($stid) > 0)
             return true;
         else
             return false;
     }
-    
-    
-        public static function getPromotion($code_promo) {
+
+    public static function getPromotion($code_promo) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
         $stid = oci_parse($oci, 'SELECT * FROM P_LOT where CODE_PROMO = :promo'); // prepare le code
+        oci_bind_by_name($stid, ':promo', $code_promo);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
 
-        oci_bind_by_name($stid, ':promo', $code_promo);
+
 
         while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
             $promo = new P_lot($row);
