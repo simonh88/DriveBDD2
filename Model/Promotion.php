@@ -76,13 +76,15 @@ class Promotion {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
         $stid = oci_parse($oci, 'SELECT * FROM Promotion where CODE_PROMO = :promo'); // prepare le code
+        oci_bind_by_name($stid, ':promo', $code_promo);
         $r = oci_execute($stid); // on l'execute
+
         if (!$r) {
             $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
 
-        oci_bind_by_name($stid, ':promo', $code_promo);
+
 
         while (($row = oci_fetch_array($stid, OCI_BOTH)) != false) {
             if (P_individuelle::exist($code_promo)) {
