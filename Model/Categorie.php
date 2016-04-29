@@ -42,5 +42,7 @@ class Categorie{
         return $data;
     }
     
-    public static function get
+    public static function getSesRayon($categorie){
+        
+    }
 }
