@@ -41,4 +41,6 @@ class Categorie{
         
         return $data;
     }
+    
+    public static function get
 }
