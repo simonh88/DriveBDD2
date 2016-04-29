@@ -84,4 +84,27 @@ class Panier{
         return $data;
     }
  
+    
+    /** A partir du no_carte, on retourne les infos du client**/
+    public static function getInfos($id_carte) {
+        $oci = Base::getConnexion();
+        $stid = oci_parse($oci, 'SELECT credit_carte, nom, prenom, adresse, e_mail, telephone
+                FROM Panier WHERE no_carte = :id'); // prepare le cod 
+  
+        oci_bind_by_name($stid, ':id', $id_carte);
+        
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+        $data = array();
+        $i = 0;
+        while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+            $client = new Panier($row);
+            $data[$i] = $client;
+            $i++;
+        }
+        return $data;
+    }
 }

@@ -83,10 +83,7 @@ class Promotion {
             $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
-
-
-
-        $row = oci_fetch_array($stid, OCI_BOTH)
+        $row = oci_fetch_array($stid, OCI_BOTH);
         if (P_individuelle::exist($code_promo)) {
             $promotion = P_individuelle::getPromotion($code_promo);
         } else {
