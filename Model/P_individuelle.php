@@ -42,7 +42,7 @@ class P_individuelle extends Promotion {
     public static function getAll() { // exemple, a suprimer
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, 'SELECT * FROM P_individuelle JOIN PROMOTION USING(code_promo)'); // prepare le code
+        $stid = oci_parse($oci, 'SELECT * FROM P_individuelle '); // prepare le code
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);
@@ -81,7 +81,7 @@ class P_individuelle extends Promotion {
     public static function getPromotion($code_promo) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, 'SELECT * FROM P_INDIVIDUELLE where CODE_PROMO = :promo'); // prepare le code
+        $stid = oci_parse($oci, 'SELECT * FROM P_INDIVIDUELLE JOIN PROMOTION USING(code_promo) where CODE_PROMO = :promo'); // prepare le code
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);
