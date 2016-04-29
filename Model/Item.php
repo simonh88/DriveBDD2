@@ -61,10 +61,10 @@ class Item{
         
         return $data;
     }
-    /**à partir du no_carte on recup les infos du panier**/
+    /**à partir du no_carte on recup le contenu du panier**/
     public static function getInfosPanier($id_carte){
         $oci = Base::getConnexion();
-        $stid = oci_parse($oci, 'SELECT date_heure, vide_VF, date_validation, montant
+        $stid = oci_parse($oci, 'SELECT *
                 FROM Item WHERE no_carte = :id'); // prepare le cod 
   
         oci_bind_by_name($stid, ':id', $id_carte);
@@ -77,8 +77,8 @@ class Item{
         $data = array();
         $i = 0;
         while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
-            $client = new Objet_promo($row);
-            $data[$i] = $client;
+            $item = new Item($row);
+            $data[$i] = $item;
             $i++;
         }
         return $data;

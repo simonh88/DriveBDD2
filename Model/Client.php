@@ -103,7 +103,7 @@ class Client {
     /** A partir du no_carte, on retourne les infos du client**/
     public static function getInfosClient($id_carte) {
         $oci = Base::getConnexion();
-        $stid = oci_parse($oci, 'SELECT credit_carte, nom, prenom, adresse, e_mail, telephone
+        $stid = oci_parse($oci, 'SELECT *
                 FROM Client WHERE no_carte = :id'); // prepare le cod 
   
         oci_bind_by_name($stid, ':id', $id_carte);
@@ -116,7 +116,7 @@ class Client {
         $data = array();
         $i = 0;
         while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
-            $client = new Objet_promo($row);
+            $client = new Client($row);
             $data[$i] = $client;
             $i++;
         }
