@@ -11,7 +11,7 @@ class P_individuelle extends Promotion {
         parent::__construct($row);
         $this->reduction_absolue = $row['REDUCTION_ABSOLUE']; // VALEUR DE LA PROMO
         $this->reduction_relative = $row['REDUCTION_RELATIVE']; // si null 
-        $this->immediate_VF = $row['IMMEDIAT_VF'];
+        $this->immediate_VF = $row['IMMEDIATE_VF'];
     }
 
     //GETTER
