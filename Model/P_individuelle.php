@@ -7,9 +7,10 @@ class P_individuelle extends Promotion {
     private $immediate_VF;
 
     function __construct($row) {
-        parent::__construct(array_slice($row, 0, 4));
-        $this->reduction_absolue = $row['REDUCTION_ABSOLUE'];
-        $this->reduction_relative = $row['REDUCTION_RELATIVE'];
+        var_dump($row);
+        parent::__construct($row);
+        $this->reduction_absolue = $row['REDUCTION_ABSOLUE']; // VALEUR DE LA PROMO
+        $this->reduction_relative = $row['REDUCTION_RELATIVE']; // si null 
         $this->immediate_VF = $row['IMMEDIAT_VF'];
     }
 
@@ -64,7 +65,7 @@ class P_individuelle extends Promotion {
     public static function exist($code_promo) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, 'SELECT COUNT(*) FROM P_Individuelle where CODE_PROMO = :promo'); // prepare le code
+        $stid = oci_parse($oci, 'SELECT * FROM P_Individuelle where CODE_PROMO = :promo'); // prepare le code
         oci_bind_by_name($stid, ':promo', $code_promo);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
@@ -72,7 +73,8 @@ class P_individuelle extends Promotion {
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
 
-        if (oci_num_rows($stid) > 0)
+        $numrow = oci_fetch_all($stid, $res);
+        if ($numrow > 0)
             return true;
         else
             return false;
@@ -82,17 +84,18 @@ class P_individuelle extends Promotion {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
         $stid = oci_parse($oci, 'SELECT * FROM P_INDIVIDUELLE JOIN PROMOTION USING(code_promo) where CODE_PROMO = :promo'); // prepare le code
+        oci_bind_by_name($stid, ':promo', $code_promo);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
 
-        oci_bind_by_name($stid, ':promo', $code_promo);
 
-        while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+
+        $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
             $promo = new P_individuelle($row);
-        }
+        
         return $promo;
     }
 

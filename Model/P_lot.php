@@ -6,7 +6,7 @@ class P_lot extends Promotion {
     private $nb_gratuits;
 
     function __construct($row) {
-        parent::__construct(array_slice($row, 0, 4));
+        parent::__construct($row);
         $this->nb_achetes = $row['NB_ACHETES'];
         $this->nb_gratuits = $row['NB_GRATUITS'];
     }
@@ -56,7 +56,7 @@ class P_lot extends Promotion {
     public static function exist($code_promo) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, 'SELECT COUNT(*) FROM P_Individuelle where CODE_PROMO = :promo'); // prepare le code
+        $stid = oci_parse($oci, 'SELECT * FROM P_Individuelle where CODE_PROMO = :promo'); // prepare le code
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);
@@ -80,11 +80,9 @@ class P_lot extends Promotion {
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
 
+        $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
+        $promo = new P_lot($row);
 
-
-        while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
-            $promo = new P_lot($row);
-        }
         return $promo;
     }
 

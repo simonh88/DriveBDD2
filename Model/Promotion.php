@@ -87,9 +87,10 @@ class Promotion {
 
 
         $row = oci_fetch_array($stid, OCI_BOTH);
-        if(P_individuelle::exist($code_promo)) {
+        if(P_individuelle::exist($code_promo) == true) {
             $promotion = P_individuelle::getPromotion($code_promo);
-        } else {
+        } else {   
+            var_dump($code_promo);
             $promotion = P_lot::getPromotion($code_promo);
         }
         return $promotion;
