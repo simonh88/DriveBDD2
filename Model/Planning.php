@@ -82,7 +82,7 @@ class Planning {
 
         $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
         
-        $stid2 = oci_parse($oci, "SELECT nombre_livraison_max FROM Planning WHERE date_heure = to_date(:id,'dd/mm/yyyy hh24')");
+        $stid2 = oci_parse($oci, "SELECT nombre_livraisons_max FROM Planning WHERE date_heure = to_date(:id,'dd/mm/yyyy hh24')");
         $r2 = oci_execute($stid); // on l'execute
         if (!$r2) {
             $e2 = oci_error($stid);
@@ -91,7 +91,7 @@ class Planning {
         $row2 = oci_fetch_array($stid2, OCI_ASSOC + OCI_RETURN_NULLS);
         var_dump((int)$row2);
         var_dump((int)$row);
-        if($row['count'] < $row2['nombre_livraison_max']){
+        if($row['count'] < $row2['nombre_livraisons_max']){
             return true;
         }
         return false;
