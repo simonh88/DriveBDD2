@@ -50,13 +50,10 @@ class Objet_promo {
         return $data;
     }
 
-    /** En fonction de la référence, on renvois toute les infos de la promo* */
-    public static function getInfosPromoFref($ref) {
+    /** En fonction de la référence, on renvoit la promo* */
+    public static function getCodePromo($ref) {
         $oci = Base::getConnexion();
-        $stid = oci_parse($oci, 'SELECT date_debut, date_fin, max_par_client,code_promo,reduction_absolue_reduction_relative,
-            immediat_vf,nb_achetes_nb_gratuits FROM Objet_promo JOIN P_lot USING (code_promo) JOIN
-            P_individuelle USING (code_promo) JOIN promotion USING (code_promo)
-                WHERE reference = :ref'); // prepare le cod 
+        $stid = oci_parse($oci, 'SELECT code_promo FROM Objet_promo WHERE reference = :ref'); // prepare le cod 
 
         oci_bind_by_name($stid, ':ref', $ref);
 
@@ -69,8 +66,30 @@ class Objet_promo {
 
         $i = 0;
         while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
-            $client = new Objet_promo($row);
-            $data[$i] = $client;
+            $p = Promotion::getPromotion($row['code_promo']);
+            $data[$i] = $p;
+            $i++;
+        }
+        return $data;
+    }
+    /** En fonction du code, on renvoit le produit* */
+    public static function getCodePromoFcode($code_promo) {
+        $oci = Base::getConnexion();
+        $stid = oci_parse($oci, 'SELECT ref FROM Objet_promo WHERE code_promo = :c'); // prepare le cod 
+
+        oci_bind_by_name($stid, ':c', $code_promo);
+
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+        $data = array();
+
+        $i = 0;
+        while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+            $p = Produit::getProduit($row['reference']);
+            $data[$i] = $p;
             $i++;
         }
         return $data;
