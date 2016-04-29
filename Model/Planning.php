@@ -69,11 +69,9 @@ class Planning {
         return $p;
     }
     /**En fonction de la date, on renvoit le nb de paniers déjà inscrits**/
-    public static function getInfosPlanning($date) {
+    public static function getNbPanier($date) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-
-        $stid = oci_parse($oci, 'SELECT count(*) FROM Planning JOIN Panier USING(date_heure) WHERE date_heure = :id'); // prepare le code
-
+        $stid = oci_parse($oci, "SELECT * FROM Planning JOIN Panier USING(date_heure) WHERE date_heure = to_date(:id,'dd/mm/yyyy hh24')"); // prepare le code
         oci_bind_by_name($stid, ':id', $date);
 
         $r = oci_execute($stid); // on l'execute
