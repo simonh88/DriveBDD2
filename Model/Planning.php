@@ -54,7 +54,7 @@ class Planning {
     public static function getInfosPlanning($date) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, 'SELECT * FROM Planning where date_heure = :id'); // prepare le code
+        $stid = oci_parse($oci, "SELECT * FROM Planning where date_heure = to_date(:id,'dd/mm/yyyy hh24')"); // prepare le code
 
         oci_bind_by_name($stid, ':id', $date);
 
@@ -68,10 +68,10 @@ class Planning {
             $p = new Planning($row);
         return $p;
     }
-    /**En fonction de la date, on renvoit le nb de paniers déjà inscrits**/
-    public static function getNbPanier($date) {
+    /**En fonction de la date, on renvoit vrai si on peut rajouter un panier à cette date faux **/
+    public static function verifNombreLivraison($date) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        $stid = oci_parse($oci, "SELECT * FROM Planning JOIN Panier USING(date_heure) WHERE date_heure = to_date(:id,'dd/mm/yyyy hh24')"); // prepare le code
+        $stid = oci_parse($oci, "SELECT * FROM Planning  WHERE date_heure = to_date(:id,'dd/mm/yyyy hh24')"); // prepare le code
         oci_bind_by_name($stid, ':id', $date);
 
         $r = oci_execute($stid); // on l'execute
@@ -81,7 +81,20 @@ class Planning {
         }
 
         $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
-        return $row;//Return un nombre de paniers
+        
+        $stid2 = oci_parse($oci, "SELECT nombre_livraison_max FROM Planning WHERE date_heure = to_date(:id,'dd/mm/yyyy hh24')");
+        $r2 = oci_execute($stid); // on l'execute
+        if (!$r2) {
+            $e2 = oci_error($stid);
+            trigger_error(htmlentities($e2['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+        $row2 = oci_fetch_array($stid2, OCI_ASSOC + OCI_RETURN_NULLS);
+        var_dump((int)$row2);
+        var_dump((int)$row);
+        if($row['count'] < $row2['nombre_livraison_max']){
+            return true;
+        }
+        return false;
     } 
     
 }
