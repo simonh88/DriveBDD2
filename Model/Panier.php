@@ -1,14 +1,14 @@
 <?php
 
-class Panier{
+class Panier {
 
-        //Attributs de panier
+//Attributs de panier
     private $no_carte;
     private $date_heure;
     private $vide_VF;
     private $date_validation;
     private $montant;
-    
+
     function __construct($row) {
         $this->no_carte = $row['NO_CARTE'];
         $this->date_heure = $row['DATE_HEURE'];
@@ -17,8 +17,7 @@ class Panier{
         $this->montant = $row['MONTANT'];
     }
 
-    
-    //GETTER
+//GETTER
     function getNo_carte() {
         return $this->no_carte;
     }
@@ -39,7 +38,7 @@ class Panier{
         return $this->montant;
     }
 
-    //SETTER
+//SETTER
     function setNo_carte($no_carte) {
         $this->no_carte = $no_carte;
     }
@@ -60,8 +59,6 @@ class Panier{
         $this->montant = $montant;
     }
 
-
-    
     public static function getAll() {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
@@ -73,25 +70,24 @@ class Panier{
         }
 
         $data = array();
-        
+
         $i = 0;
         while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
             $client = new Panier($row);
             $data[$i] = $client;
             $i++;
         }
-        
+
         return $data;
     }
- 
 
     public static function getInfos($id_carte) {
         $oci = Base::getConnexion();
         $stid = oci_parse($oci, 'SELECT credit_carte, nom, prenom, adresse, e_mail, telephone
                 FROM Panier WHERE no_carte = :id'); // prepare le cod 
-  
+
         oci_bind_by_name($stid, ':id', $id_carte);
-        
+
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);
@@ -106,5 +102,24 @@ class Panier{
         }
         return $data;
     }
-    
+
+    public static function insert($noCarte) {
+              
+        Planning::getInfosPlanning($date);     
+        $oci = Base::getConnexion();
+        $stid = oci_parse($oci, 'INSERT INTO Panier (NO_CARTE NUMBER ,DATE_HEURE, DATEVALIDATION, MONTANT) VALUES ( :nocarte, :heure,:datevalid, :montant'); // prepare le code        
+
+        oci_bind_by_name($stid, ':nocarte', $noCarte);
+        oci_bind_by_name($stid, ':heure', $id_carte);
+        oci_bind_by_name($stid, ':datevalid', $id_carte);
+        oci_bind_by_name($stid, ':montant', $id_carte);
+
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+
 }
+

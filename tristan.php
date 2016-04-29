@@ -1,6 +1,6 @@
 <?php
 require_once('common.php');
 
-
-$cat = SR_P::getAllProduit('Whisky');
+$date = '21.03.2096 12';
+$cat = Planning::getInfosPlanning($date);
 var_dump($cat); 
