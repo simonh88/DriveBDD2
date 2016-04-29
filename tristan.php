@@ -2,5 +2,5 @@
 require_once('common.php');
 
 
-$cat = Sous_Rayon::getSesSSRayon('Eaux');
+$cat = SR_P::getAllProduit('Whisky');
 var_dump($cat); 

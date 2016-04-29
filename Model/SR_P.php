@@ -52,6 +52,31 @@ class SR_P{
         
         return $data;
     }
+    
+    
+    public static function getAllProduit($sr) {
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
+        
+        $stid = oci_parse($oci, 'SELECT * FROM SR_P where NOM_SR LIKE :cat'); // prepare le code
+        $sr = $sr."%";
+        oci_bind_by_name($stid, ':cat', $sr);
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
 
+        $data = array();
+
+        $i = 0;
+        while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+            
+            $client = Produit::getProduit($row['REFERENCE']);
+            $data[$i] = $client;
+            $i++;
+        }
+
+        return $data;
+    }
 
 }

@@ -52,10 +52,12 @@ class Sous_rayon {
 
     public static function getSesSSRayon($categorie) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-
-        $stid = oci_parse($oci, "SELECT * FROM SOUS_RAYON where NOM_SR LIKE :cat "); // prepare le code
-        $categorie = $categorie . "%";
-        oci_bind_by_name($stid, ':cat', $categorie);
+        
+        $stid = oci_parse($oci, "SELECT * FROM SOUS_SOUS_RAYON where NOM_SR LIKE :cat"); // prepare le code
+        $categorie = $categorie."%";
+        
+       oci_bind_by_name($stid, ':cat', $categorie);
+       
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);
