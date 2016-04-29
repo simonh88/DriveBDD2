@@ -93,7 +93,7 @@ Class Produit{
         }
 
         
-    public static function getAll() { // exemple, a suprimer
+    public static function getAll() { 
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
         $stid = oci_parse($oci, 'SELECT * FROM Produit'); // prepare le code
@@ -113,5 +113,21 @@ Class Produit{
         }
         
         return $data;
+    }
+    
+    public static function getProduit($ref) { 
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
+
+        $stid = oci_parse($oci, 'SELECT * FROM Produit WHERE reference = :ref'); // prepare le code
+        oci_bind_by_name($stid, ':promo', $ref);
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+
+        $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
+        $p = new Produit($row);        
+        return $p;
     }
 }
