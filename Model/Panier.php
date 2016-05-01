@@ -108,7 +108,7 @@ class Panier {
         $oci = Base::getConnexion();
         $stid = oci_parse($oci, "INSERT INTO Panier (NO_CARTE ,DATE_HEURE) VALUES ( :nocarte , To_Date( :heure ,'dd/mm/yyyy hh24')) "); // prepare le code        
 
-        $heure = "21/03/2096 12";
+        $heure = Planning::getDefaultDate();
         oci_bind_by_name($stid, ':nocarte', $noCarte);
         oci_bind_by_name($stid, ':heure', $heure);
 

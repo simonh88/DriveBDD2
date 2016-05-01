@@ -35,12 +35,12 @@ header('location:drive.php?a=Accueil');
      * 
      * pour lors du choix de la date de livraison
      * 
-     * INSERT PLanning -> Simon =====> en cours.
+     * INSERT PLanning -> Simon =====> Fait, faudra que tu vérifs, et les echo remplacer par message d'erreur.
      * INSERT PANIER -> Tristan
      * DELETE ON CASCADE PANIER -> Tristan
      * UPDATE PANIER -> Tristan
-     * DELETE ITEM -> SImon
-     * UPDATE ITEM  -> Simon
+     * DELETE ITEM -> SImon ====> En cours
+     * UPDATE ITEM  -> Simon ====> En cours
      * fonction getNBPanier -> verifNombreLivraison -> SImon =======> fait et testé.
      */
 ?>
