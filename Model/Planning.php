@@ -94,6 +94,7 @@ class Planning {
         if($row['count'] < $row2['nombre_livraisons_max']){
             return true;
         }
+        
         return false;
     } 
     
