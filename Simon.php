@@ -28,6 +28,11 @@ Planning::insertPlanning('21/03/96 12', '3');
 
 var_dump(Planning::getAll());
 
+Item::insertUnProduit('1223129340', '12431574596446974350', '3');
+Item::insertUnProduit('1223129340', '12595663421373637890', '3');
+
+var_dump(Item::getInfosPanier('1223129340'));
+
 /**
 --INSERT INTO panier VALUES (1117144480,To_Date('21/03/2096 12','dd/mm/yyyy hh24'), 'F', NULL, NULL);
 SELECT * FROM Planning JOIN Panier USING(date_heure) WHERE date_heure = to_date('21.03.2096 12','dd/mm/yyyy hh24');
