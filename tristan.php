@@ -9,3 +9,6 @@ var_dump(Panier::getAll());
 Panier::delete('1117144480');
 
 var_dump(Panier::getAll());
+
+
+bite::Grossir();

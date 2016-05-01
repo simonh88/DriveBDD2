@@ -26,7 +26,7 @@ header('location:drive.php?a=Accueil');
      * UPDATE dateValidation et de montant (lors du Payement)
      * 
      * 
-     *Rajouter un fonction dans Planning ou Panier qui verif si 
+     * Rajouter un fonction dans Planning ou Panier qui verif si 
      *
      * select count(*) from Panier where Date_Heure = DateDefaultHeure <
      * select nbmax from Planning
@@ -35,13 +35,13 @@ header('location:drive.php?a=Accueil');
      * 
      * pour lors du choix de la date de livraison
      * 
-     * INSERT PLanning -> Simon
+     * INSERT PLanning -> Simon =====> en cours.
      * INSERT PANIER -> Tristan
      * DELETE ON CASCADE PANIER -> Tristan
      * UPDATE PANIER -> Tristan
      * DELETE ITEM -> SImon
      * UPDATE ITEM  -> Simon
-     * fonction getNBPanier -> verifNombreLivraison -> SImon
+     * fonction getNBPanier -> verifNombreLivraison -> SImon =======> fait et testé.
      */
 ?>
 
