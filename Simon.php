@@ -8,10 +8,26 @@ $promotion = Promotion::getPromotion('1951761830');
 
 var_dump($promotion);
 
-
+echo('Test du verifnbLivraisons');
 $p = Planning::verifNombreLivraison('21/03/2096 12');
 
 var_dump($p);
+echo('Test du existPlanning (qui doit exister: ');
+var_dump(Planning::existPlanning('21/03/2096 12'));
+echo('Test quand la date existe pas');
+var_dump(Planning::existPlanning('30/03/2096 12'));
+
+echo ('Insertion du planning par defaut');
+Planning::insertDefaultPlanning();
+echo("tentative d'une deuxieme insertion du planning par def, doit repondre qu'il peut pas ");
+Planning::insertDefaultPlanning();
+
+echo("Insertion d'un planning ");
+
+Planning::insertPlanning('21/03/96 12', '3');
+
+var_dump(Planning::getAll());
+
 /**
 --INSERT INTO panier VALUES (1117144480,To_Date('21/03/2096 12','dd/mm/yyyy hh24'), 'F', NULL, NULL);
 SELECT * FROM Planning JOIN Panier USING(date_heure) WHERE date_heure = to_date('21.03.2096 12','dd/mm/yyyy hh24');
