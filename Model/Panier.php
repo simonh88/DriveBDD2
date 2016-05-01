@@ -13,7 +13,7 @@ class Panier {
         $this->no_carte = $row['NO_CARTE'];
         $this->date_heure = $row['DATE_HEURE'];
         $this->vide_VF = $row['VIDE_VF'];
-        $this->date_validation = $row['DATE_VALIDATION'];
+        $this->date_validation = $row['DATEVALIDATION'];
         $this->montant = $row['MONTANT'];
     }
 
@@ -104,15 +104,13 @@ class Panier {
     }
 
     public static function insert($noCarte) {
-              
-        Planning::getInfosPlanning($date);     
-        $oci = Base::getConnexion();
-        $stid = oci_parse($oci, 'INSERT INTO Panier (NO_CARTE NUMBER ,DATE_HEURE, DATEVALIDATION, MONTANT) VALUES ( :nocarte, :heure,:datevalid, :montant'); // prepare le code        
 
+        $oci = Base::getConnexion();
+        $stid = oci_parse($oci, "INSERT INTO Panier (NO_CARTE ,DATE_HEURE) VALUES ( :nocarte , To_Date( :heure ,'dd/mm/yyyy hh24')) "); // prepare le code        
+        
+        $heure = "21/03/2096 12";
         oci_bind_by_name($stid, ':nocarte', $noCarte);
-        oci_bind_by_name($stid, ':heure', $id_carte);
-        oci_bind_by_name($stid, ':datevalid', $id_carte);
-        oci_bind_by_name($stid, ':montant', $id_carte);
+        oci_bind_by_name($stid, ':heure', $heure);
 
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
@@ -122,4 +120,3 @@ class Panier {
     }
 
 }
-

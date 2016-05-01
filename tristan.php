@@ -2,5 +2,7 @@
 require_once('common.php');
 
 $date = '21.03.2096 12';
-$cat = Planning::getInfosPlanning($date);
-var_dump($cat); 
+Panier::insert('1117144480');
+
+var_dump(Panier::getAll());
+
