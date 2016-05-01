@@ -134,6 +134,6 @@ class Panier {
     
     
     
-    public static function update()
+    //public static function update()
 
 }
