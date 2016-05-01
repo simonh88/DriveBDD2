@@ -107,7 +107,7 @@ class Panier {
 
         $oci = Base::getConnexion();
         $stid = oci_parse($oci, "INSERT INTO Panier (NO_CARTE ,DATE_HEURE) VALUES ( :nocarte , To_Date( :heure ,'dd/mm/yyyy hh24')) "); // prepare le code        
-        
+
         $heure = "21/03/2096 12";
         oci_bind_by_name($stid, ':nocarte', $noCarte);
         oci_bind_by_name($stid, ':heure', $heure);
@@ -118,5 +118,22 @@ class Panier {
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
     }
+
+    public static function delete($noCarte) {
+        $oci = Base::getConnexion();
+
+        $stid = oci_parse($oci, "DELETE FROM PANIER where NO_CARTE = :carte");
+        oci_bind_by_name($stid, ':carte', $noCarte);
+
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+    
+    
+    
+    public static function update()
 
 }
