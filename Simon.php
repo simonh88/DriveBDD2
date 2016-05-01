@@ -9,7 +9,7 @@ $promotion = Promotion::getPromotion('1951761830');
 var_dump($promotion);
 
 
-$p = Planning::verifNombreLivraison('21.03.2096 12');
+$p = Planning::verifNombreLivraison('21/03/2096 12');
 
 var_dump($p);
 /**

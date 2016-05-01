@@ -50,7 +50,9 @@ class Planning {
 
         return $data;
     }
-    /**En fonction de la date, on retourne les infos du planning**/
+
+    /*     * En fonction de la date, on retourne les infos du planning* */
+
     public static function getInfosPlanning($date) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
@@ -65,13 +67,31 @@ class Planning {
         }
 
         $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
-            $p = new Planning($row);
+        $p = new Planning($row);
         return $p;
     }
-    /**En fonction de la date, on renvoit vrai si on peut rajouter un panier à cette date faux **/
-    public static function verifNombreLivraison($date) {
+
+    /*     * En fonction de la date, on renvoit le nombre de livraisons maximum * */
+
+    public static function getNombreLivraisonsMax($date) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        $stid = oci_parse($oci, "SELECT * FROM Planning  WHERE date_heure = to_date(:id,'dd/mm/yyyy hh24')"); // prepare le code
+        $stid = oci_parse($oci, "SELECT nombre_livraisons_max FROM Planning WHERE date_heure = to_date(:id,'dd/mm/yyyy hh24')");
+        oci_bind_by_name($stid, ':id', $date);
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+
+        $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
+        return $row;
+    }
+
+    /** Fonction calculant le nombre de panier inscrits au planning à une date précisé en paramètres */
+    public static function getNbPanierInscrits($date) {
+        var_dump($date);
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
+        $stid = oci_parse($oci, "SELECT count(*) as nb FROM Panier WHERE date_heure = to_date(:id,'dd/mm/yyyy hh24')"); // prepare le code
         oci_bind_by_name($stid, ':id', $date);
 
         $r = oci_execute($stid); // on l'execute
@@ -81,20 +101,17 @@ class Planning {
         }
 
         $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
-        
-        $stid2 = oci_parse($oci, "SELECT nombre_livraisons_max FROM Planning WHERE date_heure = to_date(:id,'dd/mm/yyyy hh24')");
-        $r2 = oci_execute($stid); // on l'execute
-        if (!$r2) {
-            $e2 = oci_error($stid);
-            trigger_error(htmlentities($e2['message'], ENT_QUOTES), E_USER_ERROR);
+        return $row;
         }
-        $row2 = oci_fetch_array($stid2, OCI_ASSOC + OCI_RETURN_NULLS);
-        var_dump((int)$row2);
-        var_dump((int)$row);
-        if($row['count'] < $row2['nombre_livraisons_max']){
-            return true;
-        }
-        return false;
-    } 
-    
+        /** On regarde en fonction d'une date si on peut encore ajouter un panier ou non au planning**/
+        public static function verifNombreLivraison($date){
+            //Tout marche !
+            $a = Planning::getNombreLivraisonsMax($date);
+            $b = Planning::getNbPanierInscrits($date);
+            if ($b['NB'] < $a['NOMBRE_LIVRAISONS_MAX']) {
+                return true;
+            }
+            return false;
+    }
+
 }
