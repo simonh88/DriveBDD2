@@ -4,7 +4,7 @@ require_once('common.php');
 
 
 
-/*$promotion = Promotion::getPromotion('1951761830');
+$promotion = Promotion::getPromotion('1951761830');
 
 var_dump($promotion);
 
@@ -44,7 +44,7 @@ Item::insertUnProduit('1223129340', '12595663421373637890', '3');
 echo("On delet juste un produit");
 Item::deleteUnProduit('1223129340', '12595663421373637890');
 var_dump(Item::getInfosPanier('1223129340'));
-*/
+
 
 /**
 --INSERT INTO panier VALUES (1117144480,To_Date('21/03/2096 12','dd/mm/yyyy hh24'), 'F', NULL, NULL);
@@ -53,7 +53,7 @@ SELECT * FROM Planning JOIN Panier USING(date_heure) WHERE date_heure = to_date(
 
 
     /**En fonction de la date, on renvoit vrai si on peut rajouter un panier à cette date faux sinon**/
-    /*public static function verifNombreLivraison($date) {
+    /**public static function verifNombreLivraison($date) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
         $stid = oci_parse($oci, "SELECT count(*) FROM Planning WHERE date_heure = to_date(:id,'dd/mm/yyyy hh24')"); // prepare le code
         oci_bind_by_name($stid, ':id', $date);
@@ -79,19 +79,6 @@ SELECT * FROM Planning JOIN Panier USING(date_heure) WHERE date_heure = to_date(
             return true;
         }
         return false;
-    } */
-
+    } 
+*/
 ?>
-<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css" />
-<form class="form-inline">
-  <div class="form-group">
-    <label class="sr-only" for="exampleInputEmail3">Email address</label>
-    <input class="form-control form-control-lg" placeholder="numero carte fidelite">
-  </div>
-  <div class="checkbox">
-    <label>
-      <input type="checkbox"> Remember me
-    </label>
-  </div>
-  <button type="submit" class="btn btn-primary">Connexion</button>
-</form>
