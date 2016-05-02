@@ -21,14 +21,18 @@ class PanierVue extends MainVue {
         <body>
             <div class="container">
                 <table class="table table-striped">
+                    <tr><th>Contenu du panier<th><th> </th></tr>
+                    <td> </td>
                     <tr>
                         <th>Libellé</th>
                         <th>Marque</th>
                         <th>Prix</th>
                     </tr>
                     <?php
+                    $prix = 0;
                     foreach ($items as $item) {
                         $p = Produit::getProduit($item->getReference());
+                        $prix += $p->getPrix_unit_HT();
                         echo( "<tr>
                             <td>" . $p->getLibelle()
                         . "</td>
@@ -37,12 +41,13 @@ class PanierVue extends MainVue {
                            <td>" . $p->getPrix_unit_HT()
                         . "</td></tr>");
                     }
+                    echo("<tr><td> </td></tr>"
+                            . "<tr><th>". "Total(horsRemises) : ". $prix ." <span class='glyphicon glyphicon-euro'</span></th></tr>")
                     ?>
                 </table>
             </div>
         </body>
         <?php
-        echo("Mon panier.");
     }
 
 }
