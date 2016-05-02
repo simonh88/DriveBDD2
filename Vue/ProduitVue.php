@@ -5,7 +5,7 @@ class ProduitVue extends MainVue {
     private $tableau;
 
     public function __construct($tableauProduit) {
-        parent::__construct("Prpduit");
+        parent::__construct("Produit");
         $this->tableau = $tableauProduit;
     }
 
