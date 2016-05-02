@@ -97,6 +97,8 @@ class Item {
         }
 
         $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
+                echo("ROW");
+        var_dump($row);
         if ($row['NB'] == 1) {
             return true;
         }

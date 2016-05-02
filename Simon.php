@@ -27,9 +27,11 @@ echo("Insertion d'un planning ");
 Planning::insertPlanning('21/03/96 12', '3');
 
 var_dump(Planning::getAll());
+var_dump(Item::getInfosPanier('1223129340'));
 
-Item::insertUnProduit('1223129340', '12431574596446974350', '3');
-Item::insertUnProduit('1223129340', '12595663421373637890', '3');
+var_dump(Item::existProduitDansPanier('1223129340', '12431574596446974350'));
+//Item::insertUnProduit('1223129340', '12431574596446974350', '3');
+//Item::insertUnProduit('1223129340', '12595663421373637890', '3');
 
 var_dump(Item::getInfosPanier('1223129340'));
 
