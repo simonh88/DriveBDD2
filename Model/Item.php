@@ -156,4 +156,17 @@ class Item {
             }
     }
 
+    public function update() {
+        $oci = Base::getConnexion();
+        $stid = oci_parse($oci, "UPDATE Item SET quantite = :q where no_carte = :nocarte and reference LIKE :ref");
+        $ref = $this->getReference()."%";
+        oci_bind_by_name($stid, ':q', $this->getQuantite());
+        oci_bind_by_name($stid, ':ref', $ref);
+
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
 }

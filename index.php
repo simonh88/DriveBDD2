@@ -39,8 +39,8 @@ header('location:drive.php?a=Accueil');
      * INSERT PANIER -> Tristan
      * DELETE ON CASCADE PANIER -> Tristan
      * UPDATE PANIER -> Tristan
-     * DELETE ITEM -> SImon ====> En cours
-     * UPDATE ITEM  -> Simon ====> En cours
+     * DELETE ITEM -> SImon Fait, debug.
+     * UPDATE ITEM  -> Simon Fait, debug
      * fonction getNBPanier -> verifNombreLivraison -> SImon =======> fait et testé.
      */
 ?>
