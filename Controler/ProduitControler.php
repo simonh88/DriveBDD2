@@ -36,9 +36,18 @@ class ProduitControler extends Controler {
         if ($this->isConnected()) {
             $data = Produit::getAll();
             $pv = new ProduitVue($data);
-            $vue->displayPage();
+            $pv->displayPage();
         } else {
-            
+            $client = Client::getInfosClient($_POST['carte']);
+            if (empty($client)) {
+                $p = new ConnexionVue('Mauvais Client');
+                $p->displayPage();
+            } else {
+                $_SESSION["user"] = $_POST['carte'];
+                $data = Produit::getAll();
+                $pv = new ProduitVue($data);
+                $pv->displayPage();
+            }
         }
     }
 

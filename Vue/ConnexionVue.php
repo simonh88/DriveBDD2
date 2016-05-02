@@ -9,7 +9,7 @@ class ConnexionVue extends MainVue {
     
     public function displayBody() {
         if($this->msg){
-            ?><div class="alert alert-success" role="alert">Mauvais Client</div><?php
+            ?><div class="alert alert-danger" role="alert">Mauvais Client</div><?php
         }
         ?>  <div  style="
               display: inline-block;
@@ -22,11 +22,11 @@ class ConnexionVue extends MainVue {
               height: 100px;
               margin: auto;
               ">            
-            <form class="form-inline" method="post">
+            <form class="form-inline" action="drive.php?a=Check" method="post">
                 <div class="form-group">
-                    <input class="form-control form-control-lg" name="carte" placeholder="numero carte fidelite">
+                    <input class="form-control form-control-lg" type="text" name="carte" placeholder="numero carte fidelite">
                 </div>
-                <a class="btn btn-info" href="drive.php?a=Check" role="button">Connexion</a>
+                <button class="btn btn-info" role="button">Connexion</button>
             </form>
         </div>
         <?php
