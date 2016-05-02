@@ -42,7 +42,7 @@ class PanierVue extends MainVue {
                         . "</td></tr>");
                     }
                     echo("<tr><td> </td></tr>"
-                            . "<tr><th>". "Total(horsRemises) : ". $prix ." <span class='glyphicon glyphicon-euro'</span></th></tr>")
+                            . "<tr><th> </th><th> </th><th>". "Total(horsRemises) : ". $prix ." <span class='glyphicon glyphicon-euro'</span></th></tr>")
                     ?>
                 </table>
             </div>
