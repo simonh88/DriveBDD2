@@ -39,6 +39,7 @@ abstract class MainVue { // page d'accueil du site
             ?>
             <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css" />
             <link rel="stylesheet" href="lib/css/drive.css" />
+            <link rel="stylesheet" href="lib/css/ddhover.css" />
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
             <script src="lib/bootstrap/js/bootstrap.js"></script>
             <?php
@@ -53,10 +54,24 @@ abstract class MainVue { // page d'accueil du site
         public function displayBandeau() {
             $data = Categorie::getAll();
             ?>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Mon compte</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Mon Panier</a></li>
-            </ul>
+            <div class="nav nav-tabs navbar-right">
+                <div class="dropdownh">
+                    <button class="drophbtn"><span class="glyphicon glyphicon-user"></span> Mon compte<span class="caret"></span></button>
+                        <div class="dropdownh-content">
+                            <a href="#">Mon profil <span class="glyphicon glyphicon-cog"></span></a>
+                            <a href="#">Se deconnecter <span class="glyphicon glyphicon-log-out"></span></a>
+                        </div>
+                </div>
+                <div class="dropdownh">
+                    <button class="drophbtn"><span class="glyphicon glyphicon-briefcase"></span> Mon Panier<span class="caret"></span></button>
+                        <div class="dropdownh-content">
+                            <a href="#">Voir son contenu <span class="glyphicon glyphicon-eye-open"</span></a>
+                            <a href="#">Vider le panier <span class="glyphicon glyphicon-remove"</span></a>
+                            <a href="#">Payer <span class="glyphicon glyphicon-euro"</span> </a>
+                        </div>
+                </div>
+                
+            </div>
             <?php
             echo("<ul class='nav nav-tabs'>");
             foreach ($data as $name) {
