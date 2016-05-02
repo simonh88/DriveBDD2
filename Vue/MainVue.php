@@ -54,6 +54,7 @@ abstract class MainVue { // page d'accueil du site
         public function displayBandeau() {
             $data = Categorie::getAll();
             ?>
+            <div class="container">
             <div class="nav nav-tabs navbar-right">
                 <div class="dropdownh">
                     <button class="drophbtn"><span class="glyphicon glyphicon-user"></span> Mon compte<span class="caret"></span></button>
@@ -88,7 +89,7 @@ abstract class MainVue { // page d'accueil du site
                 }
                 echo ("</ul></li>");
             }
-            echo("</ul>");
+            echo("</ul></div>");
         }
 
     }

@@ -11,6 +11,8 @@ class ProduitVue extends MainVue {
 
     public function displayBody() {
         ?>
+        <body>
+            <div class="container">
         <table class="table table-striped">
             <tr>
                 <th>Libellé</th>
@@ -36,6 +38,8 @@ class ProduitVue extends MainVue {
 
             </tr>
         </table>
+            </div>
+        </body>
         <?php
     }
 
