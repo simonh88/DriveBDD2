@@ -46,7 +46,11 @@ abstract class MainVue { // page d'accueil du site
         }
 
         public function displayHead() {
-            
+            ?>
+        <title><?php echo $this->title ?></title>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />         
+            <?php
         }
 
         //Dropdown rayon sous rayons avec logo en haut a droite

@@ -9,7 +9,7 @@ class ConnexionVue extends MainVue {
     
     public function displayBody() {
         if($this->msg){
-            ?><div class="alert alert-danger" role="alert">Mauvais Client</div><?php
+            ?><div class="alert alert-danger" role="alert"><?php echo $this->msg ?></div><?php
         }
         ?>  <div  style="
               display: inline-block;
