@@ -132,6 +132,7 @@ class Item {
         if (Item::existProduitDansPanier($noCarte, $ref)) {
             $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
             $stid = oci_parse($oci, "DELETE FROM Item WHERE reference LIKE :ref and no_carte = :carte");
+            $ref = $ref."%";
             oci_bind_by_name($stid, ':carte', $noCarte);
             oci_bind_by_name($stid, ':ref', $ref);
             $r = oci_execute($stid); // on l'execute
