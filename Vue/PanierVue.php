@@ -30,8 +30,9 @@ class PanierVue extends MainVue {
                         <th>Prix</th>
                     </tr>
                     <?php
-                    foreach ($items as $produit) {
-                        $p = new Produit(Produit::getProduit($produit['reference']));
+                    foreach ($items as $item) {
+                        var_dump($item);
+                        $p = new Produit(Produit::getProduit($item->getNo_carte()));
                         echo( "<tr>
                             <td>" . $p->getLibelle()
                         . "</td>
