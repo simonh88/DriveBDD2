@@ -100,14 +100,14 @@ class Client {
         return $data;
     }
 
-    /** A partir du no_carte, on retourne les infos du client**/
+    /** A partir du no_carte, on retourne les infos du client* */
     public static function getInfosClient($id_carte) {
         $oci = Base::getConnexion();
         $stid = oci_parse($oci, 'SELECT *
                 FROM Client WHERE no_carte = :id'); // prepare le cod 
-  
+
         oci_bind_by_name($stid, ':id', $id_carte);
-        
+
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);
@@ -122,7 +122,17 @@ class Client {
         }
         return $data;
     }
-    
-    
+
+    public static function delete($nocarte) {
+        $oci = Base::getConnexion();
+        $stid = oci_parse($oci, "DELETE FROM CLIENT where NO_CARTE = :nocarte");
+        oci_bind_by_name($stid, ':carte', $noCarte);
+
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
 
 }
