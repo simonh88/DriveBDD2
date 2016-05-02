@@ -70,7 +70,6 @@ abstract class MainVue { // page d'accueil du site
                             <a href="#">Payer <span class="glyphicon glyphicon-euro"</span> </a>
                         </div>
                 </div>
-                
             </div>
             <?php
             echo("<ul class='nav nav-tabs'>");
@@ -91,6 +90,5 @@ abstract class MainVue { // page d'accueil du site
             }
             echo("</ul>");
         }
-
     }
-    ?> 
+    ?>  

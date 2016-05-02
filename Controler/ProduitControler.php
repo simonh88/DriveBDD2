@@ -20,9 +20,9 @@ class ProduitControler extends Controler {
         $pv->displayPage();
     }
     
-    /*public function compte(){
-        $clien = Client::getId($session);
-        $vue = new Vue($client);
+    /*public function connexion(){
+        $client = Client::getId($session);
+        $vue = new ConnexionVue();
         $vue->displayPage();
     }*/
 
