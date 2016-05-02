@@ -52,19 +52,21 @@ class ProduitControler extends Controler {
             }
         }
     }
-    
-    
-        public function logout() {
+
+    public function logout() {
         // On détruit les variables de notre session
-        session_unset ();
+        session_unset();
         // On redirige le visiteur vers la page d'accueil        
-        $msg ='Vous avez bien été deconecté';
+        $msg = 'Vous avez bien été deconecté';
         $view = new ConnexionVue($msg);
         $view->displayPage();
     }
-    
-    public function affichagePanier(){
-        $view = new PanierVue($_SESSION['user']);
+
+    public function affichagePanier() {
+        
+        $items = Item::getInfosPanier($_SESSION['user']);
+        $infos = Panier::getInfos($_SESSION['user']);
+        $view = new PanierVue($items);
         $view->displayPage();
     }
 

@@ -7,16 +7,14 @@
 
 class PanierVue extends MainVue {
 
-    private $no_carte;
+    private $items;
 
-    public function __construct($no_carte) {
-        $this->no_carte = $no_carte;
+    public function __construct($produits) {
+        $this->items = $produits;
         parent::__construct("Affichage panier");
     }
 
     public function displayBody() {
-        $items = Item::getInfosPanier($this->no_carte);
-        $infos = Panier::getInfos($this->no_carte);
         ?>
         <body>
             <div class="container">
@@ -30,7 +28,7 @@ class PanierVue extends MainVue {
                     </tr>
                     <?php
                     $prix = 0;
-                    foreach ($items as $item) {
+                    foreach ($this->items as $item) {
                         $p = Produit::getProduit($item->getReference());
                         $prix += $p->getPrix_unit_HT();
                         echo( "<tr>
