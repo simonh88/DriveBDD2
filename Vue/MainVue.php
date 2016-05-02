@@ -54,21 +54,29 @@ abstract class MainVue { // page d'accueil du site
         public function displayBandeau() {
             $data = Categorie::getAll();
             ?>
+            <div class="header">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <input class="form-control form-control-lg" placeholder="numero carte fidelite">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Connexion</button>
+                </form>
+            </div>
             <div class="nav nav-tabs navbar-right">
                 <div class="dropdownh">
                     <button class="drophbtn"><span class="glyphicon glyphicon-user"></span> Mon compte<span class="caret"></span></button>
-                        <div class="dropdownh-content">
-                            <a href="#">Mon profil <span class="glyphicon glyphicon-cog"></span></a>
-                            <a href="#">Se deconnecter <span class="glyphicon glyphicon-log-out"></span></a>
-                        </div>
+                    <div class="dropdownh-content">
+                        <a href="#">Mon profil <span class="glyphicon glyphicon-cog"></span></a>
+                        <a href="#">Se deconnecter <span class="glyphicon glyphicon-log-out"></span></a>
+                    </div>
                 </div>
                 <div class="dropdownh">
                     <button class="drophbtn"><span class="glyphicon glyphicon-briefcase"></span> Mon Panier<span class="caret"></span></button>
-                        <div class="dropdownh-content">
-                            <a href="#">Voir son contenu <span class="glyphicon glyphicon-eye-open"</span></a>
-                            <a href="#">Vider le panier <span class="glyphicon glyphicon-remove"</span></a>
-                            <a href="#">Payer <span class="glyphicon glyphicon-euro"</span> </a>
-                        </div>
+                    <div class="dropdownh-content">
+                        <a href="#">Voir son contenu <span class="glyphicon glyphicon-eye-open"</span></a>
+                        <a href="#">Vider le panier <span class="glyphicon glyphicon-remove"</span></a>
+                        <a href="#">Payer <span class="glyphicon glyphicon-euro"</span> </a>
+                    </div>
                 </div>
             </div>
             <?php
@@ -90,5 +98,6 @@ abstract class MainVue { // page d'accueil du site
             }
             echo("</ul>");
         }
+
     }
     ?>  
