@@ -26,7 +26,7 @@ class ConnexionVue extends MainVue {
                 <div class="form-group">
                     <input class="form-control form-control-lg" name="carte" placeholder="numero carte fidelite">
                 </div>
-                <a class="btn btn-info" href="index.php?a=check" role="button">Connexion</a>
+                <a class="btn btn-info" href="drive.php?a=Check" role="button">Connexion</a>
             </form>
         </div>
         <?php
