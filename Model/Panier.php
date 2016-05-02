@@ -83,7 +83,7 @@ class Panier {
 
     public static function getInfos($id_carte) {
         $oci = Base::getConnexion();
-        $stid = oci_parse($oci, 'SELECT credit_carte, nom, prenom, adresse, e_mail, telephone
+        $stid = oci_parse($oci, 'SELECT * 
                 FROM Panier WHERE no_carte = :id'); // prepare le cod 
 
         oci_bind_by_name($stid, ':id', $id_carte);

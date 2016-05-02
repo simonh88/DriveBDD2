@@ -12,7 +12,8 @@ class ProduitControler extends Controler {
         //TODO plus d'action possible ( une action = 1 URL : drive.com/a=Accueil renvera sur la fonction static home()
         "Accueil" => "home", //accueil
         "Check" => "check", // connexion
-        "Deco" => "logout"
+        "Deco" => "logout",
+        "AffPanier" => "affichagePanier"
             //"Compte" => "compte"
     );
 
@@ -59,6 +60,11 @@ class ProduitControler extends Controler {
         // On redirige le visiteur vers la page d'accueil        
         $msg ='Vous avez bien été deconecté';
         $view = new ConnexionVue($msg);
+        $view->displayPage();
+    }
+    
+    public function affichagePanier(){
+        $view = new PanierVue($_SESSION['user']);
         $view->displayPage();
     }
 
