@@ -22,7 +22,7 @@ abstract class MainVue { // page d'accueil du site
             </head>
 
             <body>
-                
+
                 <?php
                 $this->displayBandeau();
                 $this->displayBody();
@@ -52,6 +52,12 @@ abstract class MainVue { // page d'accueil du site
         // et mon compte et mon panier
         public function displayBandeau() {
             $data = Categorie::getAll();
+            ?>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Mon compte</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Mon Panier</a></li>
+            </ul>
+            <?php
             echo("<ul class='nav nav-tabs'>");
             foreach ($data as $name) {
                 echo("<li role='presentation' class='dropdown'>");
@@ -60,12 +66,11 @@ abstract class MainVue { // page d'accueil du site
                 $rayon = $name->getSesRayon($cat);
                 echo("<ul class ='dropdown-menu'>");
                 foreach ($rayon as $value) {
-                    echo('<li class="dropdown-submenu"><a href="#">'. $value->getNom_rayon() . '</a><ul class="dropdown-menu">');
+                    echo('<li class="dropdown-submenu"><a href="#">' . $value->getNom_rayon() . '</a><ul class="dropdown-menu">');
                     foreach ($value->getSesSRayon($value->getNom_rayon()) as $srayon) {
-                        echo('<li><a href="#">'.$srayon->getNom_sr().'</a></li>');
+                        echo('<li><a href="#">' . $srayon->getNom_sr() . '</a></li>');
                     }
                     echo('</ul></li>');
-         
                 }
                 echo ("</ul></li>");
             }
@@ -73,4 +78,4 @@ abstract class MainVue { // page d'accueil du site
         }
 
     }
-   ?> 
+    ?> 
