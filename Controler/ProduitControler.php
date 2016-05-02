@@ -11,7 +11,8 @@ class ProduitControler extends Controler {
     static $action = array(
         //TODO plus d'action possible ( une action = 1 URL : drive.com/a=Accueil renvera sur la fonction static home()
         "Accueil" => "home", //accueil
-        "Check" => "check" // connexion
+        "Check" => "check", // connexion
+        "Deco" => "logout"
             //"Compte" => "compte"
     );
 
@@ -49,6 +50,16 @@ class ProduitControler extends Controler {
                 $pv->displayPage();
             }
         }
+    }
+    
+    
+        public function logout() {
+        // On détruit les variables de notre session
+        session_unset ();
+        // On redirige le visiteur vers la page d'accueil        
+        $msg ='Vous avez bien été deconecté';
+        $view = new ConnexionVue($msg);
+        $view->displayPage();
     }
 
 }
