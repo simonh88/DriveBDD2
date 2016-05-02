@@ -30,10 +30,21 @@ var_dump(Planning::getAll());
 var_dump(Item::getInfosPanier('1223129340'));
 echo(",,,,,");
 var_dump(Item::existProduitDansPanier('1223129340', '12431574596446974350'));
-//Item::insertUnProduit('1223129340', '12431574596446974350', '3');
-//Item::insertUnProduit('1223129340', '12595663421373637890', '3');
+Item::insertUnProduit('1223129340', '12431574596446974350', '3');
+Item::insertUnProduit('1223129340', '12595663421373637890', '3');
 
 var_dump(Item::getInfosPanier('1223129340'));
+
+Item::deleteAll('1223129340');
+echo("On delet tout");
+var_dump(Item::getInfosPanier('1223129340'));
+
+Item::insertUnProduit('1223129340', '12431574596446974350', '3');
+Item::insertUnProduit('1223129340', '12595663421373637890', '3');
+echo("On delet juste un produit");
+Item::deleteUnProduit('1223129340', '12595663421373637890');
+var_dump(Item::getInfosPanier('1223129340'));
+
 
 /**
 --INSERT INTO panier VALUES (1117144480,To_Date('21/03/2096 12','dd/mm/yyyy hh24'), 'F', NULL, NULL);

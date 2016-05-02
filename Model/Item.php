@@ -129,9 +129,9 @@ class Item {
     /**Supprime un seul produit**/
     public static function deleteUnProduit($noCarte, $ref) {
         //S'il existe pas on peut l'ajouter
-        if (!Item::existProduitDansPanier($noCarte, $ref)) {
+        if (Item::existProduitDansPanier($noCarte, $ref)) {
             $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-            $stid = oci_parse($oci, "DELETE FROM Item WHERE no_carte = :carte and reference = :ref");
+            $stid = oci_parse($oci, "DELETE FROM Item WHERE reference LIKE :ref and no_carte = :carte");
             oci_bind_by_name($stid, ':carte', $noCarte);
             oci_bind_by_name($stid, ':ref', $ref);
             $r = oci_execute($stid); // on l'execute
