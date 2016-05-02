@@ -65,7 +65,7 @@ class ProduitControler extends Controler {
     public function affichagePanier() {
         
         $items = Item::getInfosPanier($_SESSION['user']);
-        $infos = Panier::getInfos($_SESSION['user']);
+        //$infos = Panier::getInfos($_SESSION['user']); on s'en sert pas nan ?
         $view = new PanierVue($items);
         $view->displayPage();
     }
