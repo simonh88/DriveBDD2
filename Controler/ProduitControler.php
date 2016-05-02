@@ -11,19 +11,29 @@ class ProduitControler extends Controler {
     static $action = array(
         //TODO plus d'action possible ( une action = 1 URL : drive.com/a=Accueil renvera sur la fonction static home()
         "Accueil" => "home" //accueil
-        //"Compte" => "compte"
+            //"Compte" => "compte"
     );
 
     public function home() { // test d'affichage de client
-        $data = Client::getAll();
-        $pv = new ProduitVue($data);
-        $pv->displayPage();
+        if ($this->isConnected()) {
+            $data = Client::getAll();
+            $pv = new ProduitVue($data);
+            $pv->displayPage();
+        }else{
+            $p = new ConnexionVue();
+            $p->displayPage();
+        }
     }
-    
-    /*public function connexion(){
-        $client = Client::getId($session);
-        $vue = new ConnexionVue();
-        $vue->displayPage();
-    }*/
 
+    public function isConnected() {
+        if (isset($_SESSION["user"]))
+            return true;
+        return false;
+    }
+
+    /* public function connexion(){
+      $client = Client::getId($session);
+      $vue = new ConnexionVue();
+      $vue->displayPage();
+      } */
 }

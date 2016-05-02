@@ -54,14 +54,6 @@ abstract class MainVue { // page d'accueil du site
         public function displayBandeau() {
             $data = Categorie::getAll();
             ?>
-            <div class="header">
-                <form class="form-inline">
-                    <div class="form-group">
-                        <input class="form-control form-control-lg" placeholder="numero carte fidelite">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Connexion</button>
-                </form>
-            </div>
             <div class="nav nav-tabs navbar-right">
                 <div class="dropdownh">
                     <button class="drophbtn"><span class="glyphicon glyphicon-user"></span> Mon compte<span class="caret"></span></button>
