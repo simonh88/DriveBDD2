@@ -5,7 +5,7 @@ class ProduitVue extends MainVue {
     private $tableau;
 
     public function __construct($tableauProduit) {
-        parent::__construct("ListeClientTest");
+        parent::__construct("Prpduit");
         $this->tableau = $tableauProduit;
     }
 
@@ -13,33 +13,21 @@ class ProduitVue extends MainVue {
         ?>
         <table class="table table-striped">
             <tr>
-                <th>No</th>
-                <th>Carte Credit</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Adresse</th>
-                <th>Email</th>
-                <th>Telephone</th>
+                <th>Libellé</th>
+                <th>Marque</th>
+                <th>Prix</th>
 
             </tr>
             
                 <?php
-                foreach ($this->tableau as $client) {
+                foreach ($this->tableau as $produit) {
 
                     echo( "<tr>
-        <td>" . $client->getNo_carte()
+        <td>" . $produit->getLibelle()
                     . "</td>
-         <td>" . $client->getCredit_carte()
+         <td>" . $produit->getMarque()
                     . "</td>
-        <td>" . $client->getNom()
-                    . "</td>
-        <td>" . $client->getPrenom()
-                    . "</td>
-        <td>" . $client->getAdresse()
-                    . "</td>
-       <td>" . $client->getE_mail()
-                    . "</td>
-       <td>" . $client->getTelephone()
+        <td>" . $produit->getPrix_unit_HT()
                     . "</td></tr>");
                 }
                 ?>

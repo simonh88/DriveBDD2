@@ -16,10 +16,10 @@ class ProduitControler extends Controler {
 
     public function home() { // test d'affichage de client
         if ($this->isConnected()) {
-            $data = Client::getAll();
+            $data = Produit::getAll();
             $pv = new ProduitVue($data);
             $pv->displayPage();
-        }else{
+        } else {
             $p = new ConnexionVue();
             $p->displayPage();
         }
@@ -31,9 +31,14 @@ class ProduitControler extends Controler {
         return false;
     }
 
-    /* public function connexion(){
-      $client = Client::getId($session);
-      $vue = new ConnexionVue();
-      $vue->displayPage();
-      } */
+    public function check() {
+        if ($this->isConnected()) {
+            $data = Produit::getAll();
+            $pv = new ProduitVue($data);
+            $vue->displayPage();
+        } else {
+            
+        }
+    }
+
 }

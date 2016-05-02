@@ -1,8 +1,16 @@
 <?php
 
 class ConnexionVue extends MainVue {
-
+    var $msg;
+    public function __construct($mesg = false) {
+        $this->msg = $mesg;
+        parent::__construct("Connexion Drive");
+    }
+    
     public function displayBody() {
+        if($this->msg){
+            ?><div class="alert alert-success" role="alert">Mauvais Client</div><?php
+        }
         ?>  <div  style="
               display: inline-block;
               position: fixed;
@@ -13,12 +21,12 @@ class ConnexionVue extends MainVue {
               width: 200px;
               height: 100px;
               margin: auto;
-              background-color: #f3f3f3;">
-            <form class="form-inline">
+              ">            
+            <form class="form-inline" method="post">
                 <div class="form-group">
-                    <input class="form-control form-control-lg" placeholder="numero carte fidelite">
+                    <input class="form-control form-control-lg" name="carte" placeholder="numero carte fidelite">
                 </div>
-                <a class="btn btn-info" href="#" role="button">Connexion</a>
+                <a class="btn btn-info" href="index.php?a=check" role="button">Connexion</a>
             </form>
         </div>
         <?php
