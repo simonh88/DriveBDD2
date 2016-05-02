@@ -15,11 +15,8 @@ class PanierVue extends MainVue {
     }
 
     public function displayBody() {
-        var_dump($this->no_carte);
         $items = Item::getInfosPanier($this->no_carte);
         $infos = Panier::getInfos($this->no_carte);
-        var_dump($items);
-        var_dump($infos);
         ?>
         <body>
             <div class="container">
@@ -31,9 +28,7 @@ class PanierVue extends MainVue {
                     </tr>
                     <?php
                     foreach ($items as $item) {
-                        var_dump($item);
-                        $p = Produit::getProduit($item->getNo_carte());
-                        var_dump($p);
+                        $p = Produit::getProduit($item->getReference());
                         echo( "<tr>
                             <td>" . $p->getLibelle()
                         . "</td>
