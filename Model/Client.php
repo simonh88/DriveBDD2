@@ -125,8 +125,27 @@ class Client {
 
     public static function delete($nocarte) {
         $oci = Base::getConnexion();
+        Panier::delete($nocarte);
         $stid = oci_parse($oci, "DELETE FROM CLIENT where NO_CARTE = :nocarte");
         oci_bind_by_name($stid, ':carte', $noCarte);
+
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+
+    public function update() {
+        $oci = Base::getConnexion();
+        $stid = oci_parse($oci, "UPDATE Client SET credit_carte = :credit, nom = :nom, prenom = :prenom, adresse = :adresse, e_mail = :email, telephone = :telephone where no_carte = :nocarte");
+        oci_bind_by_name($stid, ':credit', $this->credit_carte);
+        oci_bind_by_name($stid, ':nom', $this->nom);
+        oci_bind_by_name($stid, ':prenom', $this->prenom);
+        oci_bind_by_name($stid, ':adresse', $this->adresse);
+        oci_bind_by_name($stid, ':email', $this->e_mail);
+        oci_bind_by_name($stid, ':telephone', $this->telephone);
+        oci_bind_by_name($stid, ':nocarte', $this->no_carte);
 
         $r = oci_execute($stid); // on l'execute
         if (!$r) {

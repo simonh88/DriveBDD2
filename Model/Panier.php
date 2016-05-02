@@ -121,7 +121,7 @@ class Panier {
 
     public static function delete($noCarte) {
         $oci = Base::getConnexion();
-
+        Item::deleteAll($noCarte);
         $stid = oci_parse($oci, "DELETE FROM PANIER where NO_CARTE = :carte");
         oci_bind_by_name($stid, ':carte', $noCarte);
 
