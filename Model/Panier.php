@@ -95,7 +95,7 @@ class Panier {
         }
 
         $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
-            $panier= new Panier($row);
+        $panier = new Panier($row);
 
         return $panier;
     }
@@ -139,9 +139,9 @@ class Panier {
         oci_bind_by_name($stid, ':date', $this->getQuantite());
         oci_bind_by_name($stid, ':vf', $this->getQuantite());
         oci_bind_by_name($stid, ':no_cartef', $this->getQuantite());
-        
-        
- 
+
+
+
 
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
@@ -156,8 +156,8 @@ class Panier {
      * @param type $nocarte 
      * @return
      */
-    public static function setPrix($nocarte) {
-        $oci = Base::getConnexion();        
+    public static function setPrix($noCarte) {
+        $oci = Base::getConnexion();
         $stid = oci_parse($oci, "Update Panier set montant = (select Sum(quantite*prix_UNIT_HT) as prix from Item JOIN Produit USING(reference) where no_carte = :carte) where no_carte = :carte");
         oci_bind_by_name($stid, ':carte', $noCarte);
 
@@ -167,5 +167,5 @@ class Panier {
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }        
     }
-
+    
 }
