@@ -13,7 +13,8 @@ class ProduitControler extends Controler {
         "Accueil" => "home", //accueil
         "Check" => "check", // connexion
         "Deco" => "logout",
-        "AffPanier" => "affichagePanier"
+        "AffPanier" => "affichagePanier",
+        "ViderPanier" => "vidagePanier"
             //"Compte" => "compte"
     );
 
@@ -40,8 +41,10 @@ class ProduitControler extends Controler {
             $pv = new ProduitVue($data);
             $pv->displayPage();
         } else {
-            $client = Client::getInfosClient($_POST['carte']);
-            if (empty($client)) {
+            if(isset($_POST['carte'])){
+                $client = Client::getInfosClient($_POST['carte']);
+            }
+            if (empty($client)||!isset($client)) {
                 $p = new ConnexionVue('Mauvais Client');
                 $p->displayPage();
             } else {
@@ -54,7 +57,7 @@ class ProduitControler extends Controler {
     }
     
     
-        public function logout() {
+    public function logout() {
         // On détruit les variables de notre session
         session_unset ();
         // On redirige le visiteur vers la page d'accueil        
@@ -66,6 +69,10 @@ class ProduitControler extends Controler {
     public function affichagePanier(){
         $view = new PanierVue($_SESSION['user']);
         $view->displayPage();
+    }
+    
+    public function vidagePanier(){
+        
     }
 
 }
