@@ -41,10 +41,10 @@ class ProduitControler extends Controler {
             $pv = new ProduitVue($data);
             $pv->displayPage();
         } else {
-            if(isset($_POST['carte'])){
+            if (isset($_POST['carte'])) {
                 $client = Client::getInfosClient($_POST['carte']);
             }
-            if (empty($client)||!isset($client)) {
+            if (empty($client) || !isset($client)) {
                 $p = new ConnexionVue('Mauvais Client');
                 $p->displayPage();
             } else {
@@ -55,23 +55,29 @@ class ProduitControler extends Controler {
             }
         }
     }
-    
-    
+
     public function logout() {
         // On détruit les variables de notre session
-        session_unset ();
+        session_unset();
         // On redirige le visiteur vers la page d'accueil        
-        $msg ='Vous avez bien été deconecté';
+        $msg = 'Vous avez bien été deconecté';
         $view = new ConnexionVue($msg);
         $view->displayPage();
     }
-    
-    public function affichagePanier(){
-        $view = new PanierVue($_SESSION['user']);
-        $view->displayPage();
+
+    public function affichagePanier() {
+        if ($this->isConnected()) {
+            $items = Item::getInfosPanier($_SESSION['user']);
+            //$infos = Panier::getInfos($_SESSION['user']); on s'en sert pas nan ?
+            $view = new PanierVue($items);
+            $view->displayPage();
+        } else {
+            $p = new ConnexionVue();
+            $p->displayPage();
+        }
     }
-    
-    public function vidagePanier(){
+
+    public function vidagePanier() {
         
     }
 
