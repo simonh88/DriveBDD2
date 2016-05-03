@@ -63,7 +63,7 @@ abstract class MainVue { // page d'accueil du site
                 <div class="dropdownh">
                     <button class="drophbtn"><span class="glyphicon glyphicon-user"></span> Mon compte<span class="caret"></span></button>
                     <div class="dropdownh-content">
-                        <a href="#">Mon profil <span class="glyphicon glyphicon-cog"></span></a>
+                        <a href="drive.php?a=Profil">Mon profil <span class="glyphicon glyphicon-cog"></span></a>
                         <a href="drive.php?a=Deco">Se deconnecter <span class="glyphicon glyphicon-log-out"></span></a>
                     </div>
                 </div>

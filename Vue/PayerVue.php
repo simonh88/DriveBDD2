@@ -19,8 +19,16 @@ class PayerVue extends MainVue {
         ?>
         <body>
             <div class="container">
-                <?php echo("Montant à payer :". $this->infos->getMontant()); ?>
-                <button type="button" class="btn btn-success">Payer</button>
+                <?php 
+                    if(!($this->infos->getMontant()>0)){
+                        ?>
+                        <div class="alert alert-warning"><strong>Attention!</strong> Votre panier est pour l'instant vide.</div>
+                        <button type="button" class="btn btn-success disabled">Payer</button>
+                        <?php
+                    }else{
+                        echo("Montant à payer :". $this->infos->getMontant()); ?>
+                        <button type="button" class="btn btn-success">Payer</button>
+              <?php } ?>
             </div>
         </body>
         <?php

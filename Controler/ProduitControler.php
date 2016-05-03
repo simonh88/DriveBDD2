@@ -68,14 +68,14 @@ class ProduitControler extends Controler {
 
     public function affichagePanier() {
         if ($this->isConnected()) {
-            //$infos = Panier::getInfos($_SESSION['user']); on s'en sert pas nan ?
+            $infos = Panier::getInfos($_SESSION['user']);
             if(isset($_GET["c"])){
                 if($_GET["c"] == "ViderPanier"){
                     Item::deleteAll($_SESSION['user']);
                 }
             }
             $items = Item::getInfosPanier($_SESSION['user']);
-            $view = new PanierVue($items);
+            $view = new PanierVue($items, $infos);
             $view->displayPage();
         } else {
             $p = new ConnexionVue();
@@ -96,6 +96,8 @@ class ProduitControler extends Controler {
     public function afficherProfil(){
         if($this->isConnected()){
             $infos = Client::getInfosClient($_SESSION['user']);
+            $view = new ProfilVue($infos);
+            $view->displayPage();
         }else{
             $p = new ConnexionVue();
             $p->displayPage();

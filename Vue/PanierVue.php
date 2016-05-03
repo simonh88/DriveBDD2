@@ -8,13 +8,16 @@
 class PanierVue extends MainVue {
 
     private $items;
+    private $infos;
 
-    public function __construct($produits) {
+    public function __construct($produits, $infos) {
         $this->items = $produits;
+        $this->infos = $infos;
         parent::__construct("Affichage panier");
     }
 
     public function displayBody() {
+        $montant = $this->infos->getMontant();
         ?>
         <body>
             <div class="container">
@@ -25,6 +28,7 @@ class PanierVue extends MainVue {
                         <th>Libellé</th>
                         <th>Marque</th>
                         <th>Prix</th>
+                        <th>Quantite</th>
                     </tr>
                     <?php
                     $prix = 0;
@@ -37,10 +41,11 @@ class PanierVue extends MainVue {
                            <td>" . $p->getMarque()
                         . "</td>
                            <td>" . $p->getPrix_unit_HT()
-                        . "</td></tr>");
+                        . "</td>"
+                                . "<td>". $item->getQuantite()."</td></tr>");
                     }
                     echo("<tr><td> </td></tr>"
-                            . "<tr><th> </th><th> </th><th>". "Total(horsRemises) : ". $prix ." <span class='glyphicon glyphicon-euro'</span></th></tr>")
+                            . "<tr><th> </th><th> </th><th>". "Total(horsRemises) : ". $montant ." <span class='glyphicon glyphicon-euro'</span></th></tr>")
                     ?>
                 </table>
                 <a href="drive.php?c=ViderPanier&a=<?php echo($_GET["a"]); ?>"><button type="button" class="btn btn-danger">Vider le panier <span class="glyphicon glyphicon-remove"</span></button></a>
