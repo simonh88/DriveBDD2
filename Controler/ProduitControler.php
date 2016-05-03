@@ -14,7 +14,7 @@ class ProduitControler extends Controler {
         "Check" => "check", // connexion
         "Deco" => "logout",
         "AffPanier" => "affichagePanier",
-        "ViderPanier" => "vidagePanier"
+        "Payer" => "payerPanier"
             //"Compte" => "compte"
     );
 
@@ -67,8 +67,13 @@ class ProduitControler extends Controler {
 
     public function affichagePanier() {
         if ($this->isConnected()) {
-            $items = Item::getInfosPanier($_SESSION['user']);
             //$infos = Panier::getInfos($_SESSION['user']); on s'en sert pas nan ?
+            if(isset($_GET["c"])){
+                if($_GET["c"] == "ViderPanier"){
+                    Item::deleteAll($_SESSION['user']);
+                }
+            }
+            $items = Item::getInfosPanier($_SESSION['user']);
             $view = new PanierVue($items);
             $view->displayPage();
         } else {
@@ -76,9 +81,15 @@ class ProduitControler extends Controler {
             $p->displayPage();
         }
     }
-
-    public function vidagePanier() {
-        
+    public function payerPanier(){
+        if($this->isConnected()){
+            $infos = Panier::getInfos($_SESSION['user']);
+            $view = new PayerVue($infos);
+            var_dump($infos);
+            $view->displayPage();
+        }else{
+            $p = new ConnexionVue();
+            $p->displayPage();
+        }
     }
-
 }

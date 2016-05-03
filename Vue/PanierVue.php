@@ -43,6 +43,7 @@ class PanierVue extends MainVue {
                             . "<tr><th> </th><th> </th><th>". "Total(horsRemises) : ". $prix ." <span class='glyphicon glyphicon-euro'</span></th></tr>")
                     ?>
                 </table>
+                <a href="drive.php?c=ViderPanier&a=<?php echo($_GET["a"]); ?>"><button type="button" class="btn btn-danger">Vider le panier <span class="glyphicon glyphicon-remove"</span></button></a>
             </div>
         </body>
         <?php
