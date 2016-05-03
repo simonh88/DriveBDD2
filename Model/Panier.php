@@ -93,14 +93,11 @@ class Panier {
             $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
-        $data = array();
-        $i = 0;
-        while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
-            $client = new Panier($row);
-            $data[$i] = $client;
-            $i++;
-        }
-        return $data;
+
+        $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
+            $panier= new Panier($row);
+
+        return $panier;
     }
 
     public static function insert($noCarte) {
@@ -132,16 +129,27 @@ class Panier {
         }
     }
 
-    
-    public function update(){
+    public function update() {
+
+        $oci = Base::getConnexion();
+        $stid = oci_parse($oci, "UPDATE Panier SET montant = :m, DATE_HEURE = :dh, datevalidation = :date, vide_vf = :vf where no_carte = :nocarte and reference LIKE :ref");
+        $ref = $this->getReference() . "%";
+        oci_bind_by_name($stid, ':q', $this->getQuantite());
+        oci_bind_by_name($stid, ':q', $this->getQuantite());
+        oci_bind_by_name($stid, ':q', $this->getQuantite());
+        oci_bind_by_name($stid, ':q', $this->getQuantite());
         
         
-        
+ 
+
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+        Panier::setPrix($nocarte);
     }
-            
-            
-            
-            
+
     /**
      * 
      * @param type $nocarte 
@@ -159,7 +167,6 @@ class Panier {
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
         $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
-        
     }
 
 }
