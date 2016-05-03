@@ -158,7 +158,7 @@ class Panier {
      */
     public static function setPrix($nocarte) {
         $oci = Base::getConnexion();
-        Item::deleteAll($noCarte);
+        Item::deleteAll($nocarte);
         $stid = oci_parse($oci, "Update FROM Panier set montant = (select Sum(quantite*prix_UNIT_HT) as prix from Item JOIN Produit USING(reference) where no_carte = :carte) where no_carte = :carte");
         oci_bind_by_name($stid, ':carte', $noCarte);
 
