@@ -111,6 +111,7 @@ class Item {
     /** Inserer un produit avec sa reference et sa quantite* */
     public static function insertUnProduit($noCarte, $ref, $quant) {
         //S'il existe pas on peut l'ajouter
+        
         if (!Item::existProduitDansPanier($noCarte, $ref)) {
             $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
             $stid = oci_parse($oci, "INSERT INTO Item VALUES (:carte,:ref,:quant)");
@@ -122,6 +123,7 @@ class Item {
                 $e = oci_error($stid);
                 trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
             }
+            Panier::setPrix($nocarte);
         }
         //Sinon on fait rien.
     }
@@ -140,6 +142,7 @@ class Item {
                 $e = oci_error($stid);
                 trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
             }
+            Panier::setPrix($nocarte);
         }
         //Sinon on fait rien.
     }
@@ -154,6 +157,7 @@ class Item {
                 $e = oci_error($stid);
                 trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
             }
+            Panier::setPrix($nocarte);
     }
 
     public function update() {
@@ -168,5 +172,6 @@ class Item {
             $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
+        Panier::setPrix($nocarte);
     }
 }

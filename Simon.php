@@ -5,7 +5,8 @@ require_once('common.php');
 
 
 $promotion = Promotion::getPromotion('1951761830');
-
+$expression = "J'ai un petit Penis";
+var_dump($expression);
 var_dump($promotion);
 
 echo('Test du verifnbLivraisons');
