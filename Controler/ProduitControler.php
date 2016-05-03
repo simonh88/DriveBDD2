@@ -14,7 +14,8 @@ class ProduitControler extends Controler {
         "Check" => "check", // connexion
         "Deco" => "logout",
         "AffPanier" => "affichagePanier",
-        "Payer" => "payerPanier"
+        "Payer" => "payerPanier",
+        "Profil" => "afficherProfil"
             //"Compte" => "compte"
     );
 
@@ -85,8 +86,16 @@ class ProduitControler extends Controler {
         if($this->isConnected()){
             $infos = Panier::getInfos($_SESSION['user']);
             $view = new PayerVue($infos);
-            var_dump($infos);
             $view->displayPage();
+        }else{
+            $p = new ConnexionVue();
+            $p->displayPage();
+        }
+    }
+    
+    public function afficherProfil(){
+        if($this->isConnected()){
+            $infos = Client::getInfosClient($_SESSION['user']);
         }else{
             $p = new ConnexionVue();
             $p->displayPage();
