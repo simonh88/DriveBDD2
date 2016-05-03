@@ -165,8 +165,7 @@ class Panier {
         if (!$r) {
             $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-        }
-        $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
+        }        
     }
 
 }
