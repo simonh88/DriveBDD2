@@ -123,7 +123,7 @@ class Item {
                 $e = oci_error($stid);
                 trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
             }
-            Panier::setPrix($nocarte);
+            Panier::setPrix($noCarte);
         }
         //Sinon on fait rien.
     }
@@ -142,7 +142,7 @@ class Item {
                 $e = oci_error($stid);
                 trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
             }
-            Panier::setPrix($nocarte);
+            Panier::setPrix($noCarte);
         }
         //Sinon on fait rien.
     }
