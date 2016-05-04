@@ -45,12 +45,12 @@
     background-color: #3e8e41;
 }
 #monForm {
-   position:absolute;
-   top:50%;
-   left:50%;
-   width:600px; /* A toi de donner la bonne largeur */
-   height:150px; /* A toi de donner la bonne hauteur */
-   margin-left:100px; /* -largeur/2 */
-   margin-top:300px; /* -hauteur/2 */
+   position:fixed;
+   top:60%;
+   left:35%;
+   width:45em; /* A toi de donner la bonne largeur */
+   height:18em; /* A toi de donner la bonne hauteur */
+   margin-left:-9em; /* -largeur/2 */
+   margin-top:-15em; /* -hauteur/2 */
 }
 /** SOURCE : http://www.w3schools.com/css/css_dropdowns.asp **/

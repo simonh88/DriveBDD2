@@ -121,7 +121,7 @@ class Panier {
         Item::deleteAll($noCarte);
         $stid = oci_parse($oci, "DELETE FROM PANIER where NO_CARTE = :carte");
         oci_bind_by_name($stid, ':carte', $noCarte);
-
+        Panier::setPrix($noCarte);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);

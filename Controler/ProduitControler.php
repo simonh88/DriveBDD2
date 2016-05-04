@@ -68,12 +68,12 @@ class ProduitControler extends Controler {
 
     public function affichagePanier() {
         if ($this->isConnected()) {
-            $infos = Panier::getInfos($_SESSION['user']);
-            if(isset($_GET["c"])){
-                if($_GET["c"] == "ViderPanier"){
+            if (isset($_GET["c"])) {
+                if ($_GET["c"] == "ViderPanier") {
                     Item::deleteAll($_SESSION['user']);
                 }
             }
+            $infos = Panier::getInfos($_SESSION['user']);
             $items = Item::getInfosPanier($_SESSION['user']);
             $view = new PanierVue($items, $infos);
             $view->displayPage();
@@ -82,25 +82,46 @@ class ProduitControler extends Controler {
             $p->displayPage();
         }
     }
-    public function payerPanier(){
-        if($this->isConnected()){
+
+    public function payerPanier() {
+        if ($this->isConnected()) {
             $infos = Panier::getInfos($_SESSION['user']);
-            $view = new PayerVue($infos);
-            $view->displayPage();
-        }else{
+            if (isset($_GET["c"])) {
+                if ($_GET["c"] == "validPayement") {
+                    Item::deleteAll($_SESSION['user']);
+                    $view = new PayerVue($infos, true);
+                    $view->displayPage();
+                }
+            } else {
+                $view = new PayerVue($infos, false);
+                $view->displayPage();
+            }
+        } else {
             $p = new ConnexionVue();
             $p->displayPage();
         }
     }
-    
-    public function afficherProfil(){
-        if($this->isConnected()){
-            $infos = Client::getInfosClient($_SESSION['user']);
-            $view = new ProfilVue($infos);
-            $view->displayPage();
-        }else{
+
+    public function afficherProfil() {
+        if ($this->isConnected()) {
+
+            if (isset($GET["c"])) {
+                if ($_GET["c"] == "isValider") {
+                    $cli=Client::getInfosClient($_SESSION["carte"]);
+                    $cli->setNom($_POST["nom"]);
+                    //A completer
+                    $cli->update();
+                    $infos = Client::getInfosClient($_SESSION["carte"]);
+                    $view = new ProfilVue($infos, true);
+                }
+            } else {
+                $view = new ProfilVue($infos, false);
+                $view->displayPage();
+            }
+        } else {
             $p = new ConnexionVue();
             $p->displayPage();
         }
     }
+
 }

@@ -21,7 +21,7 @@ class ProfilVue extends MainVue {
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <form id="monForm" class="form-horizontal" method="post">
+                            <form action="drive.php?a=Profil&c=isValider" id="monForm" class="form-horizontal" method="post">
                                 <div class="form-group ">
                                     <label class="control-label col-sm-2 requiredField" for="nom">
                                         Nom
