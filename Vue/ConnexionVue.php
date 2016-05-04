@@ -11,7 +11,7 @@ class ConnexionVue extends MainVue {
         if($this->msg){
             ?><div class="alert alert-danger" role="alert"><?php echo $this->msg ?></div><?php
         }
-        ?>  <div  style="
+        ?>  <a class="btn btn-default" href="drive.php?acces=Admin&a=Accueil" role="button">Acces Admin</a><div  style="
               display: inline-block;
               position: fixed;
               top: 0;

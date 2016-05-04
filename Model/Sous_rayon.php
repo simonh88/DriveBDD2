@@ -11,7 +11,7 @@ class Sous_rayon {
     }
 
     //GETTER
-    function getNom_sr() {
+    function getNom() {
         return $this->nom_sr;
     }
 
@@ -57,6 +57,33 @@ class Sous_rayon {
         $categorie = $categorie."%";
         
        oci_bind_by_name($stid, ':cat', $categorie);
+       
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+
+        $data = array();
+
+        $i = 0;
+        while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+            $client = new Sous_sous_rayon($row);
+            $data[$i] = $client;
+            $i++;
+        }
+
+        return $data;
+    }
+    
+    
+        public function getSous() {
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
+        
+        $stid = oci_parse($oci, "SELECT * FROM SOUS_SOUS_RAYON where NOM_SR LIKE :cat"); // prepare le code
+        
+        $nom = $this->getNom()."%";
+        oci_bind_by_name($stid, ':cat', $nom);
        
         $r = oci_execute($stid); // on l'execute
         if (!$r) {

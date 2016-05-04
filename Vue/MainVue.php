@@ -79,14 +79,14 @@ abstract class MainVue { // page d'accueil du site
             echo("<ul class='nav nav-tabs'>");
             foreach ($data as $name) {
                 echo("<li role='presentation' class='dropdown'>");
-                $cat = $name->getNom_categorie();
+                $cat = $name->getNom();
                 echo(' <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">' . $cat . '<span class="caret"></span></a>');
                 $rayon = $name->getSesRayon($cat);
                 echo("<ul class ='dropdown-menu'>");
                 foreach ($rayon as $value) {
-                    echo('<li class="dropdown-submenu"><a href="#">' . $value->getNom_rayon() . '</a><ul class="dropdown-menu">');
-                    foreach ($value->getSesSRayon($value->getNom_rayon()) as $srayon) {
-                        echo('<li><a href="#">' . $srayon->getNom_sr() . '</a></li>');
+                    echo('<li class="dropdown-submenu"><a href="#">' . $value->getNom() . '</a><ul class="dropdown-menu">');
+                    foreach ($value->getSesSRayon($value->getNom()) as $srayon) {
+                        echo('<li><a href="#">' . $srayon->getNom() . '</a></li>');
                     }
                     echo('</ul></li>');
                 }

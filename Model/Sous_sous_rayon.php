@@ -10,7 +10,7 @@ class Sous_sous_rayon{
     }
     
     //SETTER
-    function getNom_ssr() {
+    function getNom() {
         return $this->nom_ssr;
     }
 
@@ -51,6 +51,10 @@ class Sous_sous_rayon{
         return $data;
     }
 
+    
+    public function getSous(){
+        return false;
+    }
 
 
 }
