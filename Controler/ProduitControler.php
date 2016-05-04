@@ -107,14 +107,15 @@ class ProduitControler extends Controler {
 
             if (isset($GET["c"])) {
                 if ($_GET["c"] == "isValider") {
-                    $cli=Client::getInfosClient($_SESSION["carte"]);
+                    $cli = Client::getInfosClient($_SESSION["user"]);
                     $cli->setNom($_POST["nom"]);
                     //A completer
                     $cli->update();
-                    $infos = Client::getInfosClient($_SESSION["carte"]);
+                    $infos = Client::getInfosClient($_SESSION["user"]);
                     $view = new ProfilVue($infos, true);
                 }
             } else {
+                $infos = Client::getInfosClient($_SESSION["user"]);
                 $view = new ProfilVue($infos, false);
                 $view->displayPage();
             }
