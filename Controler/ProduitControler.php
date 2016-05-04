@@ -104,15 +104,17 @@ class ProduitControler extends Controler {
 
     public function afficherProfil() {
         if ($this->isConnected()) {
-
-            if (isset($GET["c"])) {
+            if (isset($_GET["c"])) {
                 if ($_GET["c"] == "isValider") {
                     $cli = Client::getInfosClient($_SESSION["user"]);
                     $cli->setNom($_POST["nom"]);
-                    //A completer
+                    $cli->setPrenom($_POST["prenom"]);
+                    $cli->setTelephone($_POST["tel"]);
+                    $cli->setE_mail($_POST["email"]);
                     $cli->update();
                     $infos = Client::getInfosClient($_SESSION["user"]);
                     $view = new ProfilVue($infos, true);
+                    $view->displayPage();
                 }
             } else {
                 $infos = Client::getInfosClient($_SESSION["user"]);
