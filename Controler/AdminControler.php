@@ -3,7 +3,7 @@
 class AdminControler extends Controler {
 
     static $action = array(
-        //TODO plus d'action possible ( une action = 1 URL : drive.com/access=Admin&a=Accueil renvera sur la fonction static home()
+//TODO plus d'action possible ( une action = 1 URL : drive.com/access=Admin&a=Accueil renvera sur la fonction static home()
         "Accueil" => "home", //accueil
         "AjoutPromo" => "addPromo",
         "AjoutProduit" => "addProduit",
@@ -12,7 +12,7 @@ class AdminControler extends Controler {
         "AjoutSRayon" => "addSR",
         "AjoutSSRayon" => "addSSR",
         "ModifPromo" => "updtPromo",
-        "ModifProduit" => "updtProduit",        
+        "ModifProduit" => "updtProduit",
         "SuprPromo" => "dltPromo",
         "SuprProduit" => "dltProduit",
         "SuprCategorie" => "dltCat",
@@ -31,32 +31,61 @@ class AdminControler extends Controler {
 
     public function addPromo() {
 
-        $vue->displayPage();
+        if (isset($_POST)) {
+            $this->home();
+        } else {
+            $vue = new AjoutPromo();
+            $vue->displayPage();
+        }
     }
 
     public function addProduit() {
-
-        $vue->displayPage();
+        if (isset($_POST)) {
+            $this->home();
+        } else {
+            $vue = new AjoutProd();
+            $vue->displayPage();
+        }
     }
 
     public function addCat() {
-
-        $vue->displayPage();
+        if (isset($_POST['nom'])) {
+            Categorie::insert($_POST['nom']);
+            $this->listCat();
+        } else {
+            $vue = new AjoutCat();
+            $vue->displayPage();
+        }
     }
 
     public function addRayon() {
-
-        $vue->displayPage();
+        if (isset($_POST['nom']) && isset($_POST['categorie'])) {
+            Rayon::insert($_POST['nom'], $_POST['categorie']);
+            $this->listCat();
+        } else {
+            $vue = new AjoutRayon();
+            $vue->displayPage();
+        }
     }
 
     public function addSR() {
-
-        $vue->displayPage();
+        if (isset($_POST['nom']) && isset($_POST['rayon'])) {
+            Sous_rayon::insert($_POST['nom'], $_POST['rayon']);
+            $this->listCat();
+        } else {
+            $vue = new AjoutSRayon();
+            $vue->displayPage();
+        }
     }
 
     public function addSSR() {
-
-        $vue->displayPage();
+        if (isset($_POST['nom']) && isset($_POST['srayon'])) {
+            Sous_sous_rayon::insert($_POST['nom'], $_POST['srayon']);
+            $this->listCat();
+        } else {
+            $vue = new AjoutSSRayon();
+            $vue->displayPage();
+        }
     }
 
     public function updtPromo() {
@@ -95,8 +124,18 @@ class AdminControler extends Controler {
     }
 
     public function dltSSR() {
-
-        $vue->displayPage();
+        if (isset($_POST['ok'])) {
+            
+            if ($_POST['ok'] == 'ok') {
+                Sous_sous_rayon::delete($_POST['nom']);
+                $this->listCat();
+            } else {
+                $this->listCat();
+            }
+        }else{
+            $vue = new SupSSR();
+            $vue->displayPage();
+        }
     }
 
     public function listCat() {

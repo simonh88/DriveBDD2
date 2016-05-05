@@ -116,7 +116,7 @@ class Categorie {
 
     public static function insert($nomcategorie) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        $stid = oci_parse($oci, "INSERT INTO CATEGORIE VALUES :nom ");
+        $stid = oci_parse($oci, "INSERT INTO CATEGORIE VALUES ( :nom ) ");
         oci_bind_by_name($stid, ':nom', $nomcategorie);
         $r = oci_execute($stid); // on l'execute et ça commit en même temps car on a pas utilise oci no auto commit
         if (!$r) {

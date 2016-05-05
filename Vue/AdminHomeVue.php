@@ -29,7 +29,8 @@ class AdminHomeVue extends MainVue {
     }
 
     public function displayBandeau() {
-        //RIEN NON RIEN DE RIEN, JE NE REGRETTE RIEN
+        ?><a href="drive.php" style="display: block; width: 100%;" class="btn btn-default">Retour Connexion</a>
+        <a href="drive.php?acces=Admin" style="display: block; width: 100%;" class="btn btn-default">Retour Menu Admin</a><?php
     }
 
 }

@@ -102,10 +102,11 @@ class Sous_rayon {
         return $data;
     }
 
-    public static function insert($nomcategorie) {
+    public static function insert($nomsr, $nomr) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        $stid = oci_parse($oci, "INSERT INTO SOUS_RAYON VALUES :nom ");
-        oci_bind_by_name($stid, ':nom', $nomcategorie);
+        $stid = oci_parse($oci, "INSERT INTO SOUS_RAYON VALUES ( :nom, :nomr ) ");
+        oci_bind_by_name($stid, ':nom', $nomsr);
+        oci_bind_by_name($stid, ':nomr', $nomr);
         $r = oci_execute($stid); // on l'execute et ça commit en même temps car on a pas utilise oci no auto commit
         if (!$r) {
             $e = oci_error($stid);

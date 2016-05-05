@@ -102,10 +102,11 @@ class Rayon {
     }
     
     
-        public static function insert($nomcategorie) {
+        public static function insert($nomcategorie, $nomrayon) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        $stid = oci_parse($oci, "INSERT INTO Rayon VALUES :nom ");
+        $stid = oci_parse($oci, "INSERT INTO Rayon VALUES ( :nom, :rayon) ");
         oci_bind_by_name($stid, ':nom', $nomcategorie);
+        oci_bind_by_name($stid, ':rayon', $nomrayon);
         $r = oci_execute($stid); // on l'execute et ça commit en même temps car on a pas utilise oci no auto commit
         if (!$r) {
             $e = oci_error($stid);
