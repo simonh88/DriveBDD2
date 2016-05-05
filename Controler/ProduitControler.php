@@ -106,19 +106,26 @@ class ProduitControler extends Controler {
         if ($this->isConnected()) {
             if (isset($_GET["c"])) {
                 if ($_GET["c"] == "isValider") {
-                    $cli = Client::getInfosClient($_SESSION["user"]);
-                    $cli->setNom($_POST["nom"]);
-                    $cli->setPrenom($_POST["prenom"]);
-                    $cli->setTelephone($_POST["tel"]);
-                    $cli->setE_mail($_POST["email"]);
-                    $cli->update();
-                    $infos = Client::getInfosClient($_SESSION["user"]);
-                    $view = new ProfilVue($infos, true);
-                    $view->displayPage();
+                    if (empty($_POST["nom"]) || empty($_POST["prenom"]) || (empty($_POST["tel"])) || (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) || (empty($_POST["adresse"]))) {
+                        $infos = Client::getInfosClient($_SESSION["user"]);
+                        $view = new ProfilVue($infos, false, false); //premier boolean pour dire si c est bien egal a isValider, le deuxieme pour dire si les données sont valides ou non
+                        $view->displayPage();
+                    } else {
+                        $cli = Client::getInfosClient($_SESSION["user"]);
+                        $cli->setNom($_POST["nom"]);
+                        $cli->setPrenom($_POST["prenom"]);
+                        $cli->setTelephone($_POST["tel"]);
+                        $cli->setE_mail($_POST["email"]);
+                        $cli->setAdresse($_POST["adresse"]);
+                        $cli->update();
+                        $infos = Client::getInfosClient($_SESSION["user"]);
+                        $view = new ProfilVue($infos, true, true);
+                        $view->displayPage();
+                    }
                 }
             } else {
                 $infos = Client::getInfosClient($_SESSION["user"]);
-                $view = new ProfilVue($infos, false);
+                $view = new ProfilVue($infos, false, true);
                 $view->displayPage();
             }
         } else {
@@ -126,5 +133,7 @@ class ProduitControler extends Controler {
             $p->displayPage();
         }
     }
+    
+    
 
 }
