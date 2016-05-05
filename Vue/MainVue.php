@@ -95,7 +95,7 @@ abstract class MainVue { // page d'accueil du site
                         $rayon = $name->getSesRayon($cat);
                         echo("<ul class ='dropdown-menu'>");
                         foreach ($rayon as $value) {
-                            echo('<li class="dropdown-submenu"><a href="#">' . $value->getNom() . '</a><ul class="dropdown-menu">');
+                            echo('<li class="dropdown-submenu"><a href="#">' . $value->getNom() . '</a><ul class="dropdown-submenu">');
                             foreach ($value->getSesSRayon($value->getNom()) as $srayon) {
                                 echo('<li><a href="#">' . $srayon->getNom() . '</a></li>');
                             }
