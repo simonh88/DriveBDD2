@@ -71,10 +71,11 @@ abstract class MainVue { // page d'accueil du site
                         <div class="dropdownh">
                             <button class="drophbtn"><span class="glyphicon glyphicon-briefcase"></span> Mon Panier<span class="caret"></span><span class="badge">
                                     <?php
-                                    if (Panier::getPrix($_SESSION["user"])==null) {
+                                    $prix = Panier::getPrix($_SESSION["user"]);
+                                    if (empty($prix)) {
                                         echo(0);
                                     } else {
-                                        echo(Panier::getPrix($_SESSION["user"]));
+                                        echo($prix);
                                     }
                                     ?>
                                     <span class="glyphicon glyphicon-euro"</span></span></button>
