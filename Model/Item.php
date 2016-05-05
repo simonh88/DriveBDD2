@@ -86,8 +86,6 @@ class Item {
 
     /** fonction testant la présence d'un produit ou non dans un panier * */
     public static function existProduitDansPanier($noCarte, $ref) {
-        var_dump($noCarte);
-        var_dump($ref);
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
         $stid = oci_parse($oci, "SELECT count(*) as nb FROM Item WHERE reference LIKE :id and no_carte = :no ");
         $ref = $ref."%";
@@ -100,9 +98,7 @@ class Item {
         }
 
         $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
-        var_dump($row);
         if ($row['NB'] == 1) {
-                        echo("Bonjour");
             return true;
         }
         return false;
@@ -113,7 +109,6 @@ class Item {
         //S'il existe pas on peut l'ajouter
         
         if (!Item::existProduitDansPanier($noCarte, $ref)) {
-            echo("Bonjour");
             $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
             $stid = oci_parse($oci, "INSERT INTO Item VALUES (:carte,:ref,:quant)");
             oci_bind_by_name($stid, ':carte', $noCarte);
