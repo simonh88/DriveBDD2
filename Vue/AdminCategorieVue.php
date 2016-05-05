@@ -8,7 +8,8 @@ class AdminCategorieVue extends AdminHomeVue {
     }
 
     public function displayBody() { // BIG ... Vraiment.. BIG..et vraiment sale, pas reussi en recurcif pour simplifier les accordeon
-        ?><div class="panel-group" id="accordion1">
+        ?><a href="drive.php?acces=Admin&a=AjoutCategorie" style="display: block; width: 100%;" class="btn btn-primary">Ajouter une Categorie</a>
+        <div class="panel-group" id="accordion1">
         <?php
         $collapse = 0;
         $numAccordeon = 2;
@@ -18,9 +19,16 @@ class AdminCategorieVue extends AdminHomeVue {
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
+                        <div class="pull-right">
+                            <a href="drive.php?acces=Admin&a=AjoutRayon&id=<?php echo $cat->getNom() ?>" class="btn btn-primary text-right" role="button">Ajouter un Rayon</a>
+                            <a href="drive.php?acces=Admin&a=SuprCategorie&id=<?php echo $cat->getNom() ?>" class="btn btn-danger text-right" role="button">Supprimer</a>                                
+                        </div>
                         <h4 class="panel-title"><a class="panel-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse<?php echo $collapse ?> ">
+
                                 <?php echo $cat->getNom() ?>
-                            </a></h4>
+
+                        </h4>
+
                     </div>
                     <div id="collapse<?php
                     echo $collapse;
@@ -38,6 +46,10 @@ class AdminCategorieVue extends AdminHomeVue {
                                          ?>
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
+                                            <div class="pull-right">
+                                                <a href="drive.php?acces=Admin&a=AjoutSRayon&id=<?php echo $rayon->getNom() ?>" class="btn btn-primary text-right" role="button">Ajouter un Sous Rayon</a>
+                                                <a href="drive.php?acces=Admin&a=SuprRayon&id=<?php echo $rayon->getNom() ?>" class="btn btn-danger text-right" role="button">Supprimer</a>                                
+                                            </div>
                                             <h4 class="panel-title"><a class="panel-toggle" data-toggle="collapse" data-parent="#accordion<?php echo $numAccordeon ?>" href="#collapse<?php echo $collapse ?> ">
                                                     <?php echo $rayon->getNom(); ?>
                                                 </a></h4>
@@ -59,6 +71,10 @@ class AdminCategorieVue extends AdminHomeVue {
                                                              ?>
                                                         <div class="panel panel-default">
                                                             <div class="panel-heading">
+                                                                <div class="pull-right">
+                                                                    <a href="drive.php?acces=Admin&a=AjoutSSRayon&id=<?php echo $srayon->getNom() ?>" class="btn btn-primary text-right" role="button">Ajouter un Sous Sous Rayon</a>
+                                                                    <a href="drive.php?acces=Admin&a=SuprSRayon&id=<?php echo $srayon->getNom() ?>" class="btn btn-danger text-right" role="button">Supprimer</a>                                
+                                                                </div>
                                                                 <h4 class="panel-title"><a class="panel-toggle" data-toggle="collapse" data-parent="#accordion<?php echo $numAccordeon ?>" href="#collapse<?php echo $collapse ?> ">
                                                                         <?php echo $srayon->getNom(); ?>
                                                                     </a></h4>
@@ -81,12 +97,16 @@ class AdminCategorieVue extends AdminHomeVue {
                                                                                      ?>
                                                                                 <div class="panel panel-default">
                                                                                     <div class="panel-heading">
+                                                                                        <div class="pull-right">
+
+                                                                                            <a href="drive.php?acces=Admin&a=SuprSSRayon&id=<?php echo $ssrayon->getNom() ?>" class="btn btn-danger text-right" role="button">Supprimer</a>                                
+                                                                                        </div>
                                                                                         <h4 class="panel-title"><a class="panel-toggle" data-toggle="collapse" data-parent="#accordion<?php echo $numAccordeon ?>" href="#collapse<?php echo $collapse ?> ">
                                                                                                 <?php echo $ssrayon->getNom(); ?>
                                                                                             </a></h4>
                                                                                     </div>
-                                                                                    <?php 
-                                                                                        $collapse++;                                                                                    
+                                                                                    <?php
+                                                                                    $collapse++;
                                                                                     ?>
                                                                                 </div><?php
                                                                             }
