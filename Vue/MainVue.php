@@ -47,9 +47,9 @@ abstract class MainVue { // page d'accueil du site
 
         public function displayHead() {
             ?>
-        <title><?php echo $this->title ?></title>
-        <meta charset="utf-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />         
+            <title><?php echo $this->title ?></title>
+            <meta charset="utf-8">
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />         
             <?php
         }
 
@@ -59,40 +59,46 @@ abstract class MainVue { // page d'accueil du site
             $data = Categorie::getAll();
             ?>
             <div class="container">
-            <div class="nav nav-tabs navbar-right">
-                <div class="dropdownh">
-                    <button class="drophbtn"><span class="glyphicon glyphicon-user"></span> Mon compte<span class="caret"></span></button>
-                    <div class="dropdownh-content">
-                        <a href="drive.php?a=Profil">Mon profil <span class="glyphicon glyphicon-cog"></span></a>
-                        <a href="drive.php?a=Deco">Se deconnecter <span class="glyphicon glyphicon-log-out"></span></a>
+                <div class="nav nav-stacked">
+                    <div class="navbar-right">
+                        <div class="dropdownh">
+                            <button class="drophbtn"><span class="glyphicon glyphicon-user"></span> Mon compte<span class="caret"></span></button>
+                            <div class="dropdownh-content">
+                                <a href="drive.php?a=Profil">Mon profil <span class="glyphicon glyphicon-cog"></span></a>
+                                <a href="drive.php?a=Deco">Se deconnecter <span class="glyphicon glyphicon-log-out"></span></a>
+                            </div>
+                        </div>
+                        <div class="dropdownh">
+                            <button class="drophbtn"><span class="glyphicon glyphicon-briefcase"></span> Mon Panier<span class="caret"></span><span class="badge">42,3<span class="glyphicon glyphicon-euro"</span></span></button>
+                            <div class="dropdownh-content">
+                                <a href="drive.php?a=AffPanier">Voir son contenu <span class="glyphicon glyphicon-eye-open"</span></a>
+                                <a href="drive.php?a=Payer">Payer <span class="glyphicon glyphicon-euro"</span> </a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="dropdownh">
-                    <button class="drophbtn"><span class="glyphicon glyphicon-briefcase"></span> Mon Panier<span class="caret"></span></button>
-                    <div class="dropdownh-content">
-                        <a href="drive.php?a=AffPanier">Voir son contenu <span class="glyphicon glyphicon-eye-open"</span></a>
-                        <a href="drive.php?a=Payer">Payer <span class="glyphicon glyphicon-euro"</span> </a>
-                    </div>
+                    <a class="navbar-brand" href="drive.php?a=Acceuil">Accueuil</a>
+                    <?php
+                    echo("<ul class='nav nav-tabs navbar-left'>");
+                    foreach ($data as $name) {
+                        echo("<li role='presentation' class='dropdown'>");
+                        $cat = $name->getNom();
+                        echo(' <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">' . $cat . '<span class="caret"></span></a>');
+                        $rayon = $name->getSesRayon($cat);
+                        echo("<ul class ='dropdown-menu'>");
+                        foreach ($rayon as $value) {
+                            echo('<li class="dropdown-submenu"><a href="#">' . $value->getNom() . '</a><ul class="dropdown-menu">');
+                            foreach ($value->getSesSRayon($value->getNom()) as $srayon) {
+                                echo('<li><a href="#">' . $srayon->getNom() . '</a></li>');
+                            }
+                            echo('</ul></li>');
+                        }
+                        echo ("</ul></li>");
+                    }
+                    echo("</ul></div>");
+                    ?>
                 </div>
             </div>
             <?php
-            echo("<ul class='nav nav-tabs'>");
-            foreach ($data as $name) {
-                echo("<li role='presentation' class='dropdown'>");
-                $cat = $name->getNom();
-                echo(' <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">' . $cat . '<span class="caret"></span></a>');
-                $rayon = $name->getSesRayon($cat);
-                echo("<ul class ='dropdown-menu'>");
-                foreach ($rayon as $value) {
-                    echo('<li class="dropdown-submenu"><a href="#">' . $value->getNom() . '</a><ul class="dropdown-menu">');
-                    foreach ($value->getSesSRayon($value->getNom()) as $srayon) {
-                        echo('<li><a href="#">' . $srayon->getNom() . '</a></li>');
-                    }
-                    echo('</ul></li>');
-                }
-                echo ("</ul></li>");
-            }
-            echo("</ul></div>");
         }
 
     }
