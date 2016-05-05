@@ -12,11 +12,7 @@ class AdminControler extends Controler {
         "AjoutSRayon" => "addSR",
         "AjoutSSRayon" => "addSSR",
         "ModifPromo" => "updtPromo",
-        "ModifProduit" => "updtProduit",
-        "ModifCategorie" => "updtCat",
-        "ModifRayon" => "updtRayon",
-        "ModifSRayon" => "updtSR",
-        "ModifSSRayon" => "updtSSR",
+        "ModifProduit" => "updtProduit",        
         "SuprPromo" => "dltPromo",
         "SuprProduit" => "dltProduit",
         "SuprCategorie" => "dltCat",
@@ -69,26 +65,6 @@ class AdminControler extends Controler {
     }
 
     public function updtProduit() {
-
-        $vue->displayPage();
-    }
-
-    public function updtCat() {
-
-        $vue->displayPage();
-    }
-
-    public function updtRayon() {
-
-        $vue->displayPage();
-    }
-
-    public function updtSR() {
-
-        $vue->displayPage();
-    }
-
-    public function updtSSR() {
 
         $vue->displayPage();
     }

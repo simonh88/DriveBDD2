@@ -76,7 +76,7 @@ class SSR_P {
 
     public static function insert($rayon, $produit) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        $stid = oci_parse($oci, "INSERT INTO SR_P VALUES :rayon, :prod");
+        $stid = oci_parse($oci, "INSERT INTO SSR_P VALUES :rayon, :prod");
         oci_bind_by_name($stid, ':rayon', $rayon);
         oci_bind_by_name($stid, ':produit', $produit);
         $r = oci_execute($stid); // on l'execute et ça commit en même temps car on a pas utilise oci no auto commit
@@ -89,7 +89,7 @@ class SSR_P {
     public static function delete($rayon, $produit) {
 
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        $stid = oci_parse($oci, "DELETE FROM SR_P WHERE REFERENCE = :produit and NOM_SR = :rayon");
+        $stid = oci_parse($oci, "DELETE FROM SSR_P WHERE REFERENCE = :produit and NOM_SSR = :rayon");
         oci_bind_by_name($stid, ':rayon', $rayon);
         oci_bind_by_name($stid, ':produit', $produit);
         $r = oci_execute($stid); // on l'execute
