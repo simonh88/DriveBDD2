@@ -86,29 +86,31 @@ abstract class MainVue { // page d'accueil du site
                         </div>
                     </div>
                     <a class="navbar-brand" href="drive.php?a=Acceuil">Accueuil</a>
-                    <?php
-                    echo("<ul class='nav nav-tabs navbar-left'>");
-                    foreach ($data as $name) {
-                        echo("<li role='presentation' class='dropdown'>");
-                        $cat = $name->getNom();
-                        echo(' <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">' . $cat . '<span class="caret"></span></a>');
-                        $rayon = $name->getSesRayon($cat);
-                        echo("<ul class ='dropdown-menu'>");
-                        foreach ($rayon as $value) {
-                            echo('<li class="dropdown-submenu"><a href="#">' . $value->getNom() . '</a><ul class="dropdown-menu">');
-                            foreach ($value->getSesSRayon($value->getNom()) as $srayon) {
-                                echo('<li><a href="#">' . $srayon->getNom() . '</a></li>');
-                            }
-                            echo('</ul></li>');
-                        }
-                        echo ("</ul></li>");
-                    }
-                    echo("</ul></div>");
-                    ?>
-                </div>
-            </div>
-            <?php
-        }
 
-    }
-    ?>  
+                    </div>
+                    <nav><ul>
+                    <?php
+                    foreach ($data as $name) {
+                        $cat = $name->getNom();
+                        $rayon = $name->getSesRayon($cat);
+                        ?>
+                                <li><a href="#"><?php echo($cat) ?></a><span class="dropBottom"></span>
+                                <ul>
+                                <?php foreach ($rayon as $value) { ?>
+                                    <li><a href="#"><?php echo($value->getNom()) ?> </a><span class="dropRight"></span>
+                                        <ul>
+                                        <?php foreach ($value->getSesSRayon($value->getNom()) as $srayon) { ?>
+                                                    <li><a href="#"> <?php echo($srayon->getNom()) ?></a></li>
+                                          <?php } ?>
+                                                </ul></li>
+                                <?php } ?>
+                                    </ul>
+                            <?php } ?>
+
+                            
+                        </ul></nav></div>
+                    <?php
+                }
+
+            }
+            ?>  

@@ -15,7 +15,8 @@ class ProduitControler extends Controler {
         "Deco" => "logout",
         "AffPanier" => "affichagePanier",
         "Payer" => "payerPanier",
-        "Profil" => "afficherProfil"
+        "Profil" => "afficherProfil",
+        "AffCat" => "afficherProduitCat"
             //"Compte" => "compte"
     );
 
@@ -142,4 +143,9 @@ class ProduitControler extends Controler {
         }
     }
 
+    public function afficherProduitCat(){
+        if ($this->isConnected()) {
+
+        }
+    }
 }
