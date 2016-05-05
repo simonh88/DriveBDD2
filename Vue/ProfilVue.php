@@ -115,7 +115,7 @@ class ProfilVue extends MainVue {
         } else {
             ?>
             <body>
-                    <div class="alert alert-success"><strong>Félicitation !</strong> Vous venez de changer vos informations</div>
+                <div class="alert alert-success"><strong>F&eacute;licitation !</strong> Vous venez de changer vos informations</div>
             </body>
             <?php
         }
