@@ -23,8 +23,9 @@ class ProduitVue extends MainVue {
                     </tr>
 
                     <?php
+                    $i = 0;
                     foreach ($this->tableau as $produit) {
-
+                        
                         echo( '<tr>
         <td>' . $produit->getLibelle()
                         . "</td>
@@ -33,18 +34,18 @@ class ProduitVue extends MainVue {
         <td>" . $produit->getPrix_unit_HT());
                         ?>
                     </td><td>
-                    <form class="form-inline" action="drive.php?a=Accueil&c=ajoutPanier" method="post" id="ajoutPanier">
+                    <form class="form-inline" action="drive.php?a=Accueil&c=ajoutPanier" method="post" id="<?php echo($i) ?>">
                         <div class="form-group">
                             <input type="text" name="ref" value="<?php echo($produit->getReference()) ?>">
                         </div>
                         <div class="form-group">
                             <input type="number" name="qte" step="1" value="1" min="1" max=" <?php echo($produit->getQuandtite_stock()) ?>  ">
                         </div>
-                        <button type="submit" class="btn btn-default" form="ajoutPanier">Ajouter au panier</button>
+                        <button type="submit" class="btn btn-default" form="<?php echo($i) ?>">Ajouter au panier</button>
                     </form>
                 </td>
                 </tr>
-            <?php } ?>
+            <?php $i ++;} ?>
         </table>    
         </div>
         </body>
