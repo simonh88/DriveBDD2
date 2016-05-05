@@ -168,4 +168,18 @@ class Panier {
         }        
     }
     
+    public static function getPrix($noCarte){
+        $oci = Base::getConnexion();
+        $stid = oci_parse($oci, "Select montant from Panier where NO_CARTE = :carte");
+        oci_bind_by_name($stid, ':carte', $noCarte);
+
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+        $prix = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
+        return $prix["MONTANT"];
+    }
+    
 }

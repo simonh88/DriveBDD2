@@ -69,7 +69,15 @@ abstract class MainVue { // page d'accueil du site
                             </div>
                         </div>
                         <div class="dropdownh">
-                            <button class="drophbtn"><span class="glyphicon glyphicon-briefcase"></span> Mon Panier<span class="caret"></span><span class="badge"><?php echo("42,33")?><span class="glyphicon glyphicon-euro"</span></span></button>
+                            <button class="drophbtn"><span class="glyphicon glyphicon-briefcase"></span> Mon Panier<span class="caret"></span><span class="badge">
+                                    <?php
+                                    if (Panier::getPrix($_SESSION["user"])==null) {
+                                        echo(0);
+                                    } else {
+                                        echo(Panier::getPrix($_SESSION["user"]));
+                                    }
+                                    ?>
+                                    <span class="glyphicon glyphicon-euro"</span></span></button>
                             <div class="dropdownh-content">
                                 <a href="drive.php?a=AffPanier">Voir son contenu <span class="glyphicon glyphicon-eye-open"</span></a>
                                 <a href="drive.php?a=Payer">Payer <span class="glyphicon glyphicon-euro"</span> </a>
