@@ -100,5 +100,30 @@ class Rayon {
 
         return $data;
     }
+    
+    
+        public static function insert($nomcategorie) {
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
+        $stid = oci_parse($oci, "INSERT INTO Rayon VALUES :nom ");
+        oci_bind_by_name($stid, ':nom', $nomcategorie);
+        $r = oci_execute($stid); // on l'execute et ça commit en même temps car on a pas utilise oci no auto commit
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+
+    public static function delete($nom) {
+
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
+        $stid = oci_parse($oci, "DELETE FROM Rayon WHERE NOM_RAYON = :nom");
+        oci_bind_by_name($stid, ':nom', $nom);
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+
 
 }
