@@ -15,22 +15,23 @@ class ProduitVue extends MainVue {
             <div class="container">
         <table class="table table-striped">
             <tr>
+                <th></th>
                 <th>Libellé</th>
                 <th>Marque</th>
                 <th>Prix</th>
-
+                <th></th>
             </tr>
             
                 <?php
                 foreach ($this->tableau as $produit) {
 
                     echo( "<tr>
-        <td>" . $produit->getLibelle()
+        <td></td><td>" . $produit->getLibelle()
                     . "</td>
          <td>" . $produit->getMarque()
                     . "</td>
         <td>" . $produit->getPrix_unit_HT()
-                    . "</td></tr>");
+                    . '</td><td><input type="number" step="1" value="0" min="0" max="'.$produit->getQuandtite_stock().'"></td></tr>');
                 }
                 ?>
 
