@@ -21,12 +21,13 @@ class ProduitControler extends Controler {
 
     public function home() { // test d'affichage de client
         if ($this->isConnected()) {
-            $data = Produit::getAll();
-            if(isset($_GET["c"])){
-                if($_GET["c"]=="ajoutPanier"){
+
+            if (isset($_GET["c"])) {
+                if ($_GET["c"] == "ajoutPanier") {
                     Item::insertUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
                 }
             }
+            $data = Produit::getAll();
             $pv = new ProduitVue($data);
             $pv->displayPage();
         } else {
@@ -76,6 +77,8 @@ class ProduitControler extends Controler {
             if (isset($_GET["c"])) {
                 if ($_GET["c"] == "ViderPanier") {
                     Item::deleteAll($_SESSION['user']);
+                } else if ($_GET["c"] == "enleveProduit") {
+                    Item::deleteUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
                 }
             }
             $infos = Panier::getInfos($_SESSION['user']);
@@ -138,7 +141,5 @@ class ProduitControler extends Controler {
             $p->displayPage();
         }
     }
-    
-    
 
 }

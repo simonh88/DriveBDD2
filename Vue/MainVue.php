@@ -106,7 +106,7 @@ abstract class MainVue { // page d'accueil du site
                     echo("</ul></div>");
                     ?>
                 </div>
-            </div><ul class="drop">
+            </div>
             <?php
         }
 

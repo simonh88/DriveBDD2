@@ -33,13 +33,13 @@ class ProduitVue extends MainVue {
                         . "</td>
         <td>" . $produit->getPrix_unit_HT());
                         ?>
-                    </td><td>
+                    </td><td><?php echo($produit->getQuandtite_stock()); ?>
                     <form class="form-inline" action="drive.php?a=Accueil&c=ajoutPanier" method="post" id="<?php echo($i) ?>">
                         <div class="form-group">
                             <input type="hidden" name="ref" value="<?php echo($produit->getReference()) ?>">
                         </div>
                         <div class="form-group">
-                            <input type="number" name="qte" step="1" value="1" min="1" max=" <?php echo($produit->getQuandtite_stock()) ?>  ">
+                            <input type="number" name="qte" step="1" value="1" min="1" max="<?php echo($produit->getQuandtite_stock()) ?>">
                         </div>
                         <button type="submit" class="btn btn-default" form="<?php echo($i) ?>">Ajouter au panier</button>
                     </form>
@@ -49,7 +49,8 @@ class ProduitVue extends MainVue {
         </table>    
         </div>
         </body>
-        <?php
+        <?php 
+        
     }
 
 }
