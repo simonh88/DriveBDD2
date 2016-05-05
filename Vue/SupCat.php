@@ -1,10 +1,10 @@
 <?php
 
-class SupSSR extends AdminHomeVue {
+class SupCat extends AdminHomeVue {
 
     public function displayBody() {
         ?>
-        <div class="alert alert-danger" role="alert">Etes vous sur de vouloir <strong>supprimer definitivement</strong> ce sous sous rayon ?
+        <div class="alert alert-danger" role="alert">Etes vous sur de vouloir <strong>supprimer definitivement</strong> cette categorie ?
             Tout les produits qu'il contient serons a réorganiser pour les remmettre dans les bon rayons</div>
         <div  style="
               display: inline-block;
@@ -17,7 +17,7 @@ class SupSSR extends AdminHomeVue {
               height: 100px;
               margin: auto;
               ">            
-            <form class="form-inline" action="drive.php?acces=Admin&a=SuprSSRayon" method="post">
+            <form class="form-inline" action="drive.php?acces=Admin&a=SuprCategorie" method="post">
                 <input type="hidden" name='ok' value ='<?php echo $_GET['id'];?>'>
                 <button class="btn btn-danger" role="button">Oui</button>
             </form>

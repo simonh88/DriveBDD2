@@ -109,30 +109,41 @@ class AdminControler extends Controler {
     }
 
     public function dltCat() {
-
-        $vue->displayPage();
+        if (isset($_POST['ok'])) {
+            Categorie::delete($_POST['ok']);
+            $this->listCat();
+        } else {
+            $vue = new SupCat();
+            $vue->displayPage();
+        }
     }
 
     public function dltRayon() {
-
-        $vue->displayPage();
+        if (isset($_POST['ok'])) {
+            Rayon::delete($_POST['ok']);
+            $this->listCat();
+        } else {
+            $vue = new SupR();
+            $vue->displayPage();
+        }
     }
 
     public function dltSR() {
-
-        $vue->displayPage();
+        if (isset($_POST['ok'])) {            
+            Sous_rayon::delete($_POST['ok']);
+            $this->listCat();
+        } else {
+            $vue = new SupSR();
+            $vue->displayPage();
+        }
     }
 
     public function dltSSR() {
+
         if (isset($_POST['ok'])) {
-            
-            if ($_POST['ok'] == 'ok') {
-                Sous_sous_rayon::delete($_POST['nom']);
-                $this->listCat();
-            } else {
-                $this->listCat();
-            }
-        }else{
+            Sous_sous_rayon::delete($_POST['ok']);
+            $this->listCat();
+        } else {
             $vue = new SupSSR();
             $vue->displayPage();
         }

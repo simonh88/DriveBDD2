@@ -117,7 +117,8 @@ class Rayon {
     public static function delete($nom) {
 
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        $stid = oci_parse($oci, "DELETE FROM Rayon WHERE NOM_RAYON = :nom");
+        $stid = oci_parse($oci, "DELETE FROM RAYON WHERE NOM_RAYON LIKE :nom");
+        $nom = $nom."%";
         oci_bind_by_name($stid, ':nom', $nom);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
