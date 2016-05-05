@@ -52,12 +52,12 @@ class Sous_rayon {
 
     public static function getSesSSRayon($categorie) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        
+
         $stid = oci_parse($oci, "SELECT * FROM SOUS_SOUS_RAYON where NOM_SR LIKE :cat"); // prepare le code
-        $categorie = $categorie."%";
-        
-       oci_bind_by_name($stid, ':cat', $categorie);
-       
+        $categorie = $categorie . "%";
+
+        oci_bind_by_name($stid, ':cat', $categorie);
+
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);
@@ -75,16 +75,15 @@ class Sous_rayon {
 
         return $data;
     }
-    
-    
-        public function getSous() {
+
+    public function getSous() {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        
+
         $stid = oci_parse($oci, "SELECT * FROM SOUS_SOUS_RAYON where NOM_SR LIKE :cat"); // prepare le code
-        
-        $nom = $this->getNom()."%";
+
+        $nom = $this->getNom() . "%";
         oci_bind_by_name($stid, ':cat', $nom);
-       
+
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);
@@ -101,6 +100,29 @@ class Sous_rayon {
         }
 
         return $data;
+    }
+
+    public static function insert($nomcategorie) {
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
+        $stid = oci_parse($oci, "INSERT INTO SOUS_RAYON VALUES :nom ");
+        oci_bind_by_name($stid, ':nom', $nomcategorie);
+        $r = oci_execute($stid); // on l'execute et ça commit en même temps car on a pas utilise oci no auto commit
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+
+    public static function delete($nom) {
+
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
+        $stid = oci_parse($oci, "DELETE FROM SOUS_RAYON WHERE NOM_SR = :nom");
+        oci_bind_by_name($stid, ':nom', $nom);
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
     }
 
 }

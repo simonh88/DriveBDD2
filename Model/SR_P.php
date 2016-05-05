@@ -1,16 +1,15 @@
 <?php
 
-class SR_P{
+class SR_P {
 
     private $reference;
     private $nom_ssr;
-    
+
     function __construct($row) {
         $this->reference = $row['REFERENCE'];
         $this->nom_ssr = $row['NOM_SSR'];
     }
 
-    
     //GETTER
     function getReference() {
         return $this->reference;
@@ -29,8 +28,6 @@ class SR_P{
         $this->nom_ssr = $nom_ssr;
     }
 
-
-    
     public static function getAll() { // exemple, a suprimer
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
@@ -42,23 +39,22 @@ class SR_P{
         }
 
         $data = array();
-        
+
         $i = 0;
         while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
             $client = new SR_P($row);
             $data[$i] = $client;
             $i++;
         }
-        
+
         return $data;
     }
-    
-    
+
     public static function getAllProduit($sr) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        
+
         $stid = oci_parse($oci, 'SELECT * FROM SR_P where NOM_SR LIKE :cat'); // prepare le code
-        $sr = $sr."%";
+        $sr = $sr . "%";
         oci_bind_by_name($stid, ':cat', $sr);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
@@ -70,13 +66,38 @@ class SR_P{
 
         $i = 0;
         while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
-            
+
             $client = Produit::getProduit($row['REFERENCE']);
             $data[$i] = $client;
             $i++;
         }
 
         return $data;
+    }
+
+    public static function insert($rayon, $produit) {
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
+        $stid = oci_parse($oci, "INSERT INTO SR_P VALUES :rayon, :prod");
+        oci_bind_by_name($stid, ':rayon', $rayon);
+        oci_bind_by_name($stid, ':produit', $produit);
+        $r = oci_execute($stid); // on l'execute et ça commit en même temps car on a pas utilise oci no auto commit
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+
+    public static function delete($rayon, $produit) {
+
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
+        $stid = oci_parse($oci, "DELETE FROM SR_P WHERE REFERENCE = :produit and NOM_SR = :rayon");
+        oci_bind_by_name($stid, ':rayon', $rayon);
+        oci_bind_by_name($stid, ':produit', $produit);
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
     }
 
 }
