@@ -22,6 +22,11 @@ class ProduitControler extends Controler {
     public function home() { // test d'affichage de client
         if ($this->isConnected()) {
             $data = Produit::getAll();
+            if(isset($_GET["c"])){
+                if($_GET["c"]=="ajoutPanier"){
+                    Item::insertUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
+                }
+            }
             $pv = new ProduitVue($data);
             $pv->displayPage();
         } else {

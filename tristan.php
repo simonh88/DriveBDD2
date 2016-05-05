@@ -15,6 +15,7 @@
   </div>
   <button type="submit" class="btn btn-default" form="test">Send invitation</button>
 </form>
+
 <?php
 var_dump($_POST); ?>
 

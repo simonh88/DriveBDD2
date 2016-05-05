@@ -30,16 +30,23 @@ class ProduitVue extends MainVue {
                         . "</td>
          <td>" . $produit->getMarque()
                         . "</td>
-        <td>" . $produit->getPrix_unit_HT()
-                        .'</td><td><a href="drive.php?a=Accueil&c=ajoutPanier"><button type="button" class="btn btn-info">Ajouter au panier</button></a><input type="number" step="1" value="0" min="0" max="' . $produit->getQuandtite_stock() . '"></td></tr>');
-                    }
-                    ?>
-
-
-
-                    </tr>
-                </table>
-            </div>
+        <td>" . $produit->getPrix_unit_HT());
+                        ?>
+                    </td><td>
+                    <form class="form-inline" action="drive.php?a=Accueil&c=ajoutPanier" method="post" id="ajoutPanier">
+                        <div class="form-group">
+                            <input type="hidden" name="ref" value="<?php echo($produit->getReference()) ?>">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" name="qte" step="1" value="1" min="1" max=" <?php echo($produit->getQuandtite_stock()) ?>  ">
+                        </div>
+                        <button type="submit" class="btn btn-default" form="ajoutPanier">Ajouter au panier</button>
+                    </form>
+                </td>
+                </tr>
+            <?php } ?>
+        </table>    
+        </div>
         </body>
         <?php
     }
