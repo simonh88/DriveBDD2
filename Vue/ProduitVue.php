@@ -13,32 +13,32 @@ class ProduitVue extends MainVue {
         ?>
         <body>
             <div class="container">
-        <table class="table table-striped">
-            <tr>
-                <th></th>
-                <th>Libellé</th>
-                <th>Marque</th>
-                <th>Prix</th>
-                <th></th>
-            </tr>
-            
-                <?php
-                foreach ($this->tableau as $produit) {
+                <table class="table table-striped">
+                    <tr>
 
-                    echo( "<tr>
-        <td></td><td>" . $produit->getLibelle()
-                    . "</td>
+                        <th>Libellé</th>
+                        <th>Marque</th>
+                        <th>Prix</th>
+                        <th>Quantité à ajouter</th>
+                    </tr>
+
+                    <?php
+                    foreach ($this->tableau as $produit) {
+
+                        echo( '<tr>
+        <td>' . $produit->getLibelle()
+                        . "</td>
          <td>" . $produit->getMarque()
-                    . "</td>
+                        . "</td>
         <td>" . $produit->getPrix_unit_HT()
-                    . '</td><td><input type="number" step="1" value="0" min="0" max="'.$produit->getQuandtite_stock().'"></td></tr>');
-                }
-                ?>
+                        .'</td><td><a href="drive.php?a=Accueil&c=ajoutPanier"><button type="button" class="btn btn-info">Ajouter au panier</button></a><input type="number" step="1" value="0" min="0" max="' . $produit->getQuandtite_stock() . '"></td></tr>');
+                    }
+                    ?>
 
 
 
-            </tr>
-        </table>
+                    </tr>
+                </table>
             </div>
         </body>
         <?php
