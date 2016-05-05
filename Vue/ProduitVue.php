@@ -35,7 +35,7 @@ class ProduitVue extends MainVue {
                     </td><td>
                     <form class="form-inline" action="drive.php?a=Accueil&c=ajoutPanier" method="post" id="ajoutPanier">
                         <div class="form-group">
-                            <input type="hidden" name="ref" value="<?php echo($produit->getReference()) ?>">
+                            <input type="text" name="ref" value="<?php echo($produit->getReference()) ?>">
                         </div>
                         <div class="form-group">
                             <input type="number" name="qte" step="1" value="1" min="1" max=" <?php echo($produit->getQuandtite_stock()) ?>  ">
