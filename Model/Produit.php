@@ -146,4 +146,52 @@ Class Produit {
         }
     }
 
+    public static function insert($ref, $lib, $marq, $img, $prix, $liqu, $kilo, $qute) {
+        $oci = Base::getConnexion();
+        $stid = oci_parse($oci, "INSERT INTO PRODUIT VALUES ( :ref, :lib, :marq, :img, :prix, :liqu, :kilo, :qute)");
+        oci_bind_by_name($stid, ':ref', $ref);
+        oci_bind_by_name($stid, ':lib', $lib);
+        oci_bind_by_name($stid, ':marq', $marq);
+        oci_bind_by_name($stid, ':img', $img);
+        oci_bind_by_name($stid, ':prix', $prix);
+        oci_bind_by_name($stid, ':liqu', $liqu);
+        oci_bind_by_name($stid, ':kilo', $kilo);
+        oci_bind_by_name($stid, ':qute', $qute);
+        $r = oci_execute($stid); // on l'execute et ça commit en même temps car on a pas utilise oci no auto commit
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+
+    public static function delete($ref) {
+        $oci = Base::getConnexion();
+        $stid = oci_parse($oci, "DELETE FROM PRODUIT WHERE reference LIKE :ref");
+        $ref = $ref . "%";
+        oci_bind_by_name($stid, ':ref', $ref);
+        $r = oci_execute($stid); // on l'execute et ça commit en même temps car on a pas utilise oci no auto commit
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+
+    public function update() {
+        $oci = Base::getConnexion();
+        $stid = oci_parse($oci, "UPDATE PRODUIT SET libelle = :libelle, marque = :marque, fichier_image = :fichier_image, prix_unit_HT = :prix_unit_HT, liquide_VF = :liquide_VF, prix_kilo_ou_litre = :prix_kilo_ou_litre, quantite_stock = :quantite_stock where reference = :reference");
+        oci_bind_by_name($stid, ':reference', $this->reference);
+        oci_bind_by_name($stid, ':libelle', $this->libelle);
+        oci_bind_by_name($stid, ':marque', $this->marque);
+        oci_bind_by_name($stid, ':fichier_image', $this->fichier_image);
+        oci_bind_by_name($stid, ':prix_unit_HT', $this->prix_unit_HT);
+        oci_bind_by_name($stid, ':liquide_VF', $this->liquide_VF);
+        oci_bind_by_name($stid, ':prix_kilo_ou_litre', $this->prix_kilo_ou_litre);
+        oci_bind_by_name($stid, ':quantite_stock', $this->quantite_stock);
+        $r = oci_execute($stid); // on l'execute et ça commit en même temps car on a pas utilise oci no auto commit
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+
 }

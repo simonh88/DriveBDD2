@@ -5,23 +5,24 @@ class AdminControler extends Controler {
     static $action = array(
 //TODO plus d'action possible ( une action = 1 URL : drive.com/access=Admin&a=Accueil renvera sur la fonction static home()
         "Accueil" => "home", //accueil
-        "AjoutPromo" => "addPromo",     //TOTO
+        "AjoutPromo" => "addPromo", //TOTO
         "AjoutProduit" => "addProduit", //TOTO
         "AjoutCategorie" => "addCat",
         "AjoutRayon" => "addRayon",
         "AjoutSRayon" => "addSR",
         "AjoutSSRayon" => "addSSR",
-        "ModifPromo" => "updtPromo",    //TOTO
-        "ModifProduit" => "updtProduit",//TOTO
-        "SuprPromo" => "dltPromo",      //TOTO
-        "SuprProduit" => "dltProduit",  //TOTO
+        "ModifPromo" => "updtPromo", //TOTO
+        "ModifProduit" => "updtProduit", //TOTO
+        "SuprPromo" => "dltPromo", //TOTO
+        "SuprProduit" => "dltProduit", //TOTO
         "SuprCategorie" => "dltCat",
         "SuprRayon" => "dltRayon",
         "SuprSRayon" => "dltSR",
         "SuprSSRayon" => "dltSSR",
-        "MenuCategorie" => "listCat", 
-        "MenuPromo" => "listProm",      //TOTO
-        "MenuProduit" => "listProd"     //TOTO
+        "MenuCategorie" => "listCat",
+        "MenuPromo" => "listProm", //TOTO
+        "MenuProduit" => "listProd", //TOTO
+        "Recherche" => "search"         //TODO
     );
 
     public function home() {
@@ -40,10 +41,32 @@ class AdminControler extends Controler {
     }
 
     public function addProduit() {
-        if (isset($_POST)) {
-            $this->home();
+        if (isset($_POST["ref"])) {
+
+            $target_dir = "IMAGES/";
+            $target_file = $target_dir . basename($_FILES["img"]["name"]);
+            $uploadOk = 1;
+            $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+            if (isset($_POST["submit"])) {
+                $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+                if ($check !== false) {
+                    $uploadOk = 1;
+                } else {
+                    $uploadOk = 0;
+                }
+            }
+
+
+            if ($uploadOk == 1) {
+                $liqu = "V";
+                if(!isset($_POST['liqu']))$lique = "F";
+                Produit::insert($_POST['ref'], $_POST['lib'], $_POST['marq'], $target_file, $_POST['prix'], $lique, $_POST['kilo'], $_POST['qute']);
+            } else {
+                $vue = new AjoutProd("Erreur");
+                $vue->displayPage();
+            }
         } else {
-            $vue = new AjoutProd();
+            $vue = new AjoutProduit("lol");
             $vue->displayPage();
         }
     }
@@ -129,7 +152,7 @@ class AdminControler extends Controler {
     }
 
     public function dltSR() {
-        if (isset($_POST['ok'])) {            
+        if (isset($_POST['ok'])) {
             Sous_rayon::delete($_POST['ok']);
             $this->listCat();
         } else {
