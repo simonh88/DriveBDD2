@@ -19,7 +19,7 @@ class AjoutProduit extends AdminHomeVue {
         }
         ?>
 
-        <form method="post" action="drive.php?acces=Admin&a=AjoutProduit">
+        <form method="post" action="drive.php?acces=Admin&a=AjoutProduit" enctype="multipart/form-data">
 
             <div class="form-group">
                 <label for="reference">Reference</label>

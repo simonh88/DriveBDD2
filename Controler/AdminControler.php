@@ -45,10 +45,10 @@ class AdminControler extends Controler {
 
             $target_dir = "IMAGES/";
             $target_file = $target_dir . basename($_FILES["img"]["name"]);
-            $uploadOk = 1;
+            $uploadOk = 0;
             $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
-            if (isset($_POST["submit"])) {
-                $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+            if (isset($_POST["submit"]) && empty($_FILES["img"]['name']) == false) {
+                $check = getimagesize($_FILES["img"]["tmp_name"]);
                 if ($check !== false) {
                     $uploadOk = 1;
                 } else {
@@ -56,17 +56,24 @@ class AdminControler extends Controler {
                 }
             }
 
-
             if ($uploadOk == 1) {
-                $liqu = "V";
-                if(!isset($_POST['liqu']))$lique = "F";
-                Produit::insert($_POST['ref'], $_POST['lib'], $_POST['marq'], $target_file, $_POST['prix'], $lique, $_POST['kilo'], $_POST['qute']);
+                if (move_uploaded_file($_FILES["img"]["tmp_name"], $target_file)) {
+                    $lique = "V";
+                    if (!isset($_POST['liqu']))
+                        $lique = "F";
+                    Produit::insert($_POST['ref'], $_POST['lib'], $_POST['marq'], $target_file, $_POST['prix'], $lique, $_POST['kilo'], $_POST['qute']);
+                    $vue = new AdminProduitVue();
+                    $vue->displayBody();
+                } else {
+                    $vue = new AjoutProduit("Erreur Incconue");
+                    $vue->displayPage();
+                }
             } else {
-                $vue = new AjoutProd("Erreur");
+                $vue = new AjoutProduit("Erreur");
                 $vue->displayPage();
             }
         } else {
-            $vue = new AjoutProduit("lol");
+            $vue = new AjoutProduit();
             $vue->displayPage();
         }
     }
@@ -127,8 +134,13 @@ class AdminControler extends Controler {
     }
 
     public function dltProduit() {
-
-        $vue->displayPage();
+        if (isset($_POST['ok'])) {
+            Produit::delete($_POST['ok']);
+            $this->listProd();
+        } else {
+            $vue = new SupProd();
+            $vue->displayPage();
+        }
     }
 
     public function dltCat() {
@@ -185,6 +197,17 @@ class AdminControler extends Controler {
     public function listProd() {
         $vue = new AdminProduitVue();
         $vue->displayPage();
+    }
+
+    public function search() { // pour le moment, que la reference du produit
+        $produit = Produit::getProduit($_POST["reference"]);
+        if (empty($produit)) {
+            $vue = new AdminProduitVue();
+            $vue->displayPage();
+        } else {
+            $vue = new AdminProduitVue($produit);
+            $vue->displayPage();
+        }
     }
 
 }
