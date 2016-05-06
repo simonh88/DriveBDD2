@@ -11,7 +11,7 @@ class Rayon {
     }
 
     //GETTER
-    
+
     function getNom() {
         return $this->nom_rayon;
     }
@@ -74,14 +74,13 @@ class Rayon {
 
         return $data;
     }
-    
-    
-        public function getSous() {
+
+    public function getSous() {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
         $stid = oci_parse($oci, "SELECT * FROM SOUS_RAYON where NOM_RAYON LIKE :cat "); // prepare le code
-        
-        $nom = $this->getNom()."%";
+
+        $nom = $this->getNom() . "%";
         oci_bind_by_name($stid, ':cat', $nom);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
@@ -100,9 +99,33 @@ class Rayon {
 
         return $data;
     }
-    
-    
-        public static function insert($nomcategorie, $nomrayon) {
+
+    public static function getAllProduit($ray) {
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
+
+        $stid = oci_parse($oci, 'SELECT * FROM Rayon where NOM_RAYON LIKE :cat'); // prepare le code
+        $ray = $ray . "%";
+        oci_bind_by_name($stid, ':cat', $ray);
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+
+        $data = array();
+
+        $i = 0;
+        while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+
+            $prod = Produit::getProduit($row['REFERENCE']);
+            $data[$i] = $prod;
+            $i++;
+        }
+
+        return $data;
+    }
+
+    public static function insert($nomcategorie, $nomrayon) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
         $stid = oci_parse($oci, "INSERT INTO Rayon VALUES ( :nom, :rayon) ");
         oci_bind_by_name($stid, ':nom', $nomcategorie);
@@ -118,7 +141,7 @@ class Rayon {
 
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
         $stid = oci_parse($oci, "DELETE FROM RAYON WHERE NOM_RAYON LIKE :nom");
-        $nom = $nom."%";
+        $nom = $nom . "%";
         oci_bind_by_name($stid, ':nom', $nom);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
@@ -126,6 +149,5 @@ class Rayon {
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
     }
-
 
 }

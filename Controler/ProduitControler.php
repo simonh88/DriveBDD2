@@ -16,7 +16,9 @@ class ProduitControler extends Controler {
         "AffPanier" => "affichagePanier",
         "Payer" => "payerPanier",
         "Profil" => "afficherProfil",
-        "AffCat" => "afficherProduitCat"
+        "AffCat" => "afficherProduitCat",
+        "AffRay" => "afficherProduitRay",
+        "AffSR" => "afficherProduitSR"
             //"Compte" => "compte"
     );
 
@@ -144,8 +146,7 @@ class ProduitControler extends Controler {
     }
 
     public function afficherProduitCat() {
-        if ($this->isConnected()) {
-            
+        if ($this->isConnected()) {   
             if (isset($_GET["c"])) {
                 $cate = Categorie::getAll();
                 foreach ($cate as $uneCate) {
@@ -167,5 +168,52 @@ class ProduitControler extends Controler {
             $p->displayPage();
         }
     }
-
+    
+    public function afficherProduitRay(){
+        if ($this->isConnected()) {   
+            if (isset($_GET["c"])) {
+                $ray = Rayon::getAll();
+                foreach ($ray as $unRay) {
+                    $nom = $unRay->getNom();
+                    if (strpos($nom,$_GET["c"]) === 0) { //Car $nom est un string de taille 32
+                        $data = Rayon::getAllProduit($nom);
+                        $view = new ProduitVue($data);
+                        $view->displayPage();
+                    }
+                }
+            }
+            if (empty($view)) {//Si le client à essayer de changer le c= avec un nom inexistant ou c supprimé
+                $data = Produit::getAll();
+                $view = new ProduitVue($data);
+                $view->displayPage();
+            }
+        } else {
+            $p = new ConnexionVue();
+            $p->displayPage();
+        }
+    }
+    
+    public function afficherProduitSR(){
+        if ($this->isConnected()) {   
+            if (isset($_GET["c"])) {
+                $sr = SR_P::getAll();
+                foreach ($sr as $unSR) {
+                    $nom = $unSR->getNom();
+                    if (strpos($nom,$_GET["c"]) === 0) { //Car $nom est un string de taille 32
+                        $data = SR_P::getAllProduit($nom);
+                        $view = new ProduitVue($data);
+                        $view->displayPage();
+                    }
+                }
+            }
+            if (empty($view)) {//Si le client à essayer de changer le c= avec un nom inexistant ou c supprimé
+                $data = Produit::getAll();
+                $view = new ProduitVue($data);
+                $view->displayPage();
+            }
+        } else {
+            $p = new ConnexionVue();
+            $p->displayPage();
+        }
+    }
 }

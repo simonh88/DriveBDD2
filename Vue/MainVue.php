@@ -97,10 +97,10 @@ abstract class MainVue { // page d'accueil du site
                             <li><a href="drive.php?a=AffCat&c=<?php echo($cat) ?>"><?php echo($cat) ?></a>
                                 <ul>
                                 <?php foreach ($rayon as $value) { ?>
-                                    <li><a href="#"><?php echo($value->getNom()) ?> </a>
+                                    <li><a href="drive.php?a=AffRay&c=<?php echo($value->getNom()) ?>"><?php echo($value->getNom()) ?></a>
                                         <ul>
                                         <?php foreach ($value->getSesSRayon($value->getNom()) as $srayon) { ?>
-                                                    <li><a href="#"> <?php echo($srayon->getNom()) ?></a></li>
+                                            <li><a href="drive.php?a=AffSR&c=<?php echo($srayon->getNom()) ?>"> <?php echo($srayon->getNom()) ?></a></li>
                                           <?php } ?>
                                                 </ul></li>
                                 <?php } ?>
