@@ -24,14 +24,13 @@ class ProduitControler extends Controler {
 
     public function home() { // test d'affichage de client
         if ($this->isConnected()) {
-
-            if (isset($_GET["c"])) {
-                if ($_GET["c"] == "ajoutPanier") {
+            if (isset($_GET["d"])) {
+                if ($_GET["d"] == "ajoutPanier") {
                     Item::insertUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
                 }
             }
             $data = Produit::getAll();
-            $pv = new ProduitVue($data);
+            $pv = new ProduitVue($data, null);
             $pv->displayPage();
         } else {
             $p = new ConnexionVue();
@@ -48,23 +47,39 @@ class ProduitControler extends Controler {
     public function check() {
         if ($this->isConnected()) {
             $data = Produit::getAll();
-            $pv = new ProduitVue($data);
+            if (isset($_GET["d"])) {
+                if ($_GET["d"] == "ajoutPanier") {
+                    Item::insertUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
+                }
+            }
+            $pv = new ProduitVue($data, null);
             $pv->displayPage();
         } else {
             if (isset($_POST['carte'])) {
                 $client = Client::getInfosClient($_POST['carte']);
             }
-            
+
             if ($client->getNo_carte() == null) {
                 $p = new ConnexionVue('Mauvais Client');
                 $p->displayPage();
             } else {
                 $_SESSION["user"] = $client->getNo_carte();
+                $this->ajouterPanier(); //On ajoute le panier s'il existe pas
                 $data = Produit::getAll();
-                $pv = new ProduitVue($data);
+                $pv = new ProduitVue($data, null);
                 $pv->displayPage();
             }
         }
+    }
+
+    private function ajouterPanier() {
+        $infos = Panier::getInfos($_SESSION["user"]);
+        if (empty($infos->getNo_carte())) {
+            if (!Planning::existPlanning(Planning::getDefaultDate())) {//On insert un planning par défaut utilisé pour les paniers par défaut.
+                Planning::insertDefaultPlanning();
+            }
+            Panier::insert($_SESSION["user"]);
+        }//Sinon on fait rien le panier existe déjà
     }
 
     public function logout() {
@@ -147,21 +162,30 @@ class ProduitControler extends Controler {
     }
 
     public function afficherProduitCat() {
-        if ($this->isConnected()) {   
+        if ($this->isConnected()) {
+            if (isset($_GET["d"])) {
+                if ($_GET["d"] == "ajoutPanier") {
+                    Item::insertUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
+                }
+            }
             if (isset($_GET["c"])) {
                 $cate = Categorie::getAll();
                 foreach ($cate as $uneCate) {
                     $nom = $uneCate->getNom();
-                    if (strpos($nom,$_GET["c"]) === 0) { //Car $nom est un string de taille 32
+                    if (strpos($nom, $_GET["c"]) === 0) { //Car $nom est un string de taille 32
                         $data = Categorie::getAllProduit($nom);
-                        $view = new ProduitVue($data);
+                        if (empty($where)) {
+                            $view = new ProduitVue($data, $_GET["c"]);
+                        } else {
+                            $view = new ProduitVue($data, $_POST["where"]);
+                        }
                         $view->displayPage();
                     }
                 }
             }
             if (empty($view)) {//Si le client à essayer de changer le c= avec un nom inexistant ou c supprimé
                 $data = Produit::getAll();
-                $view = new ProduitVue($data);
+                $view = new ProduitVue($data, "Accueil");
                 $view->displayPage();
             }
         } else {
@@ -169,23 +193,32 @@ class ProduitControler extends Controler {
             $p->displayPage();
         }
     }
-    
-    public function afficherProduitRay(){
-        if ($this->isConnected()) {   
+
+    public function afficherProduitRay() {
+        if ($this->isConnected()) {
+            if (isset($_GET["d"])) {
+                if ($_GET["d"] == "ajoutPanier") {
+                    Item::insertUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
+                }
+            }
             if (isset($_GET["c"])) {
                 $ray = Rayon::getAll();
                 foreach ($ray as $unRay) {
                     $nom = $unRay->getNom();
-                    if (strpos($nom,$_GET["c"]) === 0) { //Car $nom est un string de taille 32
+                    if (strpos($nom, $_GET["c"]) === 0) { //Car $nom est un string de taille 32
                         $data = Rayon::getAllProduit($nom);
-                        $view = new ProduitVue($data);
+                        if (empty($where)) {
+                            $view = new ProduitVue($data, $_GET["c"]);
+                        } else {
+                            $view = new ProduitVue($data, $_POST["where"]);
+                        }
                         $view->displayPage();
                     }
                 }
             }
             if (empty($view)) {//Si le client à essayer de changer le c= avec un nom inexistant ou c supprimé
                 $data = Produit::getAll();
-                $view = new ProduitVue($data);
+                $view = new ProduitVue($data, "Accueil");
                 $view->displayPage();
             }
         } else {
@@ -193,23 +226,32 @@ class ProduitControler extends Controler {
             $p->displayPage();
         }
     }
-    
-    public function afficherProduitSR(){
-        if ($this->isConnected()) {   
+
+    public function afficherProduitSR() {
+        if ($this->isConnected()) {
+            if (isset($_GET["d"])) {
+                if ($_GET["d"] == "ajoutPanier") {
+                    Item::insertUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
+                }
+            }
             if (isset($_GET["c"])) {
                 $sr = Sous_rayon::getAll();
                 foreach ($sr as $unSR) {
                     $nom = $unSR->getNom();
-                    if (strpos($nom,$_GET["c"]) === 0) { //Car $nom est un string de taille 32
+                    if (strpos($nom, $_GET["c"]) === 0) { //Car $nom est un string de taille 32
                         $data = SR_P::getAllProduit($nom);
-                        $view = new ProduitVue($data);
+                        if (empty($where)) {
+                            $view = new ProduitVue($data, $_GET["c"]);
+                        } else {
+                            $view = new ProduitVue($data, $_POST["where"]);
+                        }
                         $view->displayPage();
                     }
                 }
             }
             if (empty($view)) {//Si le client à essayer de changer le c= avec un nom inexistant ou c supprimé
                 $data = Produit::getAll();
-                $view = new ProduitVue($data);
+                $view = new ProduitVue($data, "Accueil");
                 $view->displayPage();
             }
         } else {
@@ -217,4 +259,5 @@ class ProduitControler extends Controler {
             $p->displayPage();
         }
     }
+
 }
