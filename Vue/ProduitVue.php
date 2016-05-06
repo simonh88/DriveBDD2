@@ -20,13 +20,14 @@ class ProduitVue extends MainVue {
                         <th>Marque</th>
                         <th>Prix</th>
                         <th>Quantité à ajouter</th>
+                        <th>Image</th>
                     </tr>
-
                     <?php
                     $i = 0;
                     foreach ($this->tableau as $produit) {
                         
                         echo( '<tr>
+                            <td><img src="'.$produit->getFichier_image() .'" height="42">
         <td>' . $produit->getLibelle()
                         . "</td>
          <td>" . $produit->getMarque()
