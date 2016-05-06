@@ -28,7 +28,7 @@ class AdminProduitVue extends AdminHomeVue {
             foreach ($allProduit as $produit) {
                 ?>
             <tr>
-                <th><img href="../<?php echo $produit->getFichier_image() ?>"/></th>
+                <th><img src="<?php echo $produit->getFichier_image() ?>" height="42"></th>
                 <th><?php echo $produit->getReference()?></th>
                 <th><?php echo $produit->getLibelle()?></th>
                 <th><?php echo $produit->getPrix_unit_HT()?></th>
@@ -47,5 +47,11 @@ class AdminProduitVue extends AdminHomeVue {
         </table>
         <?php
     }
+    /*
+     * boissons.jpg
+     * fruits_legumes.jpg
+     * viandes.jpg
+     * poissons.jpg
+     */
 
 }
