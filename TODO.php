@@ -2,7 +2,7 @@
 
 TODO :
 
-Bandeau : changer le bouton categorie, en hover
+Bandeau : changer le bouton categorie, en hover =========>Fait
 
 Finir tout ce qui est partie admin
 
@@ -12,7 +12,7 @@ Modification dans panier, supprimer un article et maj du stock qui suis ========
 
 Ne pas afficher les produits qui sont à 0 dans le stock
 
-Gérer les affichages en fonction de la catégorie/rayon/sr/ssr choisi
+Gérer les affichages en fonction de la catégorie/rayon/sr/ssr choisi =================>FAIT
 
 faire le bandeau vertical avec ou on est et les caté/rayons/sr/ssr ...
 

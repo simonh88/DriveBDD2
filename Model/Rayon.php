@@ -103,7 +103,7 @@ class Rayon {
     public static function getAllProduit($ray) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, "SELECT * FROM V_Produit where NOM_RAYON LIKE :ray "); // prepare le code
+        $stid = oci_parse($oci, "SELECT * FROM V_Produit_RAY where NOM_RAYON LIKE :ray "); // prepare le code
         $ray = $ray . "%";
         oci_bind_by_name($stid, ':ray', $ray);
         $r = oci_execute($stid); // on l'execute
