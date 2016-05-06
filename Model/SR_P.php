@@ -3,11 +3,11 @@
 class SR_P {
 
     private $reference;
-    private $nom_ssr;
+    private $nom_sr;
 
     function __construct($row) {
         $this->reference = $row['REFERENCE'];
-        $this->nom_ssr = $row['NOM_SSR'];
+        $this->nom_ssr = $row['NOM_SR'];
     }
 
     //GETTER
@@ -15,7 +15,7 @@ class SR_P {
         return $this->reference;
     }
 
-    function getNom_ssr() {
+    function getNom_sr() {
         return $this->nom_ssr;
     }
 

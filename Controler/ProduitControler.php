@@ -196,7 +196,7 @@ class ProduitControler extends Controler {
     public function afficherProduitSR(){
         if ($this->isConnected()) {   
             if (isset($_GET["c"])) {
-                $sr = SR_P::getAll();
+                $sr = Sous_rayon::getAll();
                 foreach ($sr as $unSR) {
                     $nom = $unSR->getNom();
                     if (strpos($nom,$_GET["c"]) === 0) { //Car $nom est un string de taille 32
