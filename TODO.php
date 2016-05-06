@@ -10,12 +10,14 @@ Maj des stocks quand ajout suppression de produit. =================>Fait, test�
 
 Modification dans panier, supprimer un article et maj du stock qui suis =============>FAIT fait, testée, niquel !
 
-Ne pas afficher les produits qui sont à 0 dans le stock
 
 Gérer les affichages en fonction de la catégorie/rayon/sr/ssr choisi =================>FAIT
 
 faire le bandeau vertical avec ou on est et les caté/rayons/sr/ssr ...
 
+POSIBILITE DE DECAGNOTER a la fin !!
+
+GERER les euros qui vont sur la carte
 
 CALCULER MONTANT AVEC PROMOS
 
