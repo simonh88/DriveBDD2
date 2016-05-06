@@ -87,17 +87,17 @@ abstract class MainVue { // page d'accueil du site
                     </div>
                     <a class="navbar-brand" href="drive.php?a=Acceuil">Accueuil</a>
 
-                    </div>
+                    
                     <nav><ul>
                     <?php
                     foreach ($data as $name) {
                         $cat = $name->getNom();
                         $rayon = $name->getSesRayon($cat);
                         ?>
-                                <li><a href="#"><?php echo($cat) ?></a><span class="dropBottom"></span>
+                            <li><a href="drive.php?a=AffCat&c=<?php echo($cat) ?>"><?php echo($cat) ?></a>
                                 <ul>
                                 <?php foreach ($rayon as $value) { ?>
-                                    <li><a href="#"><?php echo($value->getNom()) ?> </a><span class="dropRight"></span>
+                                    <li><a href="#"><?php echo($value->getNom()) ?> </a>
                                         <ul>
                                         <?php foreach ($value->getSesSRayon($value->getNom()) as $srayon) { ?>
                                                     <li><a href="#"> <?php echo($srayon->getNom()) ?></a></li>
@@ -108,9 +108,9 @@ abstract class MainVue { // page d'accueil du site
                             <?php } ?>
 
                             
-                        </ul></nav></div>
+                        </ul></nav></div></div>
                     <?php
-                }
+        }
 
-            }
-            ?>  
+}
+  

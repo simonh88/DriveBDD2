@@ -143,9 +143,29 @@ class ProduitControler extends Controler {
         }
     }
 
-    public function afficherProduitCat(){
+    public function afficherProduitCat() {
         if ($this->isConnected()) {
-
+            
+            if (isset($_GET["c"])) {
+                $cate = Categorie::getAll();
+                foreach ($cate as $uneCate) {
+                    $nom = $uneCate->getNom();
+                    if (strpos($nom,$_GET["c"]) === 0) { //Car $nom est un string de taille 32
+                        $data = Categorie::getAllProduit($nom);
+                        $view = new ProduitVue($data);
+                        $view->displayPage();
+                    }
+                }
+            }
+            if (empty($view)) {//Si le client à essayer de changer le c= avec un nom inexistant ou c supprimé
+                $data = Produit::getAll();
+                $view = new ProduitVue($data);
+                $view->displayPage();
+            }
+        } else {
+            $p = new ConnexionVue();
+            $p->displayPage();
         }
     }
+
 }

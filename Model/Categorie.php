@@ -56,20 +56,20 @@ class Categorie {
 
         $i = 0;
         while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
-            $client = new Rayon($row);
-            $data[$i] = $client;
+            $rayon = new Rayon($row);
+            $data[$i] = $rayon;
             $i++;
         }
 
         return $data;
     }
 
-    public static function getAllProduit($produit) {
+    public static function getAllProduit($cate) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
         $stid = oci_parse($oci, "SELECT * FROM V_Produit where NOM_CATEGORIE LIKE :cat "); // prepare le code
-        $produit = $produit . "%";
-        oci_bind_by_name($stid, ':cat', $produit);
+        $cate = $cate . "%";
+        oci_bind_by_name($stid, ':cat', $cate);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);
@@ -81,8 +81,8 @@ class Categorie {
         $i = 0;
         while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
 
-            $client = Produit::getProduit($row['REFERENCE']);
-            $data[$i] = $client;
+            $prod = Produit::getProduit($row['REFERENCE']);
+            $data[$i] = $prod;
             $i++;
         }
 
@@ -106,8 +106,8 @@ class Categorie {
 
         $i = 0;
         while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
-            $client = new Rayon($row);
-            $data[$i] = $client;
+            $rayon = new Rayon($row);
+            $data[$i] = $rayon;
             $i++;
         }
 
