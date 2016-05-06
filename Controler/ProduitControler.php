@@ -46,15 +46,20 @@ class ProduitControler extends Controler {
     }
 
     public function check() {
+        var_dump($this->isConnected());
         if ($this->isConnected()) {
             $data = Produit::getAll();
             $pv = new ProduitVue($data);
             $pv->displayPage();
         } else {
             if (isset($_POST['carte'])) {
+                
                 $client = Client::getInfosClient($_POST['carte']);
+                var_dump($client);
             }
+            var_dump(empty($client));
             if (empty($client) || !isset($client)) {
+                echo("a");
                 $p = new ConnexionVue('Mauvais Client');
                 $p->displayPage();
             } else {
