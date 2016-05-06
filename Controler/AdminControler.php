@@ -5,23 +5,23 @@ class AdminControler extends Controler {
     static $action = array(
 //TODO plus d'action possible ( une action = 1 URL : drive.com/access=Admin&a=Accueil renvera sur la fonction static home()
         "Accueil" => "home", //accueil
-        "AjoutPromo" => "addPromo",
-        "AjoutProduit" => "addProduit",
+        "AjoutPromo" => "addPromo",     //TOTO
+        "AjoutProduit" => "addProduit", //TOTO
         "AjoutCategorie" => "addCat",
         "AjoutRayon" => "addRayon",
         "AjoutSRayon" => "addSR",
         "AjoutSSRayon" => "addSSR",
-        "ModifPromo" => "updtPromo",
-        "ModifProduit" => "updtProduit",
-        "SuprPromo" => "dltPromo",
-        "SuprProduit" => "dltProduit",
+        "ModifPromo" => "updtPromo",    //TOTO
+        "ModifProduit" => "updtProduit",//TOTO
+        "SuprPromo" => "dltPromo",      //TOTO
+        "SuprProduit" => "dltProduit",  //TOTO
         "SuprCategorie" => "dltCat",
         "SuprRayon" => "dltRayon",
         "SuprSRayon" => "dltSR",
         "SuprSSRayon" => "dltSSR",
-        "MenuCategorie" => "listCat",
-        "MenuPromo" => "listProm",
-        "MenuProduit" => "listProd"
+        "MenuCategorie" => "listCat", 
+        "MenuPromo" => "listProm",      //TOTO
+        "MenuProduit" => "listProd"     //TOTO
     );
 
     public function home() {
@@ -161,7 +161,6 @@ class AdminControler extends Controler {
 
     public function listProd() {
         $vue = new AdminProduitVue();
-
         $vue->displayPage();
     }
 

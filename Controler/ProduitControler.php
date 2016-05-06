@@ -55,15 +55,13 @@ class ProduitControler extends Controler {
             if (isset($_POST['carte'])) {
                 
                 $client = Client::getInfosClient($_POST['carte']);
-                var_dump($client);
             }
-            var_dump(empty($client));
-            if (empty($client) || !isset($client)) {
-                echo("a");
+            
+            if ($client->getNo_carte() == null) {
                 $p = new ConnexionVue('Mauvais Client');
                 $p->displayPage();
             } else {
-                $_SESSION["user"] = $_POST['carte'];
+                $_SESSION["user"] = $client->getNo_carte();
                 $data = Produit::getAll();
                 $pv = new ProduitVue($data);
                 $pv->displayPage();
