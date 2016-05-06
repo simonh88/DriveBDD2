@@ -85,7 +85,7 @@ abstract class MainVue { // page d'accueil du site
                             </div>
                         </div>
                     </div>
-                    <a class="navbar-brand" href="drive.php?a=Acceuil">Accueuil</a>
+                    <a class="navbar-brand" href="drive.php?a=Accueil">Accueil</a>
 
                     
                     <nav><ul>

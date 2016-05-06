@@ -22,13 +22,27 @@ class ProduitControler extends Controler {
             //"Compte" => "compte"
     );
 
+    private function ajouterPanier() {
+        $infos = Panier::getInfos($_SESSION["user"]);
+        if (empty($infos->getNo_carte())) {
+            if (!Planning::existPlanning(Planning::getDefaultDate())) {//On insert un planning par défaut utilisé pour les paniers par défaut.
+                Planning::insertDefaultPlanning();
+            }
+            Panier::insert($_SESSION["user"]);
+        }//Sinon on fait rien le panier existe déjà
+    }
+
+    private function ajoutProduit() {
+        if (isset($_GET["d"])) {
+            if ($_GET["d"] == "ajoutPanier") {
+                Item::insertUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
+            }
+        }
+    }
+
     public function home() { // test d'affichage de client
         if ($this->isConnected()) {
-            if (isset($_GET["d"])) {
-                if ($_GET["d"] == "ajoutPanier") {
-                    Item::insertUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
-                }
-            }
+            $this->ajoutProduit();
             $data = Produit::getAll();
             $pv = new ProduitVue($data, null);
             $pv->displayPage();
@@ -47,11 +61,7 @@ class ProduitControler extends Controler {
     public function check() {
         if ($this->isConnected()) {
             $data = Produit::getAll();
-            if (isset($_GET["d"])) {
-                if ($_GET["d"] == "ajoutPanier") {
-                    Item::insertUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
-                }
-            }
+            $this->ajoutProduit();
             $pv = new ProduitVue($data, null);
             $pv->displayPage();
         } else {
@@ -70,16 +80,6 @@ class ProduitControler extends Controler {
                 $pv->displayPage();
             }
         }
-    }
-
-    private function ajouterPanier() {
-        $infos = Panier::getInfos($_SESSION["user"]);
-        if (empty($infos->getNo_carte())) {
-            if (!Planning::existPlanning(Planning::getDefaultDate())) {//On insert un planning par défaut utilisé pour les paniers par défaut.
-                Planning::insertDefaultPlanning();
-            }
-            Panier::insert($_SESSION["user"]);
-        }//Sinon on fait rien le panier existe déjà
     }
 
     public function logout() {
@@ -163,11 +163,7 @@ class ProduitControler extends Controler {
 
     public function afficherProduitCat() {
         if ($this->isConnected()) {
-            if (isset($_GET["d"])) {
-                if ($_GET["d"] == "ajoutPanier") {
-                    Item::insertUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
-                }
-            }
+            $this->ajoutProduit();
             if (isset($_GET["c"])) {
                 $cate = Categorie::getAll();
                 foreach ($cate as $uneCate) {
@@ -229,11 +225,7 @@ class ProduitControler extends Controler {
 
     public function afficherProduitSR() {
         if ($this->isConnected()) {
-            if (isset($_GET["d"])) {
-                if ($_GET["d"] == "ajoutPanier") {
-                    Item::insertUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
-                }
-            }
+            $this->ajoutProduit();
             if (isset($_GET["c"])) {
                 $sr = Sous_rayon::getAll();
                 foreach ($sr as $unSR) {
