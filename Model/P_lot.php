@@ -6,7 +6,7 @@ class P_lot extends Promotion {
     private $nb_gratuits;
 
     function __construct($row) {
-        parent::__construct($row);
+        parent::__construct($row);        
         $this->nb_achetes = $row['NB_ACHETES'];
         $this->nb_gratuits = $row['NB_GRATUITS'];
     }
@@ -31,10 +31,10 @@ class P_lot extends Promotion {
         $this->nb_gratuits = $nb_gratuits;
     }
 
-    public static function getAll() { // exemple, a suprimer
+    public static function getAll() {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, 'SELECT * FROM P_lot'); // prepare le code
+        $stid = oci_parse($oci, 'SELECT * FROM P_lot, Promotion'); // prepare le code
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);
@@ -85,6 +85,39 @@ class P_lot extends Promotion {
         $promo = new P_lot($row);
 
         return $promo;
+    }
+
+    public static function insert($code_promo, $date_debut, $date_fin, $max_par_client,$nb_achetes, $nb_gratuits) {
+        $oci = Base::getConnexion();
+        Promotion::insertP($code_promo, $date_debut, $date_fin, $max_par_client);
+
+        $stid = oci_parse($oci, "INSERT INTO P_lot VALUES ( :code_promo, :nb_achetes, :nb_gratuits)"); // prepare le code                
+        oci_bind_by_name($stid, ":code_promo", $code_promo);
+        oci_bind_by_name($stid, ":nb_achetes", $nb_achetes);
+        oci_bind_by_name($stid, ":nb_gratuits", $nb_gratuits);
+
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+
+    public function update() {
+        $oci = Base::getConnexion();
+        parent::update();
+        $stid = oci_parse($oci, "UPDATE P_individuelle  SET nb_achetes = :nb_achetes, nb_gratuits = :nb_gratuits WHERE code_promo = :code_promo"); // prepare le code                
+        oci_bind_by_name($stid, ":code_promo", $this->code_promo);
+        oci_bind_by_name($stid, ":nb_achetes", $this->$nb_achetes);
+        oci_bind_by_name($stid, ":nb_gratuits", $this->$nb_gratuits);        
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+
+    public static function delete($code) {
+        Promotion::deleteP($code);
     }
 
 }

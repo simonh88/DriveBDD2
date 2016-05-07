@@ -6,23 +6,23 @@ class AdminControler extends Controler {
 //TODO plus d'action possible ( une action = 1 URL : drive.com/access=Admin&a=Accueil renvera sur la fonction static home()
         "Accueil" => "home", //accueil
         "AjoutPromo" => "addPromo", //TOTO
-        "AjoutProduit" => "addProduit", //TOTO
+        "AjoutProduit" => "addProduit", 
         "AjoutCategorie" => "addCat",
         "AjoutRayon" => "addRayon",
         "AjoutSRayon" => "addSR",
         "AjoutSSRayon" => "addSSR",
         "ModifPromo" => "updtPromo", //TOTO
-        "ModifProduit" => "updtProduit", //TOTO
+        "ModifProduit" => "updtProduit", 
         "SuprPromo" => "dltPromo", //TOTO
-        "SuprProduit" => "dltProduit", //TOTO
+        "SuprProduit" => "dltProduit", 
         "SuprCategorie" => "dltCat",
         "SuprRayon" => "dltRayon",
         "SuprSRayon" => "dltSR",
         "SuprSSRayon" => "dltSSR",
         "MenuCategorie" => "listCat",
         "MenuPromo" => "listProm", //TOTO
-        "MenuProduit" => "listProd", //TOTO
-        "Recherche" => "search"         //TODO
+        "MenuProduit" => "listProd", 
+        "Recherche" => "search"         
     );
 
     public function home() {

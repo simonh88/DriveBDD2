@@ -87,11 +87,54 @@ class Promotion {
 
 
         $row = oci_fetch_array($stid, OCI_BOTH);
-        if(P_individuelle::exist($code_promo) == true) {
+        if (P_individuelle::exist($code_promo) == true) {
             $promotion = P_individuelle::getPromotion($code_promo);
-        } else {   
+        } else {
             $promotion = P_lot::getPromotion($code_promo);
         }
         return $promotion;
     }
+
+    public static function insertP($code_promo, $date_debut, $date_fin, $max_par_client) {
+        $oci = Base::getConnexion();
+        $stid = oci_parse($oci, "INSERT INTO Promotion VALUES ( :code_promo , To_Date( :date_debut ,'dd/mm/yyyy hh24'), To_Date( :date_fin ,'dd/mm/yyyy hh24'),:max_par_client )"); // prepare le code                
+        oci_bind_by_name($stid, ":code_promo", $code_promo);
+        oci_bind_by_name($stid, ":date_debut", $date_debut);
+        oci_bind_by_name($stid, ":date_fin", $date_fin);
+        oci_bind_by_name($stid, ":max_par_client", $max_par_client);        
+        
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+
+    public function update() {
+        $oci = Base::getConnexion();
+        $stid = oci_parse($oci, "UPDATE Promotion SET date_debut =To_Date( :date_debut ,'dd/mm/yyyy hh24'), date_fin =To_Date( :date_fin ,'dd/mm/yyyy hh24'),max_par_client =:max_par_client WHERE code_promo = :code_promo");
+        oci_bind_by_name($stid, ":code_promo", $this->code_promo);
+        oci_bind_by_name($stid, ":date_debut", $this->date_debut);
+        oci_bind_by_name($stid, ":date_fin", $this->date_fin);
+        oci_bind_by_name($stid, ":max_par_client", $this->max_par_client);
+
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+
+    public static function deleteP($code) {
+        $oci = Base::getConnexion();
+        Item::deleteAll($noCarte);
+        $stid = oci_parse($oci, "DELETE FROM PROMOTION where CODE_PROMO = :carte");
+        oci_bind_by_name($stid, ':carte', $code);        
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+
 }

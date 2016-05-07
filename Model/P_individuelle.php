@@ -42,7 +42,7 @@ class P_individuelle extends Promotion {
     public static function getAll() { // exemple, a suprimer
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, 'SELECT * FROM P_individuelle '); // prepare le code
+        $stid = oci_parse($oci, 'SELECT * FROM P_individuelle, Promotion '); // prepare le code
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);
@@ -93,9 +93,43 @@ class P_individuelle extends Promotion {
 
 
         $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
-            $promo = new P_individuelle($row);
-        
+        $promo = new P_individuelle($row);
+
         return $promo;
+    }
+
+    public static function insert($code_promo, $date_debut, $date_fin, $max_par_client, $reduction_absolue, $reduction_relative, $immediate_VF) {
+        $oci = Base::getConnexion();
+        Promotion::insertP($code_promo, $date_debut, $date_fin, $max_par_client);
+
+        $stid = oci_parse($oci, "INSERT INTO P_individuelle VALUES ( :code_promo, :reduction_absolue, :reduction_relative, :immediate_VF)"); // prepare le code                
+        oci_bind_by_name($stid, ":code_promo", $code_promo);
+        oci_bind_by_name($stid, ":reduction_absolue", $reduction_absolue);
+        oci_bind_by_name($stid, ":reduction_relative", $reduction_relative);
+        oci_bind_by_name($stid, ":immediate_VF", $immediate_VF);
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+
+    public function update() {
+        $oci = Base::getConnexion();
+        parent::update();
+        $stid = oci_parse($oci, "UPDATE P_individuelle  SET reduction_absolue = :reduction_absolue, reduction_relative = :reduction_relative, immediate_VF = :immediate_VF WHERE code_promo = :code_promo"); // prepare le code                
+        oci_bind_by_name($stid, ":code_promo", $this->code_promo);
+        oci_bind_by_name($stid, ":reduction_absolue", $this->reduction_absolue);
+        oci_bind_by_name($stid, ":reduction_relative", $this->reduction_relative);
+        oci_bind_by_name($stid, ":immediate_VF", $this->immediate_VF);
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+
+    public static function delete($code) {
+        Promotion::deleteP($code);
     }
 
 }
