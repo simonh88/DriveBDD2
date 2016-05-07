@@ -53,8 +53,8 @@ class Sous_rayon {
     public static function getSesSSRayon($categorie) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, "SELECT * FROM SOUS_SOUS_RAYON where NOM_SR LIKE :cat"); // prepare le code
-        $categorie = $categorie . "%";
+        $stid = oci_parse($oci, "SELECT * FROM SOUS_SOUS_RAYON where NOM_SR = :cat"); // prepare le code
+//
 
         oci_bind_by_name($stid, ':cat', $categorie);
 
@@ -79,9 +79,7 @@ class Sous_rayon {
     public function getSous() {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, "SELECT * FROM SOUS_SOUS_RAYON where NOM_SR LIKE :cat"); // prepare le code
-
-        $nom = $this->getNom() . "%";
+        $stid = oci_parse($oci, "SELECT * FROM SOUS_SOUS_RAYON where NOM_SR = :cat"); // prepare le code
         oci_bind_by_name($stid, ':cat', $nom);
 
         $r = oci_execute($stid); // on l'execute
@@ -115,17 +113,35 @@ class Sous_rayon {
     }
 
     public static function delete($nom) {
-        var_dump(Sous_rayon::getSesSSRayon($nom));
+        
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        $stid = oci_parse($oci, "DELETE FROM SOUS_RAYON WHERE NOM_SR LIKE :nom ");
-        $nom = $nom."%"; // base de donnée rajoute des espace après pour remplir les 32 char..pourquoi.. nul ne le sait
+        $stid = oci_parse($oci, "DELETE FROM SOUS_RAYON WHERE NOM_SR = :nom ");
         oci_bind_by_name($stid, ":nom", $nom);
         $r = oci_execute($stid); // on l'execute
-        
+
         if (!$r) {
             $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
+    }
+
+    public static function exist($nom) {
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
+
+        $stid = oci_parse($oci, "SELECT * FROM SOUS_RAYON where NOM_SR = :cat"); // prepare le code
+        oci_bind_by_name($stid, ':cat', $nom);
+
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+        $numrow = oci_fetch_all($stid, $res);
+        
+        if ($numrow > 0)
+            return true;
+        else
+            return false;
     }
 
 }

@@ -43,8 +43,8 @@ class Categorie {
     public static function getSesRayon($categorie) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, "SELECT * FROM Rayon where NOM_CATEGORIE LIKE :cat "); // prepare le code
-        $categorie = $categorie . "%";
+        $stid = oci_parse($oci, "SELECT * FROM Rayon where NOM_CATEGORIE = :cat "); // prepare le code
+//
         oci_bind_by_name($stid, ':cat', $categorie);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
@@ -67,8 +67,8 @@ class Categorie {
     public static function getAllProduit($cate) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, "SELECT * FROM V_Produit where NOM_CATEGORIE LIKE :cat "); // prepare le code
-        $cate = $cate . "%";
+        $stid = oci_parse($oci, "SELECT * FROM V_Produit where NOM_CATEGORIE = :cat "); // prepare le code
+//
         oci_bind_by_name($stid, ':cat', $cate);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
@@ -92,9 +92,9 @@ class Categorie {
     public function getSous() {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, "SELECT * FROM Rayon where NOM_CATEGORIE LIKE :cat "); // prepare le code
+        $stid = oci_parse($oci, "SELECT * FROM Rayon where NOM_CATEGORIE = :cat "); // prepare le code
 
-        $nom = $this->getNom() . "%";
+//
         oci_bind_by_name($stid, ':cat', $nom);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
@@ -128,8 +128,8 @@ class Categorie {
     public static function delete($nom) {
 
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        $stid = oci_parse($oci, "DELETE FROM CATEGORIE WHERE NOM_CATEGORIE like :nom");
-        $nom = $nom."%";
+        $stid = oci_parse($oci, "DELETE FROM CATEGORIE WHERE NOM_CATEGORIE = :nom");
+//
         oci_bind_by_name($stid, ':nom', $nom);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {

@@ -62,8 +62,12 @@ class AdminControler extends Controler {
                     if (!isset($_POST['liqu']))
                         $lique = "F";
                     Produit::insert($_POST['ref'], $_POST['lib'], $_POST['marq'], $target_file, $_POST['prix'], $lique, $_POST['kilo'], $_POST['qute']);
+                    if (Sous_rayon::exist($_POST['sous']))
+                        SR_P::insert($_POST['sous'], $_POST['ref']);
+                    else
+                        SSR_P::insert($_POST['sous'], $_POST['ref']);
                     $vue = new AdminProduitVue();
-                    $vue->displayBody();
+                    $vue->displayPage();
                 } else {
                     $vue = new AjoutProduit("Erreur Incconue");
                     $vue->displayPage();
@@ -124,8 +128,60 @@ class AdminControler extends Controler {
     }
 
     public function updtProduit() {
+        if (isset($_POST["ref"])) {
 
-        $vue->displayPage();
+            $produit = Produit::getProduit($_POST["ref"]);
+
+            $target_dir = "IMAGES/";
+            $target_file = $target_dir . basename($_FILES["img"]["name"]);
+
+            if ($produit->getFichier_image() != $target_file) {
+                $uploadOk = 0;
+                $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+                if (isset($_POST["submit"]) && empty($_FILES["img"]['name']) == false) {
+                    $check = getimagesize($_FILES["img"]["tmp_name"]);
+                    if ($check !== false) {
+                        if (move_uploaded_file($_FILES["img"]["tmp_name"], $target_file)) {
+                            unlink($produit->getFichier_image());
+                            $produit->setFichier_image($target_file);
+                        } else {
+                            $vue = new ModifProduit("Erreur Inconnue");
+                            $vue->displayPage();
+                        }
+                    } else {
+                        $vue = new ModifProduit("Erreur");
+                        $vue->displayPage();
+                    }
+                }
+            }
+
+            if (!isset($_POST['liqu']))
+                $produit->setLiquide_VF("F");
+            $produit->setLibelle($_POST['lib']);
+            $produit->setMarque($_POST['marq']);
+            $produit->setPrix_unit_HT($_POST['prix']);
+            $produit->setPrix_kilo_ou_litre($_POST['kilo']);
+            $produit->setQuandtite_stock($_POST['qute']);
+            $produit->update();
+            if (Sous_rayon::exist($_POST['sous'])) {
+                SR_P::deleteUn($_POST['ref']);
+                SR_P::insert($_POST['sous'], $_POST['ref']);
+            } else {
+                SSR_P::deleteUn($_POST['ref']);
+                SSR_P::insert($_POST['sous'], $_POST['ref']);
+            }
+            
+            $vue = new AdminProduitVue();
+            $vue->displayPage();
+        } else {
+            if (isset($_GET['id'])) {
+                $vue = new ModifProduit();
+                $vue->displayPage();
+            } else {
+                $vue = new AdminProduitVue();
+                $vue->displayPage();
+            }
+        }
     }
 
     public function dltPromo() {

@@ -54,8 +54,8 @@ class Rayon {
     public static function getSesSRayon($categorie) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, "SELECT * FROM SOUS_RAYON where NOM_RAYON LIKE :cat "); // prepare le code
-        $categorie = $categorie . "%";
+        $stid = oci_parse($oci, "SELECT * FROM SOUS_RAYON where NOM_RAYON = :cat "); // prepare le code
+//
         oci_bind_by_name($stid, ':cat', $categorie);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
@@ -78,9 +78,9 @@ class Rayon {
     public function getSous() {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, "SELECT * FROM SOUS_RAYON where NOM_RAYON LIKE :cat "); // prepare le code
+        $stid = oci_parse($oci, "SELECT * FROM SOUS_RAYON where NOM_RAYON = :cat "); // prepare le code
 
-        $nom = $this->getNom() . "%";
+//
         oci_bind_by_name($stid, ':cat', $nom);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
@@ -103,8 +103,8 @@ class Rayon {
     public static function getAllProduit($ray) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, "SELECT * FROM V_Produit_RAY where NOM_RAYON LIKE :ray "); // prepare le code
-        $ray = $ray . "%";
+        $stid = oci_parse($oci, "SELECT * FROM V_Produit_RAY where NOM_RAYON = :ray "); // prepare le code
+//
         oci_bind_by_name($stid, ':ray', $ray);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
@@ -140,8 +140,8 @@ class Rayon {
     public static function delete($nom) {
 
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        $stid = oci_parse($oci, "DELETE FROM RAYON WHERE NOM_RAYON LIKE :nom");
-        $nom = $nom . "%";
+        $stid = oci_parse($oci, "DELETE FROM RAYON WHERE NOM_RAYON = :nom");
+//
         oci_bind_by_name($stid, ':nom', $nom);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {

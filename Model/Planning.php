@@ -89,7 +89,7 @@ class Planning {
 
     /** Fonction calculant le nombre de panier inscrits au planning à une date précisé en paramètres */
     public static function getNbPanierInscrits($date) {
-        var_dump($date);
+        
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
         $stid = oci_parse($oci, "SELECT count(*) as nb FROM Panier WHERE date_heure = to_date(:id,'dd/mm/yyyy hh24')"); // prepare le code
         oci_bind_by_name($stid, ':id', $date);

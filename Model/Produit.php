@@ -116,8 +116,8 @@ Class Produit {
     public static function getProduit($ref) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, 'SELECT * FROM Produit WHERE reference LIKE :ref'); // prepare le code
-        $ref = $ref . "%";
+        $stid = oci_parse($oci, 'SELECT * FROM Produit WHERE reference = :ref'); // prepare le code
+//
         oci_bind_by_name($stid, ':ref', $ref);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
@@ -134,8 +134,8 @@ Class Produit {
     public static function updateStockQuantite($ref, $quantite) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
         $p = Produit::getProduit($ref);
-        $stid = oci_parse($oci, 'UPDATE Produit SET quantite_stock = :q WHERE reference LIKE :ref'); // prepare le code
-        $ref = $ref . "%";
+        $stid = oci_parse($oci, 'UPDATE Produit SET quantite_stock = :q WHERE reference = :ref'); // prepare le code
+//
         $qFinale = $p->getQuandtite_stock() - $quantite;
         oci_bind_by_name($stid, ':ref', $ref);
         oci_bind_by_name($stid, ':q', $qFinale);
@@ -166,8 +166,10 @@ Class Produit {
 
     public static function delete($ref) {
         $oci = Base::getConnexion();
-        $stid = oci_parse($oci, "DELETE FROM PRODUIT WHERE reference LIKE :ref");
-        $ref = $ref . "%";
+        $p = Produit::getProduit($ref);
+        unlink($p->fichier_image);
+        $stid = oci_parse($oci, "DELETE FROM PRODUIT WHERE reference = :ref");
+//
         oci_bind_by_name($stid, ':ref', $ref);
         $r = oci_execute($stid); // on l'execute et ça commit en même temps car on a pas utilise oci no auto commit
         if (!$r) {

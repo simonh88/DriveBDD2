@@ -87,8 +87,8 @@ class Item {
     /** fonction testant la présence d'un produit ou non dans un panier * */
     public static function getQuantiteDansPanier($noCarte, $ref) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        $stid = oci_parse($oci, "SELECT quantite FROM Item WHERE reference LIKE :id and no_carte = :no ");
-        $ref = $ref . "%";
+        $stid = oci_parse($oci, "SELECT quantite FROM Item WHERE reference = :id and no_carte = :no ");
+//
         oci_bind_by_name($stid, ':id', $ref);
         oci_bind_by_name($stid, ':no', $noCarte);
         $r = oci_execute($stid); // on l'execute
@@ -104,8 +104,8 @@ class Item {
     /** fonction testant la présence d'un produit ou non dans un panier * */
     public static function existProduitDansPanier($noCarte, $ref) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        $stid = oci_parse($oci, "SELECT count(*) as nb FROM Item WHERE reference LIKE :id and no_carte = :no ");
-        $ref = $ref . "%";
+        $stid = oci_parse($oci, "SELECT count(*) as nb FROM Item WHERE reference = :id and no_carte = :no ");
+//
         oci_bind_by_name($stid, ':id', $ref);
         oci_bind_by_name($stid, ':no', $noCarte);
         $r = oci_execute($stid); // on l'execute
@@ -150,13 +150,13 @@ class Item {
             $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
             $qDansPanier = Item::getQuantiteDansPanier($noCarte, $ref);
             if ($quant == -$qDansPanier) {
-                $stid = oci_parse($oci, "DELETE FROM Item WHERE reference LIKE :ref and no_carte = :carte"); //On delet le produit
+                $stid = oci_parse($oci, "DELETE FROM Item WHERE reference = :ref and no_carte = :carte"); //On delet le produit
             } else {
-                $stid = oci_parse($oci, "UPDATE Item SET quantite = :q where no_carte = :carte and reference LIKE :ref"); //On update la quantite
+                $stid = oci_parse($oci, "UPDATE Item SET quantite = :q where no_carte = :carte and reference = :ref"); //On update la quantite
                 $qfinal = $qDansPanier + $quant;
                 oci_bind_by_name($stid, ':q', $qfinal);
             }
-            $ref = $ref . "%";
+//
             oci_bind_by_name($stid, ':carte', $noCarte);
             oci_bind_by_name($stid, ':ref', $ref);
             $r = oci_execute($stid); // on l'execute
@@ -188,8 +188,8 @@ class Item {
 
     public function update() {
         $oci = Base::getConnexion();
-        $stid = oci_parse($oci, "UPDATE Item SET quantite = :q where no_carte = :nocarte and reference LIKE :ref");
-        $ref = $this->getReference() . "%";
+        $stid = oci_parse($oci, "UPDATE Item SET quantite = :q where no_carte = :nocarte and reference = :ref");
+//
         oci_bind_by_name($stid, ':q', $this->getQuantite());
         oci_bind_by_name($stid, ':ref', $ref);
 
