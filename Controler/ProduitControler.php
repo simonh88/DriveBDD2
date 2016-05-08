@@ -18,7 +18,8 @@ class ProduitControler extends Controler {
         "Profil" => "afficherProfil",
         "AffCat" => "afficherProduitCat",
         "AffRay" => "afficherProduitRay",
-        "AffSR" => "afficherProduitSR"
+        "AffSR" => "afficherProduitSR",
+        "AffPromo" => "afficherPromotions"
             //"Compte" => "compte"
     );
 

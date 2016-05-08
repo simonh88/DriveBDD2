@@ -89,6 +89,7 @@ abstract class MainVue { // page d'accueil du site
 
                     
                     <nav><ul>
+                            <li><a href="drive.php?a=AffPromo">Promotions</a></li>
                     <?php
                     foreach ($data as $name) {
                         $cat = $name->getNom();
