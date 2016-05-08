@@ -4,11 +4,13 @@ class ProduitVue extends MainVue {
 
     private $tableau;
     private $where;
+    private $dataPromo;
 
-    public function __construct($tableauProduit, $where) {
+    public function __construct($tableauProduit, $where, $dataPromo) {
         parent::__construct("Produit");
         $this->tableau = $tableauProduit;
         $this->where = $where;
+        $this->dataPromo = $dataPromo;
     }
 
     public function displayBody() {
@@ -22,14 +24,15 @@ class ProduitVue extends MainVue {
                         <th>Marque</th>
                         <th>Prix</th>
                         <th>Quantité à ajouter</th>
-                        
+
+
                     </tr>
                     <?php
                     $i = 0;
                     foreach ($this->tableau as $produit) {
-                        
+
                         echo( '<tr>
-                            <td><img src="'.$produit->getFichier_image() .'" height="42">
+                            <td><img src="' . $produit->getFichier_image() . '" height="42">
         <td>' . $produit->getLibelle()
                         . "</td>
          <td>" . $produit->getMarque()
@@ -40,7 +43,10 @@ class ProduitVue extends MainVue {
                     <form class="form-inline" action="drive.php?a=<?php echo($_GET["a"]) ?>&c=<?php echo($this->where) ?>&d=ajoutPanier" method="post" id="<?php echo($i) ?>">
                         <div class="form-group">
                             <input type="hidden" name="ref" value="<?php echo($produit->getReference()) ?>">
-                            <input type="hidden" name="where" value="<?php if(!empty($_GET["c"])){ echo($_GET["c"]);} ?>">
+                            <input type="hidden" name="where" value="<?php if (!empty($_GET["c"])) {
+                            echo($_GET["c"]);
+                        }
+                        ?>">
                         </div>
                         <div class="form-group">
                             <input type="number" name="qte" step="1" value="1" min="1" max="<?php echo($produit->getQuandtite_stock()) ?>">
@@ -48,13 +54,19 @@ class ProduitVue extends MainVue {
                         <button type="submit" class="btn btn-default" form="<?php echo($i) ?>">Ajouter au panier</button>
                     </form>
                 </td>
-                </tr>
-            <?php $i ++;} ?>
+                <?php
+                if (!empty($this->dataPromo)) {
+                  echo("<td> PROMOTION </td>");  
+                }
+                ?></tr>
+            <?php
+            $i ++;
+        }
+        ?>
         </table>    
         </div>
         </body>
-        <?php 
-        
+        <?php
     }
 
 }
