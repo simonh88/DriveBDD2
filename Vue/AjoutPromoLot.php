@@ -38,12 +38,12 @@ class AjoutPromoLot extends AdminHomeVue {
 
             <div class="form-group">
                 <label for="Libelle">Date debut</label>
-                <input id="datetimepicker" type="text" value=""  required/>
+                <input id="datetimepicker" type="text" value="" name="datedebut" required/>
             </div>
 
             <div class="form-group">
                 <label for="Libelle">Date fin</label>
-                <input id="datetimepicker2" type="text" value=""  required/>
+                <input id="datetimepicker2" type="text" value="" name="datefin" required/>
             </div>
 
             <div class="form-group">
@@ -51,21 +51,13 @@ class AjoutPromoLot extends AdminHomeVue {
                 <input type="number" class="form-control" id="marq" placeholder="Limite Max" name="max" min="1" max="9" required>
             </div>
             <div class="form-inline">
-                <label for="Reduction">Valeurs de la reduction</label>
-                <input type="number" class="form-control" id="Reduction" placeholder="reduction" name="reduc" min="1" max="99" step="0.01" required>
-
-                <div class="radio">
-                    <label><input type="radio" name="optradio"> € </label>
-                </div>
-                <div class="radio">
-                    <label class=""><input type="radio" name="optradio"> % </label>
-                </div>
-
+                <label for="acheter">Offre a partir du nombre d'achat : </label>
+                <input type="number" class="form-control" id="acheter" placeholder="Nombre de porduit a acheter" name="achat" min="1" max="99" required>
             </div>
 
             <div class="form-inline">
-                <label for="immediate">Reduction immediate ? </label>
-                <input type="checkbox" class="form-control" id="imd"  name="imd">                                
+                <label for="gratuit">Nombre de produit offert : </label>
+                <input type="gratuit" class="form-control" id="gratuit" placeholder="nombre de produit offert" name="offert" min="1" max="99" required>
             </div>
 
             <div class="form-group">
@@ -97,7 +89,7 @@ class AjoutPromoLot extends AdminHomeVue {
                             </a></h4>
                         <div class="checkbox ">
                             <label>
-                                <input type="checkbox" class="form-control"  name="categorie[ <?php echo $cat->getNom(); ?> ]" >
+                                <input type="checkbox" class="form-control"  name="<?php echo "nom_categorie[" . $cat->getNom() . "]"; ?>" >
                             </label> 
 
                         </div>
@@ -126,7 +118,7 @@ class AjoutPromoLot extends AdminHomeVue {
                                                 </a></h4>
                                             <div class="checkbox ">
                                                 <label>
-                                                    <input type="checkbox" class="form-control"  name="<?php echo ($cat->getNom() . "[ " . $rayon->getNom() . " ]"); ?> ]" >
+                                                    <input type="checkbox" class="form-control"  name="<?php echo ("nom_rayon[" . $rayon->getNom() . "]"); ?> ]" >
                                                 </label> 
 
                                             </div>
@@ -153,7 +145,7 @@ class AjoutPromoLot extends AdminHomeVue {
                                                                     </a></h4>
                                                                 <div class="checkbox ">
                                                                     <label>
-                                                                        <input type="checkbox" class="form-control"  name="<?php echo ($rayon->getNom() . "[ " . $srayon->getNom() . " ]"); ?> ]" >
+                                                                        <input type="checkbox" class="form-control"  name="<?php echo ("nom_sr[" . $srayon->getNom() . "]"); ?> ]" >
                                                                     </label> 
 
                                                                 </div>
@@ -181,7 +173,7 @@ class AjoutPromoLot extends AdminHomeVue {
                                                                                             </a></h4>
                                                                                         <div class="checkbox ">
                                                                                             <label>
-                                                                                                <input type="checkbox" class="form-control"  name="<?php echo ($srayon->getNom() . "[ " . $ssrayon->getNom() . " ]"); ?> ]" >
+                                                                                                <input type="checkbox" class="form-control"  name="<?php echo ("nom_ssr[" . $ssrayon->getNom() . "]"); ?> ]" >
                                                                                             </label> 
 
                                                                                         </div>
@@ -194,7 +186,7 @@ class AjoutPromoLot extends AdminHomeVue {
                                                                                             $produits = SSR_P::getAllProduit($ssrayon->getNom());
                                                                                             foreach ($produits as $value) {
                                                                                                 ?>
-                                                                                                <input type="checkbox" class="form-control"  name="<?php echo $ssrayon->getNom() . "[ " . $value->getReference() . " ]" ?>">                                
+                                                                                                <input type="checkbox" class="form-control"  name="<?php echo "reference[" . $value->getReference() . "]" ?>">                                
                                                                                                 <label ><?php echo $value->getLibelle() ?></label>                                                                                            
                                                                                                 <?php
                                                                                             }
@@ -226,7 +218,7 @@ class AjoutPromoLot extends AdminHomeVue {
                                                                         $produits = SR_P::getAllProduit($srayon->getNom());
                                                                         foreach ($produits as $value) {
                                                                             ?>
-                                                                            <input type="checkbox" class="form-control"  name="<?php echo $srayon->getNom() . "[ " . $value->getReference() . " ]" ?>">                                
+                                                                            <input type="checkbox" class="form-control"  name="<?php echo "reference[" . $value->getReference() . "]" ?>">                                
                                                                             <label ><?php echo $value->getLibelle() . "     " . $value->getMarque() ?></label>                                                                                            
                                                                             <?php
                                                                         }

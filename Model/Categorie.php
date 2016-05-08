@@ -138,9 +138,33 @@ class Categorie {
         }
     }
 
+    public static function verif($where, $valeur) {
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
+
+        $test = "SELECT count(*) as NB 
+FROM Produit P, SSR_P ssrp, sous_sous_rayon ssr,sous_rayon sr, rayon r, categorie c 
+WHERE p.reference = ssrp.reference AND ssrp.nom_ssr = ssr.nom_ssr AND ssr.nom_sr = sr.nom_sr AND sr.nom_rayon = r.nom_rayon AND r.nom_categorie = c.nom_categorie
+AND " . $where . "= :valeur";
+
+        $stid = oci_parse($oci, $test);
+
+        oci_bind_by_name($stid, ':valeur', $valeur);
+
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+
+        $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
+        
+        if ($row['NB'] == 1) {
+            return true;
+        }
+        return false;
+    }
 
 //Notre base de donnée à été donnée tel que modification est impossible car le nom de la categorie est une clef primaire (de meme pour les autres tables Rayon SousRayon..)
 //(hors le principe d'un clef primaire est d'être immuatable
 // il aurais fallut créer une table categorie avec un ID clef primaire et un nom(Varchar 2 not null)
-
 }

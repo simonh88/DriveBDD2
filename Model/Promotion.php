@@ -127,7 +127,7 @@ class Promotion {
 
     public static function deleteP($code) {
         $oci = Base::getConnexion();
-        Item::deleteAll($noCarte);
+        Item::deleteAll($code);
         $stid = oci_parse($oci, "DELETE FROM PROMOTION where CODE_PROMO = :carte");
         oci_bind_by_name($stid, ':carte', $code);        
         $r = oci_execute($stid); // on l'execute

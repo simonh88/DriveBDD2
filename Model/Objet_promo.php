@@ -10,7 +10,7 @@ class Objet_promo {
         $this->reference = $row['REFERENCE'];
     }
 
-    //GETTER
+//GETTER
     function getCode_promo() {
         return $this->code_promo;
     }
@@ -19,7 +19,7 @@ class Objet_promo {
         return $this->reference;
     }
 
-    //SETTER
+//SETTER
     function setCode_promo($code_promo) {
         $this->code_promo = $code_promo;
     }
@@ -72,6 +72,7 @@ class Objet_promo {
         }
         return $data;
     }
+
     /** En fonction du code, on renvoit le produit* */
     public static function getCodePromoFcode($code_promo) {
         $oci = Base::getConnexion();
@@ -93,6 +94,51 @@ class Objet_promo {
             $i++;
         }
         return $data;
+    }
+
+    public static function insert($code_promo, $produit) {
+
+        if (!empty(Objet_promo::getCodePromo($produit))) {
+            Objet_promo::delete($code_promo, $produit);
+        }
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
+        $stid = oci_parse($oci, "INSERT INTO OBJET_PROMO (code_promo, reference) values(:code, :ref)");
+        oci_bind_by_name($stid, ':code', $code_promo);
+        oci_bind_by_name($stid, ':ref', $produit);
+        $r = oci_execute($stid); // on l'execute et ça commit en même temps car on a pas utilise oci no auto commit
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+
+    public static function delete($code_promo, $produit) {
+
+        $oci = Base::getConnexion();
+
+        $stid = oci_parse($oci, "DELETE FROM OBJET_PROMO WHERE CODE_PROMO= :code AND REFERENCE = :ref");
+//
+        oci_bind_by_name($stid, ':ref', $produit);
+        oci_bind_by_name($stid, ':code', $code_promo);
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+    }
+
+    public static function deleteAll($code_promo) {
+        $oci = Base::getConnexion();
+
+        $stid = oci_parse($oci, "DELETE FROM OBJET_PROMO WHERE CODE_PROMO= :code");
+//
+        oci_bind_by_name($stid, ':ref', $produit);
+        oci_bind_by_name($stid, ':code', $code_promo);
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
     }
 
 }

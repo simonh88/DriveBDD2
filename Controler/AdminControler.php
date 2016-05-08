@@ -31,23 +31,154 @@ class AdminControler extends Controler {
         $vue->displayPage();
     }
 
-    public function addPromoL() { // affiche de la selection des produits : voir listCategorie + checkbox
-        //input name = table[categorie]
-        //input name = table[categorie][rayon]
-        // pour pouvoir boucler et insert tout un rayon en promotion (sans le faire 1 par 1)
+    public function addPromoI() {
+
         if (isset($_POST["code"])) {
-            var_dump($_POST);            
+            if ($_POST['radio'] == 'absolue') {
+                $reduction_absolue = $_POST['reduc'];
+                $reduction_relative = null;
+            } else {
+                $reduction_absolue = null;
+                $reduction_relative = $_POST['reduc'];
+            }
+            $immediate_VF = "F";
+            if (isset($_POST['imd'])) {
+                $immediate_VF = "V";
+            }
+
+            $dd = explode(":", $_POST['datedebut']);
+            $date = explode("/", $dd[0]);
+            $jj = explode(" ", $date[2]);
+
+            $datedebut = $jj[0] . "/" . $date[1] . "/" . $date[0] . " " . $jj[1];
+
+            $df = explode(":", $_POST['datefin']);
+            $datef = explode("/", $df[0]);
+            $jjf = explode(" ", $datef[2]);
+
+            $datefin = $jjf[0] . "/" . $datef[1] . "/" . $datef[0] . " " . $jjf[1];
+
+
+            P_individuelle::insert($_POST['code'], $datedebut, $datefin, $_POST['max'], $reduction_absolue, $reduction_relative, $immediate_VF);
+
+
+            if (isset($_POST['nom_categorie'])) {
+                $cat = $_POST['nom_categorie'];
+                foreach ($cat as $value => $osef) {
+                    $produits = Categorie::getAllProduit($value);
+                    foreach ($produits as $produit) {
+                        Objet_promo::insert($_POST["code"], $produit->getReference());
+                    }
+                }
+            }
+            if (isset($_POST['nom_rayon'])) {
+                $ray = $_POST['nom_rayon'];
+                foreach ($ray as $value => $osef) {
+                    $produits = Rayon::getAllProduit($value);
+                    foreach ($produits as $produit) {
+                        Objet_promo::insert($_POST["code"], $produit->getReference());
+                    }
+                }
+            }
+            if (isset($_POST['nom_sr'])) {
+                $sray = $_POST['nom_sr'];
+                foreach ($sray as $value => $osef) {
+                    $produits = SR_P::getAllProduit($value);
+                    foreach ($produits as $produit) {
+                        Objet_promo::insert($_POST["code"], $produit->getReference());
+                    }
+                }
+            }
+            if (isset($_POST['nom_ssr'])) {
+                $ssray = $_POST['nom_ssr'];
+                foreach ($ssray as $value => $osef) {
+                    $produits = SSR_P::getAllProduit($value);
+                    foreach ($produits as $produit) {
+                        Objet_promo::insert($_POST["code"], $produit->getReference());
+                    }
+                }
+            }
+            if (isset($_POST['reference'])) {
+                
+                foreach ($_POST['reference'] as $ref => $osef) {
+                    $produit = Produit::getProduit($ref);
+                    Objet_promo::insert($_POST["code"], $produit->getReference());
+                }
+            }
+            $vue = new AdminPromotionVue();
+            $vue->displayPage();
         } else {
-            $vue = new AjoutPromoLot();
+            $vue = new AjoutPromoIndi();
             $vue->displayPage();
         }
     }
 
-    public function addPromoI() {
-        if (isset($_POST)) {
-            $this->home();
+    public function addPromoL() {
+        if (isset($_POST["code"])) {
+           
+            $dd = explode(":", $_POST['datedebut']);
+            $date = explode("/", $dd[0]);
+            $jj = explode(" ", $date[2]);
+
+            $datedebut = $jj[0] . "/" . $date[1] . "/" . $date[0] . " " . $jj[1];
+
+            $df = explode(":", $_POST['datefin']);
+            $datef = explode("/", $df[0]);
+            $jjf = explode(" ", $datef[2]);
+
+            $datefin = $jjf[0] . "/" . $datef[1] . "/" . $datef[0] . " " . $jjf[1];
+
+            
+            P_Lot::insert($_POST['code'], $datedebut, $datefin, $_POST['max'], $_POST['achat'], $_POST['offert']);
+
+
+            if (isset($_POST['nom_categorie'])) {
+                $cat = $_POST['nom_categorie'];
+                foreach ($cat as $value => $osef) {
+                    $produits = Categorie::getAllProduit($value);
+                    foreach ($produits as $produit) {
+                        Objet_promo::insert($_POST["code"], $produit->getReference());
+                    }
+                }
+            }
+            if (isset($_POST['nom_rayon'])) {
+                $ray = $_POST['nom_rayon'];
+                foreach ($ray as $value => $osef) {
+                    $produits = Rayon::getAllProduit($value);
+                    foreach ($produits as $produit) {
+                        Objet_promo::insert($_POST["code"], $produit->getReference());
+                    }
+                }
+            }
+            if (isset($_POST['nom_sr'])) {
+                $sray = $_POST['nom_sr'];
+                foreach ($sray as $value => $osef) {
+                    $produits = SR_P::getAllProduit($value);
+                    foreach ($produits as $produit) {
+                        Objet_promo::insert($_POST["code"], $produit->getReference());
+                    }
+                }
+            }
+            if (isset($_POST['nom_ssr'])) {
+                $ssray = $_POST['nom_ssr'];
+                foreach ($ssray as $value => $osef) {
+                    $produits = SSR_P::getAllProduit($value);
+                    foreach ($produits as $produit) {
+                        Objet_promo::insert($_POST["code"], $produit->getReference());
+                    }
+                }
+            }
+            if (isset($_POST['reference'])) {
+               
+                foreach ($_POST['reference'] as $ref => $osef) {
+                    $produit = Produit::getProduit($ref);
+                    Objet_promo::insert($_POST["code"], $produit->getReference());
+                }
+            }
+            $vue = new AdminPromotionVue();
+            $vue->displayPage();
         } else {
-            $vue = new AjoutPromoIndi();
+            $vue = new AjoutPromoLot();
             $vue->displayPage();
         }
     }
@@ -134,8 +265,7 @@ class AdminControler extends Controler {
         }
     }
 
-    public function updtPromo() {
-
+    public function updtPromo() { //TODO
         $vue->displayPage();
     }
 
@@ -197,8 +327,13 @@ class AdminControler extends Controler {
     }
 
     public function dltPromo() {
-
-        $vue->displayPage();
+        if (isset($_POST['ok'])) {
+            Promotion::deleteP($_POST['ok']);
+            $this->listProm();
+        } else {
+            $vue = new SuprProm();
+            $vue->displayPage();
+        }
     }
 
     public function dltProduit() {

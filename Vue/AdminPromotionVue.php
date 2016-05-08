@@ -25,7 +25,8 @@ class AdminPromotionVue extends AdminHomeVue {
                                 <th>Fin</th>
                                 <th>Limite</th>
                                 <th>Reduction</th>
-                                <th>Application</th>                                                                
+                                <th>Application</th>
+                                <th>Action</th>
                             </tr>
                             <?php
                             $promoIndi = P_individuelle::getAll();
@@ -48,7 +49,7 @@ class AdminPromotionVue extends AdminHomeVue {
                                         else
                                             echo "Cagnotte";
                                         ?></td>
-
+                                    <td><a href="drive.php?acces=Admin&a=SuprPromo&id=<?php echo $indi->getCode_promo() ?>" class="btn btn-danger" role="button">Supprimer</a></td>
                                 </tr>
 
                                 <?php
@@ -76,7 +77,8 @@ class AdminPromotionVue extends AdminHomeVue {
                                 <th>Fin</th>
                                 <th>Limite</th>
                                 <th>Nombre Acheté</th>
-                                <th>Nombre Offert</th>                                                                
+                                <th>Nombre Offert</th>
+                                <th>Action</th>
                             </tr>
                             <?php
                             $promoLot = P_lot::getAll();
@@ -89,7 +91,7 @@ class AdminPromotionVue extends AdminHomeVue {
                                     <td><?php echo $lot->getMax_par_client() ?></td>
                                     <td><?php echo $lot->getNb_achetes() ?></td>
                                     <td><?php echo $lot->getNb_gratuits() ?></td>
-
+                                    <td><a href="drive.php?acces=Admin&a=SuprPromo&id=<?php echo $lot->getCode_promo() ?>" class="btn btn-danger" role="button">Supprimer</a></td>
                                 </tr>
 
                                 <?php
