@@ -80,6 +80,7 @@ class Sous_rayon {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
         $stid = oci_parse($oci, "SELECT * FROM SOUS_SOUS_RAYON where NOM_SR = :cat"); // prepare le code
+        $nom = $this->getNom();
         oci_bind_by_name($stid, ':cat', $nom);
 
         $r = oci_execute($stid); // on l'execute

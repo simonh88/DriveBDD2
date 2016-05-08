@@ -35,7 +35,7 @@ class ModifProduit extends AdminHomeVue {
             </div>
             <div class="form-group">
                 <label for="Prix">Prix</label>
-                <input type="number" class="form-control" id="prix" placeholder="Prix"name="prix" value="<?php echo $this->produit->getPrix_kilo_ou_litre() ?>">
+                <input type="number" class="form-control" id="prix" step="0.01" placeholder="Prix"name="prix" value="<?php echo $this->produit->getPrix_kilo_ou_litre() ?>">
             </div>
 
             <div class="form-group">

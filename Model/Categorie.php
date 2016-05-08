@@ -94,7 +94,7 @@ class Categorie {
 
         $stid = oci_parse($oci, "SELECT * FROM Rayon where NOM_CATEGORIE = :cat "); // prepare le code
 
-//
+        $nom = $this->getNom();
         oci_bind_by_name($stid, ':cat', $nom);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {

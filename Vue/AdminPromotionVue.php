@@ -12,7 +12,7 @@ class AdminPromotionVue extends AdminHomeVue {
                         <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                             Promotion Individuel
                         </a>
-                        <a href="drive.php?acces=Admin&a=AjoutPromo&type=Indi" class="btn btn-info pull-right" role="button">Ajouter une Promo</a>
+                        <a href="drive.php?acces=Admin&a=AjoutPromoIndi" class="btn btn-info pull-right" role="button">Ajouter une Promo</a>
                     </h4>
 
                 </div>
@@ -44,7 +44,7 @@ class AdminPromotionVue extends AdminHomeVue {
                                         ?></td>
                                     <td><?php
                                         if ($indi->getImmediate_VF() == 1)
-                                            echo "Immadiat";
+                                            echo "Immediat";
                                         else
                                             echo "Cagnotte";
                                         ?></td>
@@ -64,7 +64,7 @@ class AdminPromotionVue extends AdminHomeVue {
                         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                             Promotion par Lot
                         </a>
-                        <a href="drive.php?acces=Admin&a=AjoutPromo&type=Lot" class="btn btn-info pull-right" role="button">Ajouter une Promo</a>
+                        <a href="drive.php?acces=Admin&a=AjoutPromoLot" class="btn btn-info pull-right" role="button">Ajouter une Promo</a>
                     </h4>
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">

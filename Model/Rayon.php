@@ -80,7 +80,7 @@ class Rayon {
 
         $stid = oci_parse($oci, "SELECT * FROM SOUS_RAYON where NOM_RAYON = :cat "); // prepare le code
 
-//
+        $nom = $this->getNom();
         oci_bind_by_name($stid, ':cat', $nom);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {

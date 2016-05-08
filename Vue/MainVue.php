@@ -87,31 +87,31 @@ abstract class MainVue { // page d'accueil du site
                     </div>
                     <a class="navbar-brand" href="drive.php?a=Accueil">Accueil</a>
 
-                    
+
                     <nav><ul>
                             <li><a href="drive.php?a=AffPromo">Promotions</a></li>
-                    <?php
-                    foreach ($data as $name) {
-                        $cat = $name->getNom();
-                        $rayon = $name->getSesRayon($cat);
-                        ?>
-                            <li><a href="drive.php?a=AffCat&c=<?php echo($cat) ?>"><?php echo($cat) ?></a>
-                                <ul>
-                                <?php foreach ($rayon as $value) { ?>
-                                    <li><a href="drive.php?a=AffRay&c=<?php echo($value->getNom()) ?>"><?php echo($value->getNom()) ?></a>
-                                        <ul>
-                                        <?php foreach ($value->getSesSRayon($value->getNom()) as $srayon) { ?>
-                                            <li><a href="drive.php?a=AffSR&c=<?php echo($srayon->getNom()) ?>"> <?php echo($srayon->getNom()) ?></a></li>
-                                          <?php } ?>
+                            <?php
+                            foreach ($data as $name) {
+                                $cat = $name->getNom();
+                                $rayon = $name->getSesRayon($cat);
+                                ?>
+                                <li><a href="drive.php?a=AffCat&c=<?php echo($cat) ?>"><?php echo($cat) ?></a>
+                                    <ul>
+                                        <?php foreach ($rayon as $value) { ?>
+                                            <li><a href="drive.php?a=AffRay&c=<?php echo($value->getNom()) ?>"><?php echo($value->getNom()) ?></a>
+                                                <ul>
+                                                    <?php foreach ($value->getSesSRayon($value->getNom()) as $srayon) { ?>
+                                                        <li><a href="drive.php?a=AffSR&c=<?php echo($srayon->getNom()) ?>"> <?php echo($srayon->getNom()) ?></a></li>
+                                                    <?php } ?>
                                                 </ul></li>
-                                <?php } ?>
+                                        <?php } ?>
                                     </ul>
-                            <?php } ?>
+                                <?php } ?>
 
-                            
+
                         </ul></nav></div></div>
-                    <?php
+            <?php
         }
 
-}
-  
+    }
+    

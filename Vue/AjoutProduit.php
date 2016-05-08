@@ -20,7 +20,7 @@ class AjoutProduit extends AdminHomeVue {
 
             <div class="form-group">
                 <label for="reference">Reference</label>
-                <input type="number" class="form-control" id="ref" placeholder="reference"name="ref" required> 
+                <input type="number" class="form-control" id="ref" placeholder="reference"name="ref" min="1" max="9999999999" required> 
             </div>
             <div class="form-group">
                 <label for="Libelle">Libelle</label>
@@ -32,7 +32,7 @@ class AjoutProduit extends AdminHomeVue {
             </div>
             <div class="form-group">
                 <label for="Prix">Prix</label>
-                <input type="number" class="form-control" id="prix" placeholder="Prix"name="prix" required>
+                <input type="number" class="form-control" id="prix" step="0.01" placeholder="Prix"name="prix" min="1" max="999" required>
             </div>
 
             <div class="form-group">

@@ -41,7 +41,7 @@ class AdminCategorieVue extends AdminHomeVue {
                             $numAccordeon++
                             ?>">
                                      <?php
-                                     $rayons = $cat->getSous();
+                                     $rayons = $cat->getSous();                                     
                                      foreach ($rayons as $rayon) {
                                          ?>
                                     <div class="panel panel-default">

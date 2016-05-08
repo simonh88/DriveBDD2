@@ -5,24 +5,25 @@ class AdminControler extends Controler {
     static $action = array(
 //TODO plus d'action possible ( une action = 1 URL : drive.com/access=Admin&a=Accueil renvera sur la fonction static home()
         "Accueil" => "home", //accueil
-        "AjoutPromo" => "addPromo", //TOTO
-        "AjoutProduit" => "addProduit", 
+        "AjoutPromoLot" => "addPromoL", //TOTO
+        "AjoutPromoIndi" => "addPromoI", //TOTO
+        "AjoutProduit" => "addProduit",
         "AjoutCategorie" => "addCat",
         "AjoutRayon" => "addRayon",
         "AjoutSRayon" => "addSR",
         "AjoutSSRayon" => "addSSR",
         "ModifPromo" => "updtPromo", //TOTO
-        "ModifProduit" => "updtProduit", 
+        "ModifProduit" => "updtProduit",
         "SuprPromo" => "dltPromo", //TOTO
-        "SuprProduit" => "dltProduit", 
+        "SuprProduit" => "dltProduit",
         "SuprCategorie" => "dltCat",
         "SuprRayon" => "dltRayon",
         "SuprSRayon" => "dltSR",
         "SuprSSRayon" => "dltSSR",
         "MenuCategorie" => "listCat",
         "MenuPromo" => "listProm", //TOTO
-        "MenuProduit" => "listProd", 
-        "Recherche" => "search"         
+        "MenuProduit" => "listProd",
+        "Recherche" => "search"
     );
 
     public function home() {
@@ -30,12 +31,23 @@ class AdminControler extends Controler {
         $vue->displayPage();
     }
 
-    public function addPromo() {
+    public function addPromoL() { // affiche de la selection des produits : voir listCategorie + checkbox
+        //input name = table[categorie]
+        //input name = table[categorie][rayon]
+        // pour pouvoir boucler et insert tout un rayon en promotion (sans le faire 1 par 1)
+        if (isset($_POST["code"])) {
+            var_dump($_POST);            
+        } else {
+            $vue = new AjoutPromoLot();
+            $vue->displayPage();
+        }
+    }
 
+    public function addPromoI() {
         if (isset($_POST)) {
             $this->home();
         } else {
-            $vue = new AjoutPromo();
+            $vue = new AjoutPromoIndi();
             $vue->displayPage();
         }
     }
@@ -170,7 +182,7 @@ class AdminControler extends Controler {
                 SSR_P::deleteUn($_POST['ref']);
                 SSR_P::insert($_POST['sous'], $_POST['ref']);
             }
-            
+
             $vue = new AdminProduitVue();
             $vue->displayPage();
         } else {

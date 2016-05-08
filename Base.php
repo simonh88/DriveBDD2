@@ -12,19 +12,19 @@ class Base {
      * @return PDO connexion
      */
     static public function getConnexion() {
-        if (isset($db)) {
-            return $db;
+        if (isset(Base::$db)) {            
+            return Base::$db;
         } else {
 
             $database = new Database();
 
 // Connexion au service XE (i.e. la base de données) sur la machine "localhost"
-            $db = oci_connect(database::$user, database::$password, database::$host);
-            if (!$db) {
+            Base::$db = oci_connect(database::$user, database::$password, database::$host);
+            if (!Base::$db) {
                 $e = oci_error();
                 trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
             }
-            return $db;
+            return Base::$db;
         }
     }
 
