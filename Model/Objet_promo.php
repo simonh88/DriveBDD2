@@ -64,15 +64,14 @@ class Objet_promo {
         }
         $data = array();
 
-        $i = 0;
-        while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+        $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)
             $p = Promotion::getPromotion($row['code_promo']);
-            $data[$i] = $p;
-            $i++;
-        }
-        return $data;
+        return $p;
     }
 
+    public static function getPromoFRef($ref){
+        
+    }
     /** En fonction du code, on renvoit le produit* */
     public static function getCodePromoFcode($code_promo) {
         $oci = Base::getConnexion();
