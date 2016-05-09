@@ -65,13 +65,13 @@ class ProduitVue extends MainVue {
                             if($this->dataPromo[$i]->getImmediate_VF()){//Si c'est vrai reduc immédiate
                                 echo("<td> PROMOTION, vous avez " . $this->dataPromo[$i]->getReduction_relative() . "% en reduction immédiate</td>");
                             }  else {
-                                echo("<td> PROMOTION, vous avez " . $this->dataPromo[$i]->getReduction_relative() . "<span class='glyphicon glyphicon-euro'</span> en reduction immédiate</td>");
+                                echo("<td> PROMOTION, vous avez " . $this->dataPromo[$i]->getReduction_relative() . "<span class='glyphicon glyphicon-euro'></span> en reduction immédiate</td>");
                             }
                         }else{
-                            if($this->dataPromo[$i]->getImmediat_VF()){//Si c'est vrai reduc immédiate
+                            if($this->dataPromo[$i]->getImmediate_VF()){//Si c'est vrai reduc immédiate
                                 echo("<td> PROMOTION, vous avez " . $this->dataPromo[$i]->getReduction_absolue() . "% en fidélité</td>");
                             }  else {
-                                echo("<td> PROMOTION, vous avez " . $this->dataPromo[$i]->getReduction_absolue() . "<span class='glyphicon glyphicon-euro'</span> en reduction en fidélité</td>");
+                                echo("<td> PROMOTION, vous avez " . $this->dataPromo[$i]->getReduction_absolue() . "<span class='glyphicon glyphicon-euro'></span> en reduction en fidélité</td>");
                             }
                         }
                         
