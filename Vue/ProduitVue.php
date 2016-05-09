@@ -41,8 +41,13 @@ class ProduitVue extends MainVue {
                         . "</td>
         <td>" . $produit->getPrix_unit_HT());
                         ?>
-                    </td><td><?php echo($produit->getQuandtite_stock()); ?>
-                    <form class="form-inline" action="drive.php?a=<?php echo($_GET["a"]) ?>&c=<?php echo($this->where) ?>&d=ajoutPanier" method="post" id="<?php echo($i) ?>">
+                    </td><td><?php echo($produit->getQuandtite_stock()); 
+                    
+                    if(isset($_GET['a']))$line = $_GET['a'];
+                    else $line = "Accueil";
+                    ?>
+                        
+                    <form class="form-inline" action="drive.php?a=<?php echo($line) ?>&c=<?php echo($this->where) ?>&d=ajoutPanier" method="post" id="<?php echo($i) ?>">
                         <div class="form-group">
                             <input type="hidden" name="ref" value="<?php echo($produit->getReference()) ?>">
                             <input type="hidden" name="where" value="<?php if (!empty($_GET["c"])) {
