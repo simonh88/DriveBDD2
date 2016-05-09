@@ -260,8 +260,10 @@ class ProduitControler extends Controler {
             $dataPromo = array();
             $i = 0;
             foreach($lesPromos as $unePromo){
-                $data[$i] = Produit::getProduit($unePromo->getReference());
-                $dataPromo[$i] = Promotion::getPromotion($unePromo->getCode_promo());
+                $prod = Produit::getProduit($unePromo->getReference());
+                $promo = Promotion::getPromotion($unePromo->getCode_promo());
+                $data[$i] = $prod;
+                $dataPromo[$i] = $promo;
                 $i ++;
             }
             $view = new ProduitVue($data, "", $dataPromo);

@@ -24,6 +24,7 @@ class ProduitVue extends MainVue {
                         <th>Marque</th>
                         <th>Prix</th>
                         <th>Quantité à ajouter</th>
+                        <th> Promo </th>
 
 
                     </tr>
@@ -56,7 +57,25 @@ class ProduitVue extends MainVue {
                 </td>
                 <?php
                 if (!empty($this->dataPromo)) {
-                  echo("<td> PROMOTION </td>");  
+                    if($this->dataPromo[$i] instanceof P_lot){
+                        echo("<td> PROMOTION, pour " . $this->dataPromo[$i]->getNb_achetes(). " achetés " . $this->dataPromo[$i]->getNb_gratuits() ." gratuits</td>");
+                    }else{
+                        if(empty($this->dataPromo[$i]->getReduction_absolue())){
+                            if($this->dataPromo[$i]->getImmediate_VF()){//Si c'est vrai reduc immédiate
+                                echo("<td> PROMOTION, vous avez " . $this->dataPromo[$i]->getReduction_relative() . "% en reduction immédiate</td>");
+                            }  else {
+                                echo("<td> PROMOTION, vous avez " . $this->dataPromo[$i]->getReduction_relative() . "<span class='glyphicon glyphicon-euro'</span> en reduction immédiate</td>");
+                            }
+                        }else{
+                            if($this->dataPromo[$i]->getImmediat_VF()){//Si c'est vrai reduc immédiate
+                                echo("<td> PROMOTION, vous avez " . $this->dataPromo[$i]->getReduction_absolue() . "% en fidélité</td>");
+                            }  else {
+                                echo("<td> PROMOTION, vous avez " . $this->dataPromo[$i]->getReduction_absolue() . "<span class='glyphicon glyphicon-euro'</span> en reduction en fidélité</td>");
+                            }
+                        }
+                        
+                    }
+                    
                 }
                 ?></tr>
             <?php
