@@ -286,8 +286,12 @@ class ProduitControler extends Controler {
     }
 
    private function verifDates($promo) {
-       var_dump(date("d/m/Y H:i"));
-        if (($promo->getDate_debut() > date("d/m/Y H:i")) &&(date("d/m/Y H:i")<$promo->getDate_fin()) ){
+        
+        $date_debut = strtotime($promo->getDate_debut());
+        $date_fin = strtotime($promo->getDate_fin());
+        var_dump($date_debut);
+        var_dump($date_fin);
+        if (($date_debut <= strtotime("now")) && (strtotime("now")<=$date_fin)){
             echo("OUIIIIIIIIIIIIIIIIIIIIII");
         }
     }
