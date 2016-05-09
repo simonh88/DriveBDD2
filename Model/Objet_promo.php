@@ -76,7 +76,7 @@ class Objet_promo {
     /** En fonction du code, on renvoit le produit* */
     public static function getCodePromoFcode($code_promo) {
         $oci = Base::getConnexion();
-        $stid = oci_parse($oci, 'SELECT ref FROM Objet_promo WHERE code_promo = :c'); // prepare le cod 
+        $stid = oci_parse($oci, 'SELECT reference FROM Objet_promo WHERE code_promo = :c'); // prepare le cod 
 
         oci_bind_by_name($stid, ':c', $code_promo);
 
@@ -110,7 +110,7 @@ class Objet_promo {
             $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
-    }
+      }
 
     public static function delete($code_promo, $produit) {
 
