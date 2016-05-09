@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 class Item {
 
@@ -59,8 +59,8 @@ class Item {
 
         return $data;
     }
-    
-    public static function getUnProduit($id_carte,$ref){
+
+    public static function getUnProduit($id_carte, $ref) {
         $oci = Base::getConnexion();
         $stid = oci_parse($oci, 'SELECT *
                 FROM Item WHERE no_carte = :id and reference = :ref'); // prepare le cod 
@@ -76,7 +76,6 @@ class Item {
         $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
         $item = new Item($row);
         return $item;
-        
     }
 
     /*     * à partir du no_carte on recup le contenu du panier* */
@@ -157,7 +156,7 @@ class Item {
             }
             Panier::setPrix($noCarte);
             Produit::updateStockQuantite($ref, $quant);
-        }else{
+        } else {
             
         }
         //Sinon on fait rien.
@@ -205,7 +204,6 @@ class Item {
         Panier::setPrix($noCarte);
     }
 
-
     public function update($qte) {//$qte est la quantite à update
         $oci = Base::getConnexion();
         $stid = oci_parse($oci, "UPDATE Item SET quantite = :q where no_carte = :nocarte and reference = :ref");
@@ -223,6 +221,35 @@ class Item {
         }
         Panier::setPrix($carte);
         Produit::updateStockQuantite($ref, $qte);
+    }
+
+    public static function calculPromotion($no_carte) {
+
+        $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
+
+        $stid = oci_parse($oci, "SELECT code_promo, reference, quantite, prix_unit_ht, date_debut, date_fin, max_par_client FROM ITem JOIN Produit USING(reference) JOIN Objet_Promo USING(reference) JOIN PROMOTION USING(code_promo) WHERE no_carte = :carte"); // prepare le code
+        oci_bind_by_name($stid, ':carte', $no_carte);
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+
+        $data = array();
+
+        $i = 0;
+        while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+            $data[$i] = $row;
+            $i++;
+        }
+
+        foreach ($data as $produit) {
+            if(empty(P_lot::getPromotion($produit['CODE_PROMO']))){
+                
+            }else{
+                
+            }
+        }
     }
 
 }

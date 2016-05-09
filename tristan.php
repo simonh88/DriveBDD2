@@ -2,6 +2,6 @@
 
 require_once('common.php');
 
-$prom = Promotion::getPromotion(3377486230);
+$data = Item::calculPromotion(1223129340);
 
-var_dump($prom);
+var_dump($data);
