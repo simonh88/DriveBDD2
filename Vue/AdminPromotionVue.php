@@ -101,8 +101,56 @@ class AdminPromotionVue extends AdminHomeVue {
                     </div>
                 </div>
             </div>
-            <?php
-        }
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingTwo">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Produits en Promotion
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Logo</th>
+                                <th>Reference</th>
+                                <th>Libelle</th>
+                                <th>Marque</th>
+                                <th>Type de Promo</th>
+                                <th>Code_Promo</th>
+                                <th>Action</th>
+                            </tr>
+                            <?php
+                            $item = Objet_promo::getAll();
+                            foreach ($item as $objet) {
+                                $produit = Produit::getProduit($objet->getReference());
+                                $promo = Promotion::getPromotion($objet->getCode_promo());
+                                ?>
+                                <tr>
+                                    <td><img src="<?php echo $produit->getFichier_image() ?>" height="42"></td>
+                                    <td><?php echo $produit->getReference() ?></td>
+                                    <td><?php echo $produit->getLibelle() ?></td>
+                                    <td><?php echo $produit->getMarque() ?></td>
+                                    <td><?php
+                                        if ($promo instanceof P_lot)
+                                            echo "Par Lot";
+                                        else
+                                            echo "Individuelle";
+                                        ?></td>
+                                    <td><?php echo $promo->getCode_promo() ?></td>
+                                    <td><a href="drive.php?acces=Admin&a=SuprObjet&id=<?php echo $produit->getReference() ?>" class="btn btn-danger" role="button">Supprimer</a></td>
+                                </tr>
 
+                                <?php
+                            }
+                            ?>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
     }
-    
+
+}
