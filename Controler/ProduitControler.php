@@ -272,10 +272,11 @@ class ProduitControler extends Controler {
             foreach ($lesPromos as $unePromo) {
                 $prod = Produit::getProduit($unePromo->getReference());
                 $promo = Promotion::getPromotion($unePromo->getCode_promo());
-                //$this->verifDates($promo->getDate_debut(),$promo->getDate_fin());
-                $data[$i] = $prod;
-                $dataPromo[$i] = $promo;
-                $i ++;
+                if (ProduitControler::verifDates($promo->getDate_debut(), $promo->getDate_fin())) {//On verifie les dates de la promo
+                    $data[$i] = $prod;
+                    $dataPromo[$i] = $promo;
+                    $i ++;
+                }
             }
             $view = new ProduitVue($data, "", $dataPromo);
             $view->displayPage();
@@ -285,23 +286,22 @@ class ProduitControler extends Controler {
         }
     }
 
-   private function verifDates($dateDebut, $dateFin) {
-       if((strtotime("now") - strtotime($this->convertDate($dateDebut))>=0)&&(strtotime("now") - strtotime($this->convertDate($dateFin))<=0)){
-           return true;
-       }
-       return false;
-        
-        
+    private function verifDates($dateDebut, $dateFin) {
+        if ((strtotime("now") - strtotime($this->convertDate($dateDebut)) >= 0) && (strtotime("now") - strtotime($this->convertDate($dateFin)) <= 0)) {
+            return true;
+        }
+        return false;
     }
-    
+
     //d-mm-YYYY H:i
     //d-mm-YYYY H:i
-    public static function convertDate($date){
+    public static function convertDate($date) {
         $res1 = explode(" ", $date);
         $res2 = explode("/", $res1[0]);
         $res3 = "20" . $res2[2];
 
-        $resFinal = $res2[0] . "-". $res2[1] . "-" . $res3;
+        $resFinal = $res2[0] . "-" . $res2[1] . "-" . $res3;
         return $resFinal;
     }
+
 }

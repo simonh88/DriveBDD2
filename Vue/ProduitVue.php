@@ -32,7 +32,7 @@ class ProduitVue extends MainVue {
                     <?php
                     $i = 0;
                     foreach ($this->tableau as $produit) {
-
+                        
                         echo( '<tr>
                             <td><img src="' . $produit->getFichier_image() . '" height="42">
         <td>' . $produit->getLibelle()
