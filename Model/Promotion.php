@@ -53,7 +53,7 @@ class Promotion {
     public static function getAll() { // exemple, a suprimer
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, 'SELECT code_promo, date_debut, date_fin, max_par_client FROM Promotion'); // prepare le code
+        $stid = oci_parse($oci, 'SELECT * FROM Promotion'); // prepare le code
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);
@@ -75,7 +75,7 @@ class Promotion {
     public static function getPromotion($code_promo) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, "SELECT CODE_PROMO, To_Char(DATE_DEBUT,'DD-MM-YYYY'), to_Char(DATE_FIN,'DD-MM-YYYY'), MAX_PAR_CLIENT FROM Promotion where CODE_PROMO = :promo"); // prepare le code
+        $stid = oci_parse($oci, 'SELECT * FROM Promotion where CODE_PROMO = :promo'); // prepare le code
         oci_bind_by_name($stid, ':promo', $code_promo);
         $r = oci_execute($stid); // on l'execute
 

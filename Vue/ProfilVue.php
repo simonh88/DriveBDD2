@@ -46,7 +46,7 @@ class ProfilVue extends MainVue {
                                                     <i class="fa fa-user">
                                                     </i>
                                                 </div>
-                                                <input class="form-control" id="nom" name="nom" placeholder=<?php echo($this->infos->getNom()) ?> type="text"/>
+                                                <input class="form-control" id="nom" name="nom" placeholder="<?php echo($this->infos->getNom()) ?>" type="text"/>
                                             </div>
                                         </div>
                                     </div>
@@ -63,7 +63,7 @@ class ProfilVue extends MainVue {
                                                     <i class="fa fa-user-plus">
                                                     </i>
                                                 </div>
-                                                <input class="form-control" id="prenom" name="prenom" placeholder=<?php echo($this->infos->getPrenom()) ?> type="text"/>
+                                                <input class="form-control" id="prenom" name="prenom" placeholder="<?php echo($this->infos->getPrenom()) ?>" type="text"/>
                                             </div>
                                         </div>
                                     </div>
@@ -80,7 +80,7 @@ class ProfilVue extends MainVue {
                                                     <i class="fa fa-at">
                                                     </i>
                                                 </div>
-                                                <input class="form-control" id="email" name="email" placeholder=<?php echo($this->infos->getE_mail()) ?> type="text"/>
+                                                <input class="form-control" id="email" name="email" placeholder="<?php echo($this->infos->getE_mail()) ?>" type="text"/>
                                             </div>
                                         </div>
                                     </div>
@@ -97,7 +97,7 @@ class ProfilVue extends MainVue {
                                                     <i class="fa fa-at">
                                                     </i>
                                                 </div>
-                                                <input class="form-control" id="email" name="adresse" placeholder=<?php echo($this->infos->getAdresse()) ?> type="text"/>
+                                                <input class="form-control" id="adresse" name="adresse" placeholder="<?php echo($this->infos->getAdresse()) ?>" type="text"/>
                                             </div>
                                         </div>
                                     </div>
@@ -114,7 +114,7 @@ class ProfilVue extends MainVue {
                                                     <i class="fa fa-tty">
                                                     </i>
                                                 </div>
-                                                <input class="form-control" id="tel" name="tel" placeholder=<?php echo($this->infos->getTelephone()) ?> type="text"/>
+                                                <input class="form-control" id="tel" name="tel" placeholder="<?php echo($this->infos->getTelephone()) ?>" type="text"/>
                                             </div>
                                             <span class="help-block" id="hint_tel">
                                                 Vous pouvez aussi mettre votre num&eacute;ro de portable

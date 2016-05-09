@@ -6,7 +6,7 @@ require_once('common.php');
 $promo = Objet_promo::getAll();
 foreach ($promo as $value) {
     $promo = Promotion::getPromotion($value->getCode_promo());
-    
+    var_dump($promo);
     
     $dateD = $promo->getDate_debut();
     $dateF = $promo->getDate_fin();
