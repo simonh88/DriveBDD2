@@ -12,7 +12,7 @@ class Item {
         $this->quantite = $row['QUANTITE'];
     }
 
-    //GETTER
+//GETTER
     function getNo_carte() {
         return $this->no_carte;
     }
@@ -25,7 +25,7 @@ class Item {
         return $this->quantite;
     }
 
-    //SETTER
+//SETTER
     function setNo_carte($no_carte) {
         $this->no_carte = $no_carte;
     }
@@ -141,7 +141,7 @@ class Item {
 
     /** Inserer un produit avec sa reference et sa quantite* */
     public static function insertUnProduit($noCarte, $ref, $quant) {
-        //S'il existe pas on peut l'ajouter
+//S'il existe pas on peut l'ajouter
 
         if (!Item::existProduitDansPanier($noCarte, $ref)) {
             $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
@@ -159,13 +159,13 @@ class Item {
         } else {
             
         }
-        //Sinon on fait rien.
+//Sinon on fait rien.
     }
 
     /*     * Supprime un seul produit* */
 
     public static function deleteUnProduit($noCarte, $ref, $quant) {
-        //S'il existe pas on peut l'ajouter
+//S'il existe pas on peut l'ajouter
         if (Item::existProduitDansPanier($noCarte, $ref)) {
             $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
             $qDansPanier = Item::getQuantiteDansPanier($noCarte, $ref);
@@ -187,7 +187,7 @@ class Item {
             Panier::setPrix($noCarte);
             Produit::updateStockQuantite($ref, $quant);
         }
-        //Sinon on fait rien.
+//Sinon on fait rien.
     }
 
     /*     * Supprime tout le contenu du panier.* */
@@ -225,9 +225,18 @@ class Item {
 
     public static function calculPromotion($no_carte) {
 
+
+// tableau[$i]["reference"]
+// tableau[$i]["quantiteé"]
+// tableau[$i]["prixFinal"]
+// tableau[$i]["cagnotte"]
+
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, "SELECT code_promo, reference, quantite, prix_unit_ht, date_debut, date_fin, max_par_client FROM ITem JOIN Produit USING(reference) JOIN Objet_Promo USING(reference) JOIN PROMOTION USING(code_promo) WHERE no_carte = :carte"); // prepare le code
+        $stid = oci_parse($oci, "SELECT code_promo, reference, quantite, prix_unit_ht, date_debut, date_fin, max_par_client "
+                . "FROM ITem JOIN Produit USING(reference) JOIN Objet_Promo USING(reference) JOIN PROMOTION USING(code_promo) "
+                . "WHERE no_carte = :carte and TRUNC(date_debut) <= TRUNC(SYSDATE) AND  TRUNC(date_fin) >= TRUNC(SYSDATE)"); // prepare le code
+
         oci_bind_by_name($stid, ':carte', $no_carte);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
@@ -243,13 +252,69 @@ class Item {
             $i++;
         }
 
-        foreach ($data as $produit) {
-            if(empty(P_lot::getPromotion($produit['CODE_PROMO']))){
-                
-            }else{
-                
+        $calcul = array();
+        $client = Client::getInfosClient($no_carte);
+        $i = 0;
+
+        var_dump($data);
+        foreach ($data as $ligne) {
+            var_dump($ligne["REFERENCE"]);
+            $reference = $ligne["REFERENCE"];
+            $quantite = $ligne["QUANTITE"];
+            $prixFinal = 0;
+            $cagnotte = 0;
+
+
+            $produit = Produit::getProduit($ligne["REFERENCE"]);
+
+
+            if ($ligne["MAX_PAR_CLIENT"] - $ligne["QUANTITE"] >= 0)
+                $limite = $ligne["QUANTITE"];
+            else
+                $limite = $ligne["MAX_PAR_CLIENT"];
+
+            $promo = P_lot::getPromotion($ligne['CODE_PROMO']);
+
+            if (empty($promo->getCode_promo())) { // INDIVIDUEL
+                $promo = P_individuelle::getPromotion($ligne['CODE_PROMO']);
+                for ($index = 0; $index < $limite; $index++) {
+                    if ($promo->getImmediate_VF() == "F") { //Cagnotte
+                        if (!empty($promo->getReduction_absolue())) { // €
+                            $cagnotte += $promo->getReduction_absolue();
+                            $prixFinal += $ligne["PRIX_UNIT_HT"];
+                        } else { // %
+                            $cagnotte += $ligne["PRIX_UNIT_HT"] * ($promo->getReduction_relative() / 100);
+                            $prixFinal += $ligne["PRIX_UNIT_HT"];
+                        }
+                    } else { // remise immediat
+                        if (!empty($promo->getReduction_absolue())) { // €
+                            $prixFinal += $ligne["PRIX_UNIT_HT"] - $promo->getReduction_absolue();
+                        } else { // %
+                            $prixFinal += $ligne["PRIX_UNIT_HT"] - ($ligne["PRIX_UNIT_HT"] * ($promo->getReduction_relative() / 100));
+                        }
+                    }
+                }
+            } else { // PAR LOT
+                $quantieMax = $ligne["MAX_PAR_CLIENT"];
+                $nbAchetes = $promo->getNb_achetes();
+                $nbGratuit = $promo->getNb_gratuits();
+
+                $prixFinal = $ligne["PRIX_UNIT_HT"] * $quantite;
+
+                for ($index1 = 0; $index1 < $quantite; $index1++) {
+                    if ($index1 < $quantieMax && $index1 % $nbAchetes == 0) {
+                        $quantite += $nbGratuit;
+                    }
+                }
             }
+
+            $calcul[$i]["REFERENCE"] = $reference;
+            $calcul[$i]["QUANTITE"] = $quantite;
+            $calcul[$i]["PIRXFINAL"] = $prixFinal;
+            $calcul[$i]["CAGNOTTE"] = $cagnotte;
+            $i++;
         }
+        return $calcul;
     }
 
 }
