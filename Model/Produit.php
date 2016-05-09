@@ -126,7 +126,6 @@ Class Produit {
         }
 
         $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
-
         $p = new Produit($row);
         return $p;
     }

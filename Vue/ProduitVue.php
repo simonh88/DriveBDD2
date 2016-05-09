@@ -15,6 +15,7 @@ class ProduitVue extends MainVue {
 
     public function displayBody() {
         ?>
+
         <body>
             <div class="container">
                 <table class="table table-striped">

@@ -337,6 +337,14 @@ ALTER TABLE ITEM ADD (
                REFERENCES PRODUIT (REFERENCE)  ON DELETE CASCADE)   ;
 
 
+//Notre vue
+CREATE OR REPLACE VIEW V_PRODUIT_RAY (REFERENCE, NOM_RAYON, NOM_SR )
+ AS
+(SELECT DISTINCT REFERENCE, NOM_RAYON, NOM_SR
+FROM SR_P JOIN SOUS_RAYON USING (NOM_SR) JOIN RAYON USING(NOM_RAYON))
+UNION
+(SELECT distinct REFERENCE, NOM_RAYON, NOM_SR
+ FROM SSR_P JOIN SOUS_SOUS_RAYON USING (NOM_SSR) JOIN SOUS_RAYON USING (NOM_SR) JOIN RAYON USING(NOM_RAYON));
 -- -----------------------------------------------------------------------------
 --                FIN DE GENERATION
 -- -----------------------------------------------------------------------------
