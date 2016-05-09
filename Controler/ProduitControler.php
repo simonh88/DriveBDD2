@@ -36,16 +36,16 @@ class ProduitControler extends Controler {
     private function ajoutProduit() {
         if (isset($_GET["d"])) {
             if ($_GET["d"] == "ajoutPanier") {
-                if(Item::existProduitDansPanier($_SESSION["user"], $_POST["ref"])){
+                if (Item::existProduitDansPanier($_SESSION["user"], $_POST["ref"])) {
                     $item = Item::getUnProduit($_SESSION["user"], $_POST["ref"]);
                     $prod = Produit::getProduit($_POST["ref"]);
-                    if($prod->getQuandtite_stock()-$_POST["qte"]<0){
+                    if ($prod->getQuandtite_stock() - $_POST["qte"] < 0) {
                         //erreur
-                    }else{
-                        $item->setQuantite($item->getQuantite()+$_POST["qte"]);
+                    } else {
+                        $item->setQuantite($item->getQuantite() + $_POST["qte"]);
                         $item->update($_POST["qte"]);
                     }
-                }else{
+                } else {
                     Item::insertUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
                 }
             }
@@ -269,20 +269,26 @@ class ProduitControler extends Controler {
             $data = array();
             $dataPromo = array();
             $i = 0;
-            foreach($lesPromos as $unePromo){
+            foreach ($lesPromos as $unePromo) {
                 $prod = Produit::getProduit($unePromo->getReference());
                 $promo = Promotion::getPromotion($unePromo->getCode_promo());
-                if($promo->getDate_debut());
-                if($promo->getDate_fin());
+                $this->verifDates($promo);
                 $data[$i] = $prod;
                 $dataPromo[$i] = $promo;
                 $i ++;
             }
             $view = new ProduitVue($data, "", $dataPromo);
-            $view->displayPage();   
+            $view->displayPage();
         } else {
             $p = new ConnexionVue();
             $p->displayPage();
+        }
+    }
+
+   private function verifDates($promo) {
+       var_dump(date("d/m/Y H:i"));
+        if (($promo->getDate_debut() > date("d/m/Y H:i")) &&(date("d/m/Y H:i")<$promo->getDate_fin()) ){
+            echo("OUIIIIIIIIIIIIIIIIIIIIII");
         }
     }
 

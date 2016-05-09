@@ -33,6 +33,8 @@ define('COUNT', 1000);
 define('KEY', 50);
 
 function loadClasses($classname) {
+    //Fuseau horraire
+    date_default_timezone_set("Europe/Paris");
     // le répertoire d'installation de l'application
     if (is_file($classname . '.php')) {
 	require_once $classname . '.php';
