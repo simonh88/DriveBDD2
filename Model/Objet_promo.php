@@ -98,7 +98,7 @@ class Objet_promo {
 
     public static function insert($code_promo, $produit) {
 
-        if (!empty(Objet_promo::getCodePromo($produit))) {
+        if (!empty(Objet_promo::getCodeFPromo($produit))) {
             Objet_promo::delete($code_promo, $produit);
         }
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
