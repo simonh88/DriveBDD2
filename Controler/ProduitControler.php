@@ -286,8 +286,8 @@ class ProduitControler extends Controler {
         }
     }
 
-    private function verifDates($dateDebut, $dateFin) {
-        if ((strtotime("now") - strtotime($this->convertDate($dateDebut)) >= 0) && (strtotime("now") - strtotime($this->convertDate($dateFin)) <= 0)) {
+    public static function verifDates($dateDebut, $dateFin) {
+        if ((strtotime("now") - strtotime(ProduitControler::convertDate($dateDebut)) >= 0) && (strtotime("now") - strtotime(ProduitControler::convertDate($dateFin)) <= 0)) {
             return true;
         }
         return false;

@@ -25,14 +25,14 @@ class ProduitVue extends MainVue {
                         <th>Marque</th>
                         <th>Prix</th>
                         <th>Quantité à ajouter</th>
-                        <th> Promo </th>
+                        <th>Promotion</th>
 
 
                     </tr>
                     <?php
                     $i = 0;
                     foreach ($this->tableau as $produit) {
-                        
+
                         echo( '<tr>
                             <td><img src="' . $produit->getFichier_image() . '" height="42">
         <td>' . $produit->getLibelle()
@@ -41,19 +41,23 @@ class ProduitVue extends MainVue {
                         . "</td>
         <td>" . $produit->getPrix_unit_HT());
                         ?>
-                    </td><td><?php echo($produit->getQuandtite_stock()); 
-                    
-                    if(isset($_GET['a']))$line = $_GET['a'];
-                    else $line = "Accueil";
+                    </td><td><?php
+                    echo($produit->getQuandtite_stock());
+
+                    if (isset($_GET['a']))
+                        $line = $_GET['a'];
+                    else
+                        $line = "Accueil";
                     ?>
-                        
+
                     <form class="form-inline" action="drive.php?a=<?php echo($line) ?>&c=<?php echo($this->where) ?>&d=ajoutPanier" method="post" id="<?php echo($i) ?>">
                         <div class="form-group">
                             <input type="hidden" name="ref" value="<?php echo($produit->getReference()) ?>">
-                            <input type="hidden" name="where" value="<?php if (!empty($_GET["c"])) {
-                            echo($_GET["c"]);
-                        }
-                        ?>">
+                            <input type="hidden" name="where" value="<?php
+                            if (!empty($_GET["c"])) {
+                                echo($_GET["c"]);
+                            }
+                            ?>">
                         </div>
                         <div class="form-group">
                             <input type="number" name="qte" step="1" value="1" min="1" max="<?php echo($produit->getQuandtite_stock()) ?>">
@@ -62,32 +66,56 @@ class ProduitVue extends MainVue {
                     </form>
                 </td>
                 <?php
-                if (!empty($this->dataPromo)) {
-                    if($this->dataPromo[$i] instanceof P_lot){
-                        echo("<td> PROMOTION, pour " . $this->dataPromo[$i]->getNb_achetes(). " achetés " . $this->dataPromo[$i]->getNb_gratuits() ." gratuits</td>");
-                    }else{
-                        if(empty($this->dataPromo[$i]->getReduction_absolue())){
-                            if($this->dataPromo[$i]->getImmediate_VF()){//Si c'est vrai reduc immédiate
-                                echo("<td> PROMOTION, vous avez " . $this->dataPromo[$i]->getReduction_relative() . "% en reduction immédiate</td>");
-                            }  else {
-                                echo("<td> PROMOTION, vous avez " . $this->dataPromo[$i]->getReduction_relative() . "<span class='glyphicon glyphicon-euro'></span> en reduction immédiate</td>");
-                            }
-                        }else{
-                            if($this->dataPromo[$i]->getImmediate_VF()){//Si c'est vrai reduc immédiate
-                                echo("<td> PROMOTION, vous avez " . $this->dataPromo[$i]->getReduction_absolue() . "% en fidélité</td>");
-                            }  else {
-                                echo("<td> PROMOTION, vous avez " . $this->dataPromo[$i]->getReduction_absolue() . "<span class='glyphicon glyphicon-euro'></span> en reduction en fidélité</td>");
+                $promo = Objet_promo::getCodePromo($produit->getReference());
+                if (!empty($promo->getCode_promo())) {
+                    if (ProduitControler::verifDates($promo->getDate_debut(), $promo->getDate_fin())) {//Si les dates sont bonnes
+                        if ($promo instanceof P_lot) {
+                            echo("<td> PROMOTION, pour " . $promo->getNb_achetes() . " achetés " . $promo->getNb_gratuits() . " gratuits</td>");
+                        } else {
+                            if (empty($promo->getReduction_absolue())) {
+                                if ($promo->getImmediate_VF()) {//Si c'est vrai reduc immédiate
+                                    echo("<td> PROMOTION, vous avez " . $promo->getReduction_relative() . "% en reduction immédiate</td>");
+                                } else {
+                                    echo("<td> PROMOTION, vous avez " . $promo->getReduction_relative() . "<span class='glyphicon glyphicon-euro'></span> en reduction immédiate</td>");
+                                }
+                            } else {
+                                if ($promo->getImmediate_VF()) {//Si c'est vrai reduc immédiate
+                                    echo("<td> PROMOTION, vous avez " . $promo->getReduction_absolue() . "% en fidélité</td>");
+                                } else {
+                                    echo("<td> PROMOTION, vous avez " . $promo->getReduction_absolue() . "<span class='glyphicon glyphicon-euro'></span> en reduction en fidélité</td>");
+                                }
                             }
                         }
-                        
                     }
-                    
+                } else {
+                    echo("<td></td>");
                 }
-                ?></tr>
-            <?php
-            $i ++;
-        }
-        ?>
+                ?>
+                </td>
+                <?php
+                /* if (!empty($this->dataPromo)) {
+                  if ($this->dataPromo[$i] instanceof P_lot) {
+                  echo("<td> PROMOTION, pour " . $this->dataPromo[$i]->getNb_achetes() . " achetés " . $this->dataPromo[$i]->getNb_gratuits() . " gratuits</td>");
+                  } else {
+                  if (empty($this->dataPromo[$i]->getReduction_absolue())) {
+                  if ($this->dataPromo[$i]->getImmediate_VF()) {//Si c'est vrai reduc immédiate
+                  echo("<td> PROMOTION, vous avez " . $this->dataPromo[$i]->getReduction_relative() . "% en reduction immédiate</td>");
+                  } else {
+                  echo("<td> PROMOTION, vous avez " . $this->dataPromo[$i]->getReduction_relative() . "<span class='glyphicon glyphicon-euro'></span> en reduction immédiate</td>");
+                  }
+                  } else {
+                  if ($this->dataPromo[$i]->getImmediate_VF()) {//Si c'est vrai reduc immédiate
+                  echo("<td> PROMOTION, vous avez " . $this->dataPromo[$i]->getReduction_absolue() . "% en fidélité</td>");
+                  } else {
+                  echo("<td> PROMOTION, vous avez " . $this->dataPromo[$i]->getReduction_absolue() . "<span class='glyphicon glyphicon-euro'></span> en reduction en fidélité</td>");
+                  }
+                  }
+                  }
+                  }
+                  ?> */echo("</tr>");
+                $i ++;
+            }
+            ?>
         </table>    
         </div>
         </body>
