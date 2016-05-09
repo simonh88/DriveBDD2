@@ -59,6 +59,25 @@ class Item {
 
         return $data;
     }
+    
+    public static function getUnProduit($id_carte,$ref){
+        $oci = Base::getConnexion();
+        $stid = oci_parse($oci, 'SELECT *
+                FROM Item WHERE no_carte = :id and reference = :ref'); // prepare le cod 
+
+        oci_bind_by_name($stid, ':id', $id_carte);
+        oci_bind_by_name($stid, ':ref', $ref);
+
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+        $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
+        $item = new Item($row);
+        return $item;
+        
+    }
 
     /*     * à partir du no_carte on recup le contenu du panier* */
 
@@ -138,6 +157,8 @@ class Item {
             }
             Panier::setPrix($noCarte);
             Produit::updateStockQuantite($ref, $quant);
+        }else{
+            
         }
         //Sinon on fait rien.
     }
@@ -184,13 +205,15 @@ class Item {
         Panier::setPrix($noCarte);
     }
 
-    /*     * ************* A SUPPPPPPPPPPPPPPPPPPPPRIMER *************** */
 
-    public function update() {
+    public function update($qte) {//$qte est la quantite à update
         $oci = Base::getConnexion();
         $stid = oci_parse($oci, "UPDATE Item SET quantite = :q where no_carte = :nocarte and reference = :ref");
-//
-        oci_bind_by_name($stid, ':q', $this->getQuantite());
+        $quant = $this->getQuantite();
+        $carte = $this->getNo_carte();
+        $ref = $this->getReference();
+        oci_bind_by_name($stid, ':q', $quant);
+        oci_bind_by_name($stid, ':nocarte', $carte);
         oci_bind_by_name($stid, ':ref', $ref);
 
         $r = oci_execute($stid); // on l'execute
@@ -198,7 +221,8 @@ class Item {
             $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
-        Panier::setPrix($nocarte);
+        Panier::setPrix($carte);
+        Produit::updateStockQuantite($ref, $qte);
     }
 
 }

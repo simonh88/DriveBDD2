@@ -36,7 +36,18 @@ class ProduitControler extends Controler {
     private function ajoutProduit() {
         if (isset($_GET["d"])) {
             if ($_GET["d"] == "ajoutPanier") {
-                Item::insertUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
+                if(Item::existProduitDansPanier($_SESSION["user"], $_POST["ref"])){
+                    $item = Item::getUnProduit($_SESSION["user"], $_POST["ref"]);
+                    $prod = Produit::getProduit($_POST["ref"]);
+                    if($prod->getQuandtite_stock()-$_POST["qte"]<0){
+                        //erreur
+                    }else{
+                        $item->setQuantite($item->getQuantite()+$_POST["qte"]);
+                        $item->update($_POST["qte"]);
+                    }
+                }else{
+                    Item::insertUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
+                }
             }
         }
     }
@@ -194,9 +205,7 @@ class ProduitControler extends Controler {
     public function afficherProduitRay() {
         if ($this->isConnected()) {
             if (isset($_GET["d"])) {
-                if ($_GET["d"] == "ajoutPanier") {
-                    Item::insertUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
-                }
+                $this->ajoutProduit();
             }
             if (isset($_GET["c"])) {
                 $ray = Rayon::getAll();
@@ -255,6 +264,7 @@ class ProduitControler extends Controler {
 
     public function afficherPromotions() {
         if ($this->isConnected()) {
+            $this->ajoutProduit();
             $lesPromos = Objet_promo::getAll();
             $data = array();
             $dataPromo = array();
@@ -262,6 +272,8 @@ class ProduitControler extends Controler {
             foreach($lesPromos as $unePromo){
                 $prod = Produit::getProduit($unePromo->getReference());
                 $promo = Promotion::getPromotion($unePromo->getCode_promo());
+                if($promo->getDate_debut());
+                if($promo->getDate_fin());
                 $data[$i] = $prod;
                 $dataPromo[$i] = $promo;
                 $i ++;
