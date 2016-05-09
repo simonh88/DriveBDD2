@@ -403,6 +403,7 @@ class AdminControler extends Controler {
     }
 
     public function search() { // pour le moment, que la reference du produit
+        
         $produit = Produit::getProduit($_POST["reference"]);
         if (empty($produit)) {
             $vue = new AdminProduitVue();
