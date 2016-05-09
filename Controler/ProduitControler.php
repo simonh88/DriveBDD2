@@ -110,11 +110,18 @@ class ProduitControler extends Controler {
                     Item::deleteAll($_SESSION['user']);
                 } else if ($_GET["c"] == "enleveProduit") {
                     Item::deleteUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
+                } else if ($_GET["c"] == "ValiderPanier") {
+                    Item::calculPromotion($_SESSION["user"]);
+                    $infos = Panier::getInfos($_SESSION['user']);
+                    $items = Item::getInfosPanier($_SESSION['user']);
+                    $view = new PanierVue($items, $infos, true);
                 }
             }
-            $infos = Panier::getInfos($_SESSION['user']);
-            $items = Item::getInfosPanier($_SESSION['user']);
-            $view = new PanierVue($items, $infos);
+            if (empty($view)) {
+                $infos = Panier::getInfos($_SESSION['user']);
+                $items = Item::getInfosPanier($_SESSION['user']);
+                $view = new PanierVue($items, $infos, false);
+            }
             $view->displayPage();
         } else {
             $p = new ConnexionVue();
