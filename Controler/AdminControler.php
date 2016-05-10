@@ -41,9 +41,9 @@ class AdminControler extends Controler {
                 $reduction_absolue = null;
                 $reduction_relative = $_POST['reduc'];
             }
-            $immediate_VF = "F";
+            $immediate_VF = "0";
             if (isset($_POST['imd'])) {
-                $immediate_VF = "V";
+                $immediate_VF = "1";
             }
 
             $dd = explode(":", $_POST['datedebut']);

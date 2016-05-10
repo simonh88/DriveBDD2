@@ -277,7 +277,7 @@ class Item {
                 $promo = P_individuelle::getPromotion($ligne['CODE_PROMO']);
                 for ($index = 0; $index < $limite; $index++) {
                     $test2 = $promo->getReduction_absolue();
-                    if ($promo->getImmediate_VF() == "F") { //Cagnotte
+                    if ($promo->getImmediate_VF() == "0" || $promo->getImmediate_VF() == "F") { //Cagnotte
                         if (!empty($test2)) { // €
                             $cagnotte += $promo->getReduction_absolue();
                             $prixFinal += $ligne["PRIX_UNIT_HT"];
@@ -313,6 +313,7 @@ class Item {
             $calcul[$i]["CAGNOTTE"] = $cagnotte;
             $calcul[$i]["LIBELLE"] = $ligne["LIBELLE"];
             $calcul[$i]["MARQUE"] = $ligne["MARQUE"];
+            var_dump($calcul);
             $i++;
         }
         return $calcul;
