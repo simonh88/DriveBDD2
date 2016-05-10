@@ -313,7 +313,7 @@ class Item {
             $calcul[$i]["CAGNOTTE"] = $cagnotte;
             $calcul[$i]["LIBELLE"] = $ligne["LIBELLE"];
             $calcul[$i]["MARQUE"] = $ligne["MARQUE"];
-            var_dump($calcul);
+            
             $i++;
         }
         return $calcul;
