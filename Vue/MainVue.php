@@ -81,7 +81,7 @@ abstract class MainVue { // page d'accueil du site
                                     <span class="glyphicon glyphicon-euro"</span></span></button>
                             <div class="dropdownh-content">
                                 <a href="drive.php?a=AffPanier">Voir son contenu <span class="glyphicon glyphicon-eye-open"</span></a>
-                                <a href="drive.php?c=ValiderPanier&a=AffPanier">Payer <span class="glyphicon glyphicon-euro"</span> </a>
+                                <a href="drive.php?c=ValiderPanier&a=AffPanier">Valider le panier <span class="glyphicon glyphicon-euro"</span> </a>
                             </div>
                         </div>
                     </div>

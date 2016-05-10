@@ -75,13 +75,13 @@ class ProduitVue extends MainVue {
                         } else {
 				$codeabsolue = $promo->getReduction_absolue();
                             if (empty($codeabsolue)) {
-                                if ($promo->getImmediate_VF() == 0) {//Si c'est vrai reduc immédiate
+                                if ($promo->getImmediate_VF() == 'V') {//Si c'est vrai reduc immédiate
                                     echo("<td> PROMOTION, vous avez " . $promo->getReduction_relative() . "% en reduction immédiate</td>");
                                 } else {
                                     echo("<td> PROMOTION, vous avez " . $promo->getReduction_relative() . "% en fidélité</td>");
                                 }
                             } else {
-                                if ($promo->getImmediate_VF() == 0) {//Si c'est vrai reduc immédiate
+                                if ($promo->getImmediate_VF() == 'V') {//Si c'est vrai reduc immédiate
                                     echo("<td> PROMOTION, vous avez " . $promo->getReduction_absolue() . "<span class='glyphicon glyphicon-euro'></span> en reduction immédiate</td>");
                                 } else {
                                     echo("<td> PROMOTION, vous avez " . $promo->getReduction_absolue() . "<span class='glyphicon glyphicon-euro'></span> en reduction en fidélité</td>");
