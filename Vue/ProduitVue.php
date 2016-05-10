@@ -59,7 +59,12 @@ class ProduitVue extends MainVue {
         <td>" . $produit->getPrix_unit_HT());
                         ?>
                     </td><td><?php
-                    echo( "Max : " . $produit->getQuandtite_stock());
+                    if (Item::existProduitDansPanier($_SESSION["user"], $produit->getReference())) {
+                        $qDansPanier = Item::getQuantiteDansPanier($_SESSION["user"], $produit->getReference());
+                        echo( "Max : " . $produit->getQuandtite_stock() . "<br><strong>Vous avez déjà " . $qDansPanier ." ". $produit->getLibelle() . " dans votre panier</strong>");
+                    } else {
+                        echo( "Max : " . $produit->getQuandtite_stock());
+                    }
                     if (!empty($codepromo)) {
                         if ($quantStock < 1) {
                             echo("<br><strong>Attention, vous le payerai plein tarif</strong>");
