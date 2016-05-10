@@ -109,7 +109,13 @@ class PanierVue extends MainVue {
                     <br><br>
                     Vous avez <?php echo($cli->getCredit_carte()) ?> euros à votre disposition.<br>
                     Voulez vous en utiliser?<br>
-                    <input type="number" name="eurosADeduire" step="0.01" value="0" min="0" max="<?php echo($cli->getCredit_carte()) ?>">
+                    <input type="number" name="eurosADeduire" step="0.01" value="0" min="0" max="<?php
+                    if($cli->getCredit_carte() < $prixFinal){
+                        $max = $cli->getCredit_carte();
+                    }else{
+                        $max = $prixFinal;
+                    }
+                        echo($max) ?>">
                     <button type="submit" class="btn btn-succes" form="valPanier">Payer <span class="glyphicon glyphicon-euro"</span></button>
                 </form>
             <?php }
