@@ -53,7 +53,7 @@ class Objet_promo {
     /** En fonction de la référence, on renvoit la promo* */
     public static function getCodePromo($ref) {
         $oci = Base::getConnexion();
-        $stid = oci_parse($oci, 'SELECT * FROM Objet_promo WHERE reference = :ref'); // prepare le cod 
+        $stid = oci_parse($oci, 'SELECT code_promo FROM Objet_promo WHERE reference = :ref'); // prepare le cod 
 
         oci_bind_by_name($stid, ':ref', $ref);
 
@@ -62,10 +62,14 @@ class Objet_promo {
             $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
-        $data = array();
+        
 
         $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
+<<<<<<< HEAD
             $p = Promotion::getPromotion($row['CODE_PROMO']);
+=======
+        $p = Promotion::getPromotion($row['CODE_PROMO']);
+>>>>>>> c2f3fc1bc04a934bfc25392da976fa4c0f4f4dc6
         return $p;
     }
 
