@@ -70,7 +70,9 @@ class ProduitVue extends MainVue {
                         if ($quantStock < 1) {
                             echo("<br><strong>Attention, vous le payerai plein tarif.</strong>");
                         } else {
-                            echo("<br> Promotion pour encore : " . $quantStock . " article(s).");
+                            if (ProduitControler::verifDates($p->getDate_debut(), $p->getDate_fin())) {
+                                echo("<br> Promotion pour encore : " . $quantStock . " article(s).");
+                            }
                         }
                     }
                     echo("</td>");
@@ -117,6 +119,7 @@ class ProduitVue extends MainVue {
                             }
                         }
                     }
+                    echo("<td></td>");
                 } else {
                     echo("<td></td>");
                 }
