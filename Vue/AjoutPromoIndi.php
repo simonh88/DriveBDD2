@@ -72,7 +72,8 @@ class AjoutPromoIndi extends AdminHomeVue {
                 <label >Liste des Produit</label>
                 <?php $this->ajoutProduit() ?>
             </div>
-            <button type="submit" name="submit" class="btn btn-default">Créer</button>
+            <button type="submit" name="submit" style="display: block; width: 100%;" class="btn btn-success">Créer</button>
+            
         </form>
 
 

@@ -272,13 +272,12 @@ class Item {
                 $limite = $ligne["MAX_PAR_CLIENT"];
 
             $promo = P_lot::getPromotion($ligne['CODE_PROMO']);
-	$test = $promo->getCode_promo();
+            $test = $promo->getCode_promo();
             if (empty($test)) { // INDIVIDUEL
                 $promo = P_individuelle::getPromotion($ligne['CODE_PROMO']);
                 for ($index = 0; $index < $limite; $index++) {
-	$test2 = $promo->getReduction_absolue();
+                    $test2 = $promo->getReduction_absolue();
                     if ($promo->getImmediate_VF() == "F") { //Cagnotte
-		
                         if (!empty($test2)) { // €
                             $cagnotte += $promo->getReduction_absolue();
                             $prixFinal += $ligne["PRIX_UNIT_HT"];
@@ -315,9 +314,6 @@ class Item {
             $calcul[$i]["LIBELLE"] = $ligne["LIBELLE"];
             $calcul[$i]["MARQUE"] = $ligne["MARQUE"];
             $i++;
-            
-            
-            
         }
         return $calcul;
     }
