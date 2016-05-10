@@ -312,7 +312,7 @@ class Item {
 
             $calcul[$i]["REFERENCE"] = $reference;
             $calcul[$i]["QUANTITE"] = $quantite;
-            $calcul[$i]["PRIXFINAL"] = $prixFinal;
+            $calcul[$i]["PIRXFINAL"] = $prixFinal;
             $calcul[$i]["CAGNOTTE"] = $cagnotte;
             $calcul[$i]["LIBELLE"] = $ligne["LIBELLE"];
             $calcul[$i]["MARQUE"] = $ligne["MARQUE"];

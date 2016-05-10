@@ -36,13 +36,13 @@ function loadClasses($classname) {
     //Fuseau horraire
     date_default_timezone_set("Europe/Paris");
     // le répertoire d'installation de l'application
-    if (is_file($classname . '.php')) {
+    if (file_exists($classname . '.php')) {
 	require_once $classname . '.php';
     }
     $myAppDirs = array('Controler', 'Model', 'Vue', 'img', 'lib'); // lib = tout le CSS et JS
     foreach ($myAppDirs as $cdir) {
 	$filepath = $cdir . DIRECTORY_SEPARATOR . $classname . '.php';
-	if (is_file($filepath)) {
+	if (file_exists($filepath)) {
 	    require_once $filepath;
 	}
     }

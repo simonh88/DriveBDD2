@@ -80,7 +80,7 @@ class AdminCategorieVue extends AdminHomeVue {
                                                                     </a></h4>
                                                             </div>
                                                             <?php 
-								$jajajaja = $srayon->getSous();
+								$jajajaja = $srayon->getSous());
 								if (!empty($jajajaja)) { ?>
                                                                 <div id="collapse<?php
                                                                 echo $collapse;
