@@ -76,7 +76,7 @@ class PanierVue extends MainVue {
                                     <div class="form-group">
                                         <input type="number" name="qte" step="-1" value="-1" max="-1" min="-<?php echo($item->getQuantite()) ?>">
                                     </div>
-                                    <button type="submit" class="btn btn-default" form="<?php echo($i) ?>">Ajouter au panier</button>
+                                    <button type="submit" class="btn btn-default" form="<?php echo($i) ?>">Supprimer du panier</button>
                                 </form>
                             </td></tr>
                             <?php
