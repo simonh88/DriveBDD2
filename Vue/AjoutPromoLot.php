@@ -150,7 +150,7 @@ class AjoutPromoLot extends AdminHomeVue {
 
                                                                 </div>
                                                             </div>
-                                                            <?php $test = srayon->getSous(); if (!empty($test)) { ?>
+                                                            <?php $test = $srayon->getSous(); if (!empty($test)) { ?>
                                                                 <div id="collapse<?php
                                                                 echo $collapse;
                                                                 $collapse++;
