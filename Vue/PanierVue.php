@@ -37,8 +37,8 @@ class PanierVue extends MainVue {
                     $prix = 0;
                     $prixFinal = 0;
                     $i = 0;
+                    $promo = $this->promo;
                     foreach ($this->items as $item) {
-                        var_dump($promo);
                         if (empty($promo)) {
                             $p = Produit::getProduit($item->getReference());
                             $prix += $p->getPrix_unit_HT();
@@ -47,7 +47,6 @@ class PanierVue extends MainVue {
                             $p = Produit::getProduit($item->getReference());
                             $pos = $this->appartient($item->getReference());
                             if(((int)$pos > -1)){
-                                echo("coucou");
                                 $prix = $promo[$pos]["PRIXFINAL"];
                                 $q = $promo[$pos]["QUANTITE"];
                             }else{
@@ -112,6 +111,7 @@ class PanierVue extends MainVue {
         $trouver = 0;
         foreach ($this->promo as $p){
             if($p["REFERENCE"] == $ref){
+                
                 return $trouver;
             }
             $trouver ++;
