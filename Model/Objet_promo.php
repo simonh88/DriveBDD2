@@ -64,7 +64,7 @@ class Objet_promo {
         }
         $data = array();
 
-        $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)
+        $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
             $p = Promotion::getPromotion($row['code_promo']);
         return $p;
     }

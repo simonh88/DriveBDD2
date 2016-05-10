@@ -308,11 +308,14 @@ class Item {
                 }
             }
 
-            $calcul[$i]["REFERENCE"] = $reference;
-            $calcul[$i]["QUANTITE"] = $quantite;
-            $calcul[$i]["PIRXFINAL"] = $prixFinal;
-            $calcul[$i]["CAGNOTTE"] = $cagnotte;
+            
+            $calcul[$reference]["QUANTITE"] = $quantite;
+            $calcul[$reference]["PIRXFINAL"] = $prixFinal;
+            $calcul[$reference]["CAGNOTTE"] = $cagnotte;
             $i++;
+            
+            
+            
         }
         return $calcul;
     }
