@@ -110,11 +110,18 @@ class ProduitControler extends Controler {
                     Item::deleteAll($_SESSION['user']);
                 } else if ($_GET["c"] == "enleveProduit") {
                     Item::deleteUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
+                } else if ($_GET["c"] == "ValiderPanier") {
+                    Item::calculPromotion($_SESSION["user"]);
+                    $infos = Panier::getInfos($_SESSION['user']);
+                    $items = Item::getInfosPanier($_SESSION['user']);
+                    $view = new PanierVue($items, $infos, true);
                 }
             }
-            $infos = Panier::getInfos($_SESSION['user']);
-            $items = Item::getInfosPanier($_SESSION['user']);
-            $view = new PanierVue($items, $infos);
+            if (empty($view)) {
+                $infos = Panier::getInfos($_SESSION['user']);
+                $items = Item::getInfosPanier($_SESSION['user']);
+                $view = new PanierVue($items, $infos, false);
+            }
             $view->displayPage();
         } else {
             $p = new ConnexionVue();
@@ -286,8 +293,8 @@ class ProduitControler extends Controler {
         }
     }
 
-    private function verifDates($dateDebut, $dateFin) {
-        if ((strtotime("now") - strtotime($this->convertDate($dateDebut)) >= 0) && (strtotime("now") - strtotime($this->convertDate($dateFin)) <= 0)) {
+    public static function verifDates($dateDebut, $dateFin) {
+        if ((strtotime("now") - strtotime(ProduitControler::convertDate($dateDebut)) >= 0) && (strtotime("now") - strtotime(ProduitControler::convertDate($dateFin)) <= 0)) {
             return true;
         }
         return false;

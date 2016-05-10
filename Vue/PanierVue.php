@@ -9,10 +9,12 @@ class PanierVue extends MainVue {
 
     private $items;
     private $infos;
+    private $aValider;
 
-    public function __construct($produits, $infos) {
+    public function __construct($produits, $infos, $aValider) {
         $this->items = $produits;
         $this->infos = $infos;
+        $this->aValider = $aValider;
         parent::__construct("Affichage panier");
     }
 
@@ -45,29 +47,46 @@ class PanierVue extends MainVue {
                            <td>" . $p->getPrix_unit_HT()
                         . "</td>"
                         . "<td>" . $item->getQuantite() . "</td>");
-                        ?>
-                        <td>
-                            <form class="form-inline" action="drive.php?a=AffPanier&c=enleveProduit" method="post" id="<?php echo($i) ?>">
-                                <div class="form-group">
-                                    <input type="hidden" name="ref" value="<?php echo($p->getReference()) ?>">
-                                </div>
-                                <div class="form-group">
-                                    <input type="number" name="qte" step="-1" value="-1" max="-1" min="-<?php echo($item->getQuantite()) ?>">
-                                </div>
-                                <button type="submit" class="btn btn-default" form="<?php echo($i) ?>">Ajouter au panier</button>
-                            </form>
-                        </td></tr>
-                        <?php
+                        if (!$this->aValider) {
+                            ?>
+                            <td>
+                                <form class="form-inline" action="drive.php?a=AffPanier&c=enleveProduit" method="post" id="<?php echo($i) ?>">
+                                    <div class="form-group">
+                                        <input type="hidden" name="ref" value="<?php echo($p->getReference()) ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" name="qte" step="-1" value="-1" max="-1" min="-<?php echo($item->getQuantite()) ?>">
+                                    </div>
+                                    <button type="submit" class="btn btn-default" form="<?php echo($i) ?>">Ajouter au panier</button>
+                                </form>
+                            </td></tr>
+                            <?php
+                        } else {
+                            echo("<td></td>");
+                        }
                         $i ++;
                     }
+                    var_dump($this->aValider);
+                    if (!$this->aValider) {
+                        echo("<tr><td> </td><td></td><td> </td><td></td><td></td></tr>"
+                        . "<tr><td> </td><td> </td><td> </td><td></td><th>" . "Total(horsRemises) : " . $montant . " <span class='glyphicon glyphicon-euro'</span></th></tr>")
+                        ?>
+                    </table>
+                    <a href="drive.php?c=ViderPanier&a=<?php echo($_GET["a"]); ?>"><button type="button" class="btn btn-danger">Vider le panier <span class="glyphicon glyphicon-remove"</span></button></a>
+                    <a href="drive.php?c=ValiderPanier&a=<?php echo($_GET["a"]); ?>"><button type="button" class="btn btn-success">Valider le panier <span class="glyphicon glyphicon-arrow-up"</span></button></a>
+                    <?php
+                } else {
                     echo("<tr><td> </td><td></td><td> </td><td></td><td></td></tr>"
-                    . "<tr><td> </td><td> </td><td> </td><td></td><th>" . "Total(horsRemises) : " . $montant . " <span class='glyphicon glyphicon-euro'</span></th></tr>")
+                    . "<tr><td> </td><td> </td><td> </td><td></td><th>" . "Total(Remises comprises) : " . $montant . " <span class='glyphicon glyphicon-euro'</span></th></tr>");
                     ?>
-                </table>
-                <a href="drive.php?c=ViderPanier&a=<?php echo($_GET["a"]); ?>"><button type="button" class="btn btn-danger">Vider le panier <span class="glyphicon glyphicon-remove"</span></button></a>
-            </div>
-        </body>
-        <?php
+            </table>
+                    <a href="drive.php?a=<?php echo($_GET["a"]); ?>"><button type="button" class="btn btn-danger">Annuler la validation <span class="glyphicon glyphicon-remove"</span></button></a>
+                    <a href="drive.php?a=Payer"><button type="button" class="btn btn-succes">Payer <span class="glyphicon glyphicon-euro"</span></button></a>
+                    <?php }
+                    ?>
+                </div>
+            </body>
+            <?php
+        }
     }
-
-}
+    
