@@ -20,6 +20,7 @@ class PanierVue extends MainVue {
 
     public function displayBody() {
         $montant = $this->infos->getMontant();
+        $cli = Client::getInfosClient($_SESSION["user"]);
         ?>
         <body>
             <div class="container">
@@ -43,9 +44,11 @@ class PanierVue extends MainVue {
                             $p = Produit::getProduit($item->getReference());
                             $prix += $p->getPrix_unit_HT();
                             $q = $item->getQuantite();
+                            $eurosCarte = 0;
                         }else{
                             $p = Produit::getProduit($item->getReference());
                             $pos = $this->appartient($item->getReference());
+                            $eurosCarte = $this->promo[0]["CAGNOTTE"];//On recup tout les euros qui vont aller sur la carte
                             if(((int)$pos > -1)){
                                 $prix = $promo[$pos]["PRIXFINAL"];
                                 $q = $promo[$pos]["QUANTITE"];
@@ -98,8 +101,17 @@ class PanierVue extends MainVue {
                     . "<tr><td> </td><td> </td><td> </td><td></td><th>" . "Total(Remises comprises) : " . $prixFinal . " <span class='glyphicon glyphicon-euro'</span></th></tr>");
                     ?>
                 </table>
+                <h4>Ces courses vous feraient gagner <?php echo($eurosCarte);?> euros sur votre carte de fidélité si vous finalisez la commande.</h4>
                 <a href="drive.php?a=<?php echo($_GET["a"]); ?>"><button type="button" class="btn btn-danger">Annuler la validation <span class="glyphicon glyphicon-remove"</span></button></a>
-                <a href="drive.php?a=Payer"><button type="button" class="btn btn-succes">Payer <span class="glyphicon glyphicon-euro"</span></button></a>
+                <form class="form-inline" action="drive.php?a=Payer" method="post" id="valPanier">
+                    <input type="hidden" name="eurosCarte" value="<?php echo($eurosCarte) ?>">
+                    <input type="hidden" name="prixFinal" value="<?php echo($prixFinal) ?>">
+                    <br><br>
+                    Vous avez <?php echo($cli->getCredit_carte()) ?> euros à votre disposition.<br>
+                    Voulez vous en utiliser?<br>
+                    <input type="number" name="eurosADeduire" step="0.01" value="0" min="0" max="<?php echo($cli->getCredit_carte()) ?>">
+                    <button type="submit" class="btn btn-succes" form="valPanier">Payer <span class="glyphicon glyphicon-euro"</span></button>
+                </form>
             <?php }
             ?>
         </div>

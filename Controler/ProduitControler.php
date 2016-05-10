@@ -135,12 +135,22 @@ class ProduitControler extends Controler {
             $infos = Panier::getInfos($_SESSION['user']);
             if (isset($_GET["c"])) {
                 if ($_GET["c"] == "validPayement") {
+                    $eurosCarte = $_POST["eurosCarte"];
+                    $eurosAdeduire = $_POST["eurosADeduire"];
+                    $cli = Client::getInfosClient($_SESSION["user"]);
+                    $eurosCarteFinal = ($cli->getCredit_carte() + $eurosCarte)- $eurosAdeduire;
+                    
+                    $cli->setCredit_carte($eurosCarteFinal);
+                    $cli->update();
                     Item::deleteAll($_SESSION['user']);
-                    $view = new PayerVue($infos, true);
+                    $view = new PayerVue(NULL, true, $eurosCarteFinal, NULL, $eurosAdeduire );
                     $view->displayPage();
                 }
             } else {
-                $view = new PayerVue($infos, false);
+                $eurosCarte = $_POST["eurosCarte"]; 
+                $eurosAdeduire = $_POST["eurosADeduire"];
+                $prixFinal = $_POST["prixFinal"] - $eurosAdeduire; 
+                $view = new PayerVue($infos, false, $eurosCarte, $prixFinal, $eurosAdeduire);
                 $view->displayPage();
             }
         } else {
