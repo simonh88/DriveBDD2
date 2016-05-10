@@ -30,6 +30,7 @@ class PayerVue extends MainVue {
                 if ($this->isPayer == true) {
                     ?>
                     <div class="alert alert-success"><strong>Félicitation !</strong> Vous venez de payer votre panier</div>
+                    <h3>Vous venez d'être débité</h3>
                     <h3>Vous avez utilisez <?php echo($this->eurosAEnlever); ?> euro(s) de votre carte</h3>
                     <h3>Votre nouveau solde de votre carte : <?php echo($this->eurosCarte) ?> euro(s)</h3>
                     
@@ -46,7 +47,7 @@ class PayerVue extends MainVue {
                          <form class="form-inline" action="drive.php?a=Payer&c=validPayement" method="post" id="isPayer">
                              <input type="hidden" name="eurosCarte" value="<?php echo($this->eurosCarte) ?>">
                              <input type="hidden" name="eurosADeduire" value="<?php echo($this->eurosAEnlever) ?>">
-                             <button type="submit" class="btn btn-success" form="isPayer">Payer</button>
+                             <button type="submit" class="btn btn-success" form="isPayer">Finaliser</button>
                          </form>
                 <?php }} ?>
                 </div>
