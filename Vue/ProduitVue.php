@@ -24,6 +24,7 @@ class ProduitVue extends MainVue {
                         <th>Libellé</th>
                         <th>Marque</th>
                         <th>Prix</th>
+                        <th>Info</th>
                         <th>Quantité à ajouter</th>
                         <th>Promotion</th>
 
@@ -58,27 +59,27 @@ class ProduitVue extends MainVue {
                         . "</td>
         <td>" . $produit->getPrix_unit_HT());
                         ?>
-                    </td><td><?php
+                    </td><?php
                     if (Item::existProduitDansPanier($_SESSION["user"], $produit->getReference())) {
                         $qDansPanier = Item::getQuantiteDansPanier($_SESSION["user"], $produit->getReference());
-                        echo( "Max : " . $produit->getQuandtite_stock() . "<br><strong>Vous avez déjà " . $qDansPanier ." ". $produit->getLibelle() . " dans votre panier</strong>");
+                        echo( "<td>Maximum : " . $produit->getQuandtite_stock() . "<br><br><strong>Vous avez déjà " . $qDansPanier ." ". $produit->getLibelle() . " dans votre panier.<br></strong>");
                     } else {
-                        echo( "Max : " . $produit->getQuandtite_stock());
+                        echo( "<td>Maximum : " . $produit->getQuandtite_stock()."<br><br>");
                     }
                     if (!empty($codepromo)) {
                         if ($quantStock < 1) {
-                            echo("<br><strong>Attention, vous le payerai plein tarif</strong>");
+                            echo("<br><strong>Attention, vous le payerai plein tarif.</strong>");
                         } else {
-                            echo("<br> Promotion pour encore : " . $quantStock . " article(s)");
+                            echo("<br> Promotion pour encore : " . $quantStock . " article(s).");
                         }
                     }
-
+                    echo("</td>");
                     if (isset($_GET['a']))
                         $line = $_GET['a'];
                     else
                         $line = "Accueil";
                     ?>
-
+                    <td>
                     <form class="form-inline" action="drive.php?a=<?php echo($line) ?>&c=<?php echo($this->where) ?>&d=ajoutPanier" method="post" id="<?php echo($i) ?>">
                         <div class="form-group">
                             <input type="hidden" name="ref" value="<?php echo($produit->getReference()) ?>">
@@ -91,27 +92,27 @@ class ProduitVue extends MainVue {
                         <div class="form-group">
                             <input type="number" name="qte" step="1" value="1" min="1" max="<?php echo($produit->getQuandtite_stock()) ?>">
                         </div>
-                        <button type="submit" class="btn btn-default" form="<?php echo($i) ?>">Ajouter au panier</button>
+                        <button type="submit" class="btn btn-info" form="<?php echo($i) ?>">Ajouter au panier</button>
                     </form>
                 </td>
                 <?php
                 if (!empty($codepromo)) {
                     if (ProduitControler::verifDates($promo->getDate_debut(), $promo->getDate_fin())) {//Si les dates sont bonnes
                         if ($promo instanceof P_lot) {
-                            echo("<td> PROMOTION, pour " . $promo->getNb_achetes() . " achetés " . $promo->getNb_gratuits() . " gratuits</td>");
+                            echo("<td><strong> PROMOTION, pour " . $promo->getNb_achetes() . " achetés " . $promo->getNb_gratuits() . " gratuits</strong></td>");
                         } else {
                             $codeabsolue = $promo->getReduction_absolue();
                             if (empty($codeabsolue)) {
                                 if ($promo->getImmediate_VF() == 'V') {//Si c'est vrai reduc immédiate
-                                    echo("<td> PROMOTION, vous avez " . $promo->getReduction_relative() . "% en reduction immédiate</td>");
+                                    echo("<td><strong> PROMOTION, vous avez " . $promo->getReduction_relative() . "% en reduction immédiate</strong></td>");
                                 } else {
-                                    echo("<td> PROMOTION, vous avez " . $promo->getReduction_relative() . "% en fidélité</td>");
+                                    echo("<td><strong> PROMOTION, vous avez " . $promo->getReduction_relative() . "% en fidélité</td>");
                                 }
                             } else {
                                 if ($promo->getImmediate_VF() == 'V') {//Si c'est vrai reduc immédiate
-                                    echo("<td> PROMOTION, vous avez " . $promo->getReduction_absolue() . "<span class='glyphicon glyphicon-euro'></span> en reduction immédiate</td>");
+                                    echo("<td><strong> PROMOTION, vous avez " . $promo->getReduction_absolue() . "<span class='glyphicon glyphicon-euro'></span> en reduction immédiate</strong></td>");
                                 } else {
-                                    echo("<td> PROMOTION, vous avez " . $promo->getReduction_absolue() . "<span class='glyphicon glyphicon-euro'></span> en reduction en fidélité</td>");
+                                    echo("<td><strong> PROMOTION, vous avez " . $promo->getReduction_absolue() . "<span class='glyphicon glyphicon-euro'></span> en reduction en fidélité</strong></td>");
                                 }
                             }
                         }
