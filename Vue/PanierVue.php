@@ -45,6 +45,7 @@ class PanierVue extends MainVue {
                             $q = $item->getQuantite();
                         }else{
                             $p = Produit::getProduit($item->getReference());
+                            var_dump(Objet_promo::getCodePromo($item->getReference()));
                             $pos = $this->appartient($item->getReference());
                             if(((int)$pos > -1)){
                                 $prix = $promo[$pos]["PRIXFINAL"];
