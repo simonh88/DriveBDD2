@@ -9,12 +9,12 @@ class PanierVue extends MainVue {
 
     private $items;
     private $infos;
-    private $aValider;
+    private $promo;
 
-    public function __construct($produits, $infos, $aValider) {
+    public function __construct($produits, $infos, $promo) {
         $this->items = $produits;
         $this->infos = $infos;
-        $this->aValider = $aValider;
+        $this->promo = $promo;
         parent::__construct("Affichage panier");
     }
 
@@ -35,29 +35,39 @@ class PanierVue extends MainVue {
                     </tr>
                     <?php
                     $prix = 0;
+                    $prixFinal = 0;
                     $i = 0;
                     foreach ($this->items as $item) {
-                        if (!$this->aValider) {
+                        var_dump($promo);
+                        if (empty($promo)) {
                             $p = Produit::getProduit($item->getReference());
                             $prix += $p->getPrix_unit_HT();
+                            $q = $item->getQuantite();
                         }else{
-                            $p = Produit::getProduit($item["reference"]);
-                            $prix = $item["PRIXFINAL"];
+                            $p = Produit::getProduit($item->getReference());
+                            $pos = $this->appartient($item->getReference());
+                            if(((int)$pos > -1)){
+                                echo("coucou");
+                                $prix = $promo[$pos]["PRIXFINAL"];
+                                $q = $promo[$pos]["QUANTITE"];
+                            }else{
+                                $prix = $p->getPrix_unit_HT() * $item->getQuantite();
+                                $q = $item->getQuantite();
+                                
+                            }
+                            $prixFinal += $prix;
+                            
                         }
                         echo( "<tr>
                             <td>" . $p->getLibelle()
                         . "</td>
                            <td>" . $p->getMarque()
                         . "</td>
-                           <td>" . $p->getPrix_unit_HT()
+                           <td>" . $prix
                         . "</td>"
                         . "<td>");
-                        if(!$this->aValider){
-                            echo( $item->getQuantite() . "</td>");
-                        }else{
-                            echo( $item["QUANTITE"] . "</td>");
-                        }
-                        if (!$this->aValider) {
+                        echo($q . "</td>");
+                        if (empty($promo)) {
                             ?>
                             <td>
                                 <form class="form-inline" action="drive.php?a=AffPanier&c=enleveProduit" method="post" id="<?php echo($i) ?>">
@@ -76,7 +86,7 @@ class PanierVue extends MainVue {
                         }
                         $i ++;
                     }
-                    if (!$this->aValider) {
+                    if (empty($promo)) {
                         echo("<tr><td> </td><td></td><td> </td><td></td><td></td></tr>"
                         . "<tr><td> </td><td> </td><td> </td><td></td><th>" . "Total(horsRemises) : " . $montant . " <span class='glyphicon glyphicon-euro'</span></th></tr>")
                         ?>
@@ -86,7 +96,7 @@ class PanierVue extends MainVue {
                     <?php
                 } else {
                     echo("<tr><td> </td><td></td><td> </td><td></td><td></td></tr>"
-                    . "<tr><td> </td><td> </td><td> </td><td></td><th>" . "Total(Remises comprises) : " . $montant . " <span class='glyphicon glyphicon-euro'</span></th></tr>");
+                    . "<tr><td> </td><td> </td><td> </td><td></td><th>" . "Total(Remises comprises) : " . $prixFinal . " <span class='glyphicon glyphicon-euro'</span></th></tr>");
                     ?>
                 </table>
                 <a href="drive.php?a=<?php echo($_GET["a"]); ?>"><button type="button" class="btn btn-danger">Annuler la validation <span class="glyphicon glyphicon-remove"</span></button></a>
@@ -96,6 +106,17 @@ class PanierVue extends MainVue {
         </div>
         </body>
         <?php
+    }
+    
+    private function appartient($ref){
+        $trouver = 0;
+        foreach ($this->promo as $p){
+            if($p["REFERENCE"] == $ref){
+                return $trouver;
+            }
+            $trouver ++;
+        }
+        return -1;
     }
 
 }

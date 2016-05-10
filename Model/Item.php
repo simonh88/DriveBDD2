@@ -256,9 +256,7 @@ class Item {
         $client = Client::getInfosClient($no_carte);
         $i = 0;
 
-        var_dump($data);
         foreach ($data as $ligne) {
-            var_dump($ligne["REFERENCE"]);
             $reference = $ligne["REFERENCE"];
             $quantite = $ligne["QUANTITE"];
             $prixFinal = 0;

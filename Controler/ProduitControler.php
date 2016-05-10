@@ -112,17 +112,16 @@ class ProduitControler extends Controler {
                 } else if ($_GET["c"] == "enleveProduit") {
                     Item::deleteUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
                 } else if ($_GET["c"] == "ValiderPanier") {
-                    var_dump($_SESSION["user"]);
-                    $items = Item::calculPromotion(1223129340);
-                    var_dump($items);
+                    $items = Item::getInfosPanier($_SESSION["user"]);
+                    $promo = Item::calculPromotion($_SESSION["user"]);
                     $infos = Panier::getInfos($_SESSION['user']);
-                    $view = new PanierVue($items, $infos, true);
+                    $view = new PanierVue($items, $infos, $promo);
                 }
             }
             if (empty($view)) {
                 $infos = Panier::getInfos($_SESSION['user']);
                 $items = Item::getInfosPanier($_SESSION['user']);
-                $view = new PanierVue($items, $infos, false);
+                $view = new PanierVue($items, $infos, null);
             }
             $view->displayPage();
         } else {
@@ -296,7 +295,7 @@ class ProduitControler extends Controler {
     }
 
     public static function verifDates($dateDebut, $dateFin) {
-        if ((strtotime("now") - strtotime(ProduitControler::convertDate2($dateDebut)) >= 0) && (strtotime("now") - strtotime(ProduitControler::convertDate2($dateFin)) <= 0)) {
+        if ((strtotime("now") - strtotime(ProduitControler::convertDate($dateDebut)) >= 0) && (strtotime("now") - strtotime(ProduitControler::convertDate($dateFin)) <= 0)) {
             return true;
         }
         return false;
@@ -305,7 +304,6 @@ class ProduitControler extends Controler {
     //d-mm-YYYY H:i
     //d-mm-YYYY H:i
     public static function convertDate($date) {
-	var_dump(strtotime($date));
         $res1 = explode(" ", $date);
         $res2 = explode("/", $res1[0]);
         $res3 = "20" . $res2[2];
