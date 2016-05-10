@@ -62,15 +62,14 @@ class Objet_promo {
             $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
-        
+
 
         $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
 
-            $p = Promotion::getPromotion($row['CODE_PROMO']);
+        $p = Promotion::getPromotion($row['CODE_PROMO']);
 
         return $p;
     }
-
 
     /** En fonction du code, on renvoit le produit* */
     public static function getCodePromoFcode($code_promo) {
@@ -96,8 +95,8 @@ class Objet_promo {
     }
 
     public static function insert($code_promo, $produit) {
-	$test = Objet_promo::getCodePromoFcode($produit);
-        if (!empty($test)) {
+        $test = Objet_promo::exist($code_promo,$produit);
+        if ($test == true) {
             Objet_promo::delete($code_promo, $produit);
         }
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
@@ -109,7 +108,7 @@ class Objet_promo {
             $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
-      }
+    }
 
     public static function delete($code_promo, $produit) {
 
@@ -138,6 +137,25 @@ class Objet_promo {
             $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
+    }
+
+    public static function exist($code_promo, $produit) {
+        $oci = Base::getConnexion();
+        $stid = oci_parse($oci, 'SELECT * FROM Objet_promo WHERE code_promo = :c and reference = :p'); // prepare le cod 
+
+        oci_bind_by_name($stid, ':c', $code_promo);
+        oci_bind_by_name($stid, ':p', $produit);
+
+        $r = oci_execute($stid); // on l'execute
+        if (!$r) {
+            $e = oci_error($stid);
+            trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+        }
+        $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
+        if ($row['NB'] == 1) {
+            return true;
+        }
+        return false;
     }
 
 }
