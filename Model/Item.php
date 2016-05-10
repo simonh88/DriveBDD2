@@ -233,7 +233,7 @@ class Item {
 
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, "SELECT code_promo, reference, quantite, prix_unit_ht, date_debut, date_fin, max_par_client "
+        $stid = oci_parse($oci, "SELECT code_promo, libelle, marque, reference, quantite, prix_unit_ht, date_debut, date_fin, max_par_client "
                 . "FROM ITem JOIN Produit USING(reference) JOIN Objet_Promo USING(reference) JOIN PROMOTION USING(code_promo) "
                 . "WHERE no_carte = :carte and TRUNC(date_debut) <= TRUNC(SYSDATE) AND  TRUNC(date_fin) >= TRUNC(SYSDATE)"); // prepare le code
 
@@ -308,10 +308,12 @@ class Item {
                 }
             }
 
-            
-            $calcul[$reference]["QUANTITE"] = $quantite;
-            $calcul[$reference]["PIRXFINAL"] = $prixFinal;
-            $calcul[$reference]["CAGNOTTE"] = $cagnotte;
+            $calcul[$i]["REFERENCE"] = $reference;
+            $calcul[$i]["QUANTITE"] = $quantite;
+            $calcul[$i]["PIRXFINAL"] = $prixFinal;
+            $calcul[$i]["CAGNOTTE"] = $cagnotte;
+            $calcul[$i]["LIBELLE"] = $ligne["LIBELLE"];
+            $calcul[$i]["MARQUE"] = $ligne["MARQUE"];
             $i++;
             
             
