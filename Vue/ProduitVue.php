@@ -32,7 +32,20 @@ class ProduitVue extends MainVue {
                     <?php
                     $i = 0;
                     foreach ($this->tableau as $produit) {
-
+                        $promo = Objet_promo::getCodePromo($produit->getReference());
+                        $codepromo = $promo->getCode_promo();
+                        if(empty($codepromo)){
+                            $quantStock = $produit->getQuandtite_stock();
+                        }else{
+                            $p = Promotion::getPromotion($codepromo);
+                            if(Item::existProduitDansPanier($_SESSION["user"], $produit->getReference())){
+                                $c = Item::getQuantiteDansPanier($_SESSION["user"], $produit->getReference());
+                            }else{
+                                $c = 0;//ici c vos 0 parce le client n'en a pas encore dans son panier
+                            }
+                            $quantStock = $p->getMax_par_client() - $c;
+                        }
+                        
                         echo( '<tr>
                             <td><img src="' . $produit->getFichier_image() . '" height="42">
         <td>' . $produit->getLibelle()
@@ -42,7 +55,7 @@ class ProduitVue extends MainVue {
         <td>" . $produit->getPrix_unit_HT());
                         ?>
                     </td><td><?php
-                    echo($produit->getQuandtite_stock());
+                    echo( "Max : " . $quantStock);
 
                     if (isset($_GET['a']))
                         $line = $_GET['a'];
@@ -60,14 +73,12 @@ class ProduitVue extends MainVue {
                             ?>">
                         </div>
                         <div class="form-group">
-                            <input type="number" name="qte" step="1" value="1" min="1" max="<?php echo($produit->getQuandtite_stock()) ?>">
+                            <input type="number" name="qte" step="1" value="1" min="1" max="<?php echo($quantStock) ?>">
                         </div>
                         <button type="submit" class="btn btn-default" form="<?php echo($i) ?>">Ajouter au panier</button>
                     </form>
                 </td>
                 <?php
-                $promo = Objet_promo::getCodePromo($produit->getReference());
-		$codepromo = $promo->getCode_promo();
                 if (!empty($codepromo)){
                     if (ProduitControler::verifDates($promo->getDate_debut(), $promo->getDate_fin())) {//Si les dates sont bonnes
                         if ($promo instanceof P_lot) {
