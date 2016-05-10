@@ -37,8 +37,13 @@ class PanierVue extends MainVue {
                     $prix = 0;
                     $i = 0;
                     foreach ($this->items as $item) {
-                        $p = Produit::getProduit($item->getReference());
-                        $prix += $p->getPrix_unit_HT();
+                        if (!$this->aValider) {
+                            $p = Produit::getProduit($item->getReference());
+                            $prix += $p->getPrix_unit_HT();
+                        }else{
+                            $p = Produit::getProduit($item["reference"]);
+                            $prix = $item["PRIXFINAL"];
+                        }
                         echo( "<tr>
                             <td>" . $p->getLibelle()
                         . "</td>
@@ -46,7 +51,12 @@ class PanierVue extends MainVue {
                         . "</td>
                            <td>" . $p->getPrix_unit_HT()
                         . "</td>"
-                        . "<td>" . $item->getQuantite() . "</td>");
+                        . "<td>");
+                        if(!$this->aValider){
+                            echo( $item->getQuantite() . "</td>");
+                        }else{
+                            echo( $item["QUANTITE"] . "</td>");
+                        }
                         if (!$this->aValider) {
                             ?>
                             <td>
@@ -66,7 +76,6 @@ class PanierVue extends MainVue {
                         }
                         $i ++;
                     }
-                    var_dump($this->aValider);
                     if (!$this->aValider) {
                         echo("<tr><td> </td><td></td><td> </td><td></td><td></td></tr>"
                         . "<tr><td> </td><td> </td><td> </td><td></td><th>" . "Total(horsRemises) : " . $montant . " <span class='glyphicon glyphicon-euro'</span></th></tr>")
@@ -79,14 +88,14 @@ class PanierVue extends MainVue {
                     echo("<tr><td> </td><td></td><td> </td><td></td><td></td></tr>"
                     . "<tr><td> </td><td> </td><td> </td><td></td><th>" . "Total(Remises comprises) : " . $montant . " <span class='glyphicon glyphicon-euro'</span></th></tr>");
                     ?>
-            </table>
-                    <a href="drive.php?a=<?php echo($_GET["a"]); ?>"><button type="button" class="btn btn-danger">Annuler la validation <span class="glyphicon glyphicon-remove"</span></button></a>
-                    <a href="drive.php?a=Payer"><button type="button" class="btn btn-succes">Payer <span class="glyphicon glyphicon-euro"</span></button></a>
-                    <?php }
-                    ?>
-                </div>
-            </body>
-            <?php
-        }
+                </table>
+                <a href="drive.php?a=<?php echo($_GET["a"]); ?>"><button type="button" class="btn btn-danger">Annuler la validation <span class="glyphicon glyphicon-remove"</span></button></a>
+                <a href="drive.php?a=Payer"><button type="button" class="btn btn-succes">Payer <span class="glyphicon glyphicon-euro"</span></button></a>
+            <?php }
+            ?>
+        </div>
+        </body>
+        <?php
     }
-    
+
+}
