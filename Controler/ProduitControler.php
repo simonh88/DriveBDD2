@@ -115,13 +115,13 @@ class ProduitControler extends Controler {
                     $items = Item::getInfosPanier($_SESSION["user"]);
                     $promo = Item::calculPromotion($_SESSION["user"]);
                     $infos = Panier::getInfos($_SESSION['user']);
-                    $view = new PanierVue($items, $infos, $promo);
+                    $view = new PanierVue($items, $infos, $promo, true);
                 }
             }
             if (empty($view)) {
                 $infos = Panier::getInfos($_SESSION['user']);
                 $items = Item::getInfosPanier($_SESSION['user']);
-                $view = new PanierVue($items, $infos, null);
+                $view = new PanierVue($items, $infos, null, false);
             }
             $view->displayPage();
         } else {

@@ -10,11 +10,13 @@ class PanierVue extends MainVue {
     private $items;
     private $infos;
     private $promo;
+    private $estValider;
 
-    public function __construct($produits, $infos, $promo) {
+    public function __construct($produits, $infos, $promo,$estValider) {
         $this->items = $produits;
         $this->infos = $infos;
         $this->promo = $promo;
+        $this->estValider = $estValider;
         parent::__construct("Affichage panier");
     }
 
@@ -42,8 +44,8 @@ class PanierVue extends MainVue {
                     foreach ($this->items as $item) {
                         if (empty($promo)) {
                             $p = Produit::getProduit($item->getReference());
-                            $prix += $p->getPrix_unit_HT();
                             $q = $item->getQuantite();
+                            $prix += $p->getPrix_unit_HT() * $q;
                             $eurosCarte = 0;
                         }else{
                             $p = Produit::getProduit($item->getReference());
@@ -57,9 +59,10 @@ class PanierVue extends MainVue {
                                 $q = $item->getQuantite();
                                 
                             }
-                            $prixFinal += $prix;
+                            
                             
                         }
+                        $prixFinal += $prix;
                         echo( "<tr>
                             <td>" . $p->getLibelle()
                         . "</td>
@@ -69,7 +72,7 @@ class PanierVue extends MainVue {
                         . "</td>"
                         . "<td>");
                         echo($q . "</td>");
-                        if (empty($promo)) {
+                        if (!$this->estValider) {
                             ?>
                             <td>
                                 <form class="form-inline" action="drive.php?a=AffPanier&c=enleveProduit" method="post" id="<?php echo($i) ?>">
@@ -88,7 +91,7 @@ class PanierVue extends MainVue {
                         }
                         $i ++;
                     }
-                    if (empty($promo)) {
+                    if (!$this->estValider) {
                         echo("<tr><td> </td><td></td><td> </td><td></td><td></td></tr>"
                         . "<tr><td> </td><td> </td><td> </td><td></td><th>" . "Total(horsRemises) : " . $montant . " <span class='glyphicon glyphicon-euro'</span></th></tr>")
                         ?>
