@@ -33,7 +33,7 @@ class PayerVue extends MainVue {
                     <h3>Vous venez d'être débité</h3>
                     <h3>Vous avez utilisez <?php echo($this->eurosAEnlever); ?> euro(s) de votre carte</h3>
                     <h3>Votre nouveau solde de votre carte : <?php echo($this->eurosCarte) ?> euro(s)</h3>
-                    
+
                     <?php
                 } else {
                     if (!($this->infos->getMontant() > 0)) {
@@ -42,17 +42,40 @@ class PayerVue extends MainVue {
                         <button type="button" class="btn btn-success disabled">Payer</button>
                         <?php
                     } else {
-                        echo("<h3>Montant à payer :" . $this->prixAPayer ." euros</h3>");
+                        echo("<h3>Montant à payer :" . $this->prixAPayer . " euros</h3>");
                         ?>
-                         <form class="form-inline" action="drive.php?a=Payer&c=validPayement" method="post" id="isPayer">
-                             <input type="hidden" name="eurosCarte" value="<?php echo($this->eurosCarte) ?>">
-                             <input type="hidden" name="eurosADeduire" value="<?php echo($this->eurosAEnlever) ?>">
-                             <button type="submit" class="btn btn-success" form="isPayer">Finaliser</button>
-                         </form>
-                <?php }} ?>
-                </div>
-            </body>
-            <?php
-        }
+                        <h3>Veulliez choisir la date de retrait</h3>
+                        <link rel="stylesheet" type="text/css" href="lib/datetimepicker/jquery.datetimepicker.css"/>
+
+                        <script src="lib/datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
+                        <div style="overflow:hidden;">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div id="datetimepicker12"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <script type="text/javascript">
+                                $(function () {
+                                    $('#datetimepicker12').datetimepicker({
+                                        inline: true,
+                                        sideBySide: true
+                                    });
+                                });
+                            </script>
+                        </div>
+
+                        <form class="form-inline" action="drive.php?a=Payer&c=validPayement" method="post" id="isPayer">
+                            <input type="hidden" name="eurosCarte" value="<?php echo($this->eurosCarte) ?>">
+                            <input type="hidden" name="eurosADeduire" value="<?php echo($this->eurosAEnlever) ?>">
+                            <button type="submit" class="btn btn-success" form="isPayer">Finaliser</button>
+                        </form>
+                    <?php }
+                } ?>
+            </div>
+        </body>
+        <?php
     }
-    
+
+}
