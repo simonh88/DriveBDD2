@@ -135,6 +135,7 @@ class ProduitControler extends Controler {
             $infos = Panier::getInfos($_SESSION['user']);
             if (isset($_GET["c"])) {
                 if ($_GET["c"] == "validPayement") {
+                    var_dump($_POST["dateRetrait"]);
                     $eurosCarte = $_POST["eurosCarte"];
                     $eurosAdeduire = $_POST["eurosADeduire"];
                     $cli = Client::getInfosClient($_SESSION["user"]);
