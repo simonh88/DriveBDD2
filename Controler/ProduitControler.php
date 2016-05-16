@@ -135,7 +135,11 @@ class ProduitControler extends Controler {
             $infos = Panier::getInfos($_SESSION['user']);
             if (isset($_GET["c"])) {
                 if ($_GET["c"] == "validPayement") {
-                    $date = $_POST["date"];
+                    $dd = $_POST["date"];
+                    $dd = explode(":", $_POST['date']);
+                    $date = explode("/", $dd[0]);
+                    $jj = explode(" ", $date[2]);
+                    $date = $jj[0] . "/" . $date[1] . "/" . $date[0] . " " . $jj[1] . ":" .$dd[1];
                     var_dump($date);
                     if (Planning::existPlanning($date)) {
                         if (Planning::verifNombreLivraison($date)) {//Il reste de la place

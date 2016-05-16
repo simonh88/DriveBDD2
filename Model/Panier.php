@@ -103,7 +103,7 @@ class Panier {
     public static function insert($noCarte) {
 
         $oci = Base::getConnexion();
-        $stid = oci_parse($oci, "INSERT INTO Panier (NO_CARTE ,DATE_HEURE) VALUES ( :nocarte , To_Date( :heure ,'dd/mm/yyyy hh24')) "); // prepare le code        
+        $stid = oci_parse($oci, "INSERT INTO Panier (NO_CARTE ,DATE_HEURE) VALUES ( :nocarte , To_Date( :heure ,'dd/mm/yyyy hh24:mi')) "); // prepare le code        
 
         $heure = Planning::getDefaultDate();
         oci_bind_by_name($stid, ':nocarte', $noCarte);
@@ -132,23 +132,20 @@ class Panier {
     public function update() {
 
         $oci = Base::getConnexion();
-        $stid = oci_parse($oci, "UPDATE Panier SET montant = :m, DATE_HEURE = :dh, datevalidation = :date, vide_vf = :vf where no_carte = :nocarte and reference = :ref");
-//
-        oci_bind_by_name($stid, ':m', $this->getMontant());
-        oci_bind_by_name($stid, ':dh', $this->getDate_heure());
-        oci_bind_by_name($stid, ':date', $this->getDate_validation());
-        oci_bind_by_name($stid, ':vf', $this->getVide_VF());
-        oci_bind_by_name($stid, ':no_cartef', $this->getNo_carte());
+        $stid = oci_parse($oci, "UPDATE Panier SET DATEVALIDATION = To_Date( :dateVal ,'dd/mm/yyyy hh24:mi') where no_carte = :no");
 
-
-
+        $date = $this->getDate_validation();
+        $no = $this->getNo_carte();
+        oci_bind_by_name($stid, ':dateVal', $date);
+        oci_bind_by_name($stid, ':no', $no);
+        
 
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
-        Panier::setPrix($nocarte);
+        Panier::setPrix($no);
     }
 
     /**
