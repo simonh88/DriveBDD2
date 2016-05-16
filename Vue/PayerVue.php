@@ -78,6 +78,7 @@ class PayerVue extends MainVue {
 
                         <form class="form-inline" action="drive.php?a=Payer&c=validPayement" method="post">
                             <input id="datetimepicker12" type="text" value="" name="date" required/>
+                            <input type="hidden" name="prixFinal" value="<?php echo($this->prixAPayer) ?>">
                             <input type="hidden" name="eurosCarte" value="<?php echo($this->eurosCarte) ?>">
                             <input type="hidden" name="eurosADeduire" value="<?php echo($this->eurosAEnlever) ?>">
                             <button type="submit" name="submit" style="display: block; width: 30%;" class="btn btn-success">Finaliser</button>

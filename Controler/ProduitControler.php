@@ -157,7 +157,8 @@ class ProduitControler extends Controler {
                         } else {//Le planning est plein il faut rechoisir
                             $eurosCarte = $_POST["eurosCarte"];
                             $eurosAdeduire = $_POST["eurosADeduire"];
-                            $prixFinal = 0;
+                            $p = Panier::getInfos($_SESSION["user"]);
+                            $prixFinal = $_POST["prixFinal"];
                             $msgError = " Le nombre de commandes atteinte ici est trop élevé, veuillez choisir un autre moment. Merci";
                             $view = new PayerVue($infos, false, $eurosCarte, $prixFinal, $eurosAdeduire, $msgError); //false donc rechoisir
                             $view->displayPage();
