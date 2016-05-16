@@ -91,7 +91,7 @@ class Planning {
     public static function getNbPanierInscrits($date) {
         
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        $stid = oci_parse($oci, "SELECT count(*) as nb FROM Panier WHERE date_heure = to_date(:id,'dd/mm/yyyy hh24:mi')"); // prepare le code
+        $stid = oci_parse($oci, "SELECT count(*) as nb FROM Panier WHERE DATEVALIDATION = to_date(:id,'dd/mm/yyyy hh24:mi')"); // prepare le code
         oci_bind_by_name($stid, ':id', $date);
 
         $r = oci_execute($stid); // on l'execute
