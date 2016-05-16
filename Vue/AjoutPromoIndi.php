@@ -73,7 +73,7 @@ class AjoutPromoIndi extends AdminHomeVue {
                 <?php $this->ajoutProduit() ?>
             </div>
             <button type="submit" name="submit" style="display: block; width: 100%;" class="btn btn-success">Créer</button>
-            
+
         </form>
 
 
@@ -98,7 +98,7 @@ class AjoutPromoIndi extends AdminHomeVue {
                             </a></h4>
                         <div class="checkbox ">
                             <label>
-                                <input type="checkbox" class="form-control"  name="<?php echo "nom_categorie[".$cat->getNom()."]"; ?>" >
+                                <input type="checkbox" class="form-control"  name="<?php echo "nom_categorie[" . $cat->getNom() . "]"; ?>" >
                             </label> 
 
                         </div>
@@ -159,7 +159,8 @@ class AjoutPromoIndi extends AdminHomeVue {
 
                                                                 </div>
                                                             </div>
-                                                            <?php $test = $srayon->getSous();if (!empty($test)) { ?>
+                                                            <?php $test = $srayon->getSous();
+                                                            if (!empty($test)) { ?>
                                                                 <div id="collapse<?php
                                                                 echo $collapse;
                                                                 $collapse++;
@@ -178,7 +179,7 @@ class AjoutPromoIndi extends AdminHomeVue {
                                                                                 <div class="panel panel-default">
                                                                                     <div class="panel-heading">
                                                                                         <h4 class="panel-title"><a class="panel-toggle" data-toggle="collapse" data-parent="#accordion<?php echo $numAccordeon ?>" href="#collapse<?php echo $collapse ?> ">
-                                                                                                <?php echo $ssrayon->getNom(); ?>
+                            <?php echo $ssrayon->getNom(); ?>
                                                                                             </a></h4>
                                                                                         <div class="checkbox ">
                                                                                             <label>
@@ -205,8 +206,7 @@ class AjoutPromoIndi extends AdminHomeVue {
 
 
                                                                                     </div>
-                                                                                    <?php
-                                                                                    ?>
+                                                                                    <?php ?>
                                                                                 </div><?php
                                                                             }
                                                                             ?>

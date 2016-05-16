@@ -6,7 +6,7 @@ class P_lot extends Promotion {
     private $nb_gratuits;
 
     function __construct($row) {
-        parent::__construct($row);        
+        parent::__construct($row);
         $this->nb_achetes = $row['NB_ACHETES'];
         $this->nb_gratuits = $row['NB_GRATUITS'];
     }
@@ -87,7 +87,7 @@ class P_lot extends Promotion {
         return $promo;
     }
 
-    public static function insert($code_promo, $date_debut, $date_fin, $max_par_client,$nb_achetes, $nb_gratuits) {
+    public static function insert($code_promo, $date_debut, $date_fin, $max_par_client, $nb_achetes, $nb_gratuits) {
         $oci = Base::getConnexion();
         Promotion::insertP($code_promo, $date_debut, $date_fin, $max_par_client);
 
@@ -109,7 +109,7 @@ class P_lot extends Promotion {
         $stid = oci_parse($oci, "UPDATE P_individuelle  SET nb_achetes = :nb_achetes, nb_gratuits = :nb_gratuits WHERE code_promo = :code_promo"); // prepare le code                
         oci_bind_by_name($stid, ":code_promo", $this->code_promo);
         oci_bind_by_name($stid, ":nb_achetes", $this->$nb_achetes);
-        oci_bind_by_name($stid, ":nb_gratuits", $this->$nb_gratuits);        
+        oci_bind_by_name($stid, ":nb_gratuits", $this->$nb_gratuits);
         if (!$r) {
             $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);

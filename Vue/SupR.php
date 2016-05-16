@@ -18,7 +18,7 @@ class SupR extends AdminHomeVue {
               margin: auto;
               ">            
             <form class="form-inline" action="drive.php?acces=Admin&a=SuprRayon" method="post">
-                <input type="hidden" name='ok' value ='<?php echo $_GET['id'];?>'>
+                <input type="hidden" name='ok' value ='<?php echo $_GET['id']; ?>'>
                 <button class="btn btn-danger" role="button">Oui</button>
             </form>
         </div>

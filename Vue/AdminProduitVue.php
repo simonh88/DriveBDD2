@@ -20,7 +20,7 @@ class AdminProduitVue extends AdminHomeVue {
         </form>
 
         <?php
-        if ($this->produit  == null) {
+        if ($this->produit == null) {
             $allProduit = Produit::getAll();
             ?>
 

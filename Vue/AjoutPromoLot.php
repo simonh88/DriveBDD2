@@ -150,7 +150,8 @@ class AjoutPromoLot extends AdminHomeVue {
 
                                                                 </div>
                                                             </div>
-                                                            <?php $test = $srayon->getSous(); if (!empty($test)) { ?>
+                                                            <?php $test = $srayon->getSous();
+                                                            if (!empty($test)) { ?>
                                                                 <div id="collapse<?php
                                                                 echo $collapse;
                                                                 $collapse++;
@@ -169,7 +170,7 @@ class AjoutPromoLot extends AdminHomeVue {
                                                                                 <div class="panel panel-default">
                                                                                     <div class="panel-heading">
                                                                                         <h4 class="panel-title"><a class="panel-toggle" data-toggle="collapse" data-parent="#accordion<?php echo $numAccordeon ?>" href="#collapse<?php echo $collapse ?> ">
-                                                                                                <?php echo $ssrayon->getNom(); ?>
+                            <?php echo $ssrayon->getNom(); ?>
                                                                                             </a></h4>
                                                                                         <div class="checkbox ">
                                                                                             <label>
@@ -196,8 +197,7 @@ class AjoutPromoLot extends AdminHomeVue {
 
 
                                                                                     </div>
-                                                                                    <?php
-                                                                                    ?>
+                                                                                    <?php ?>
                                                                                 </div><?php
                                                                             }
                                                                             ?>

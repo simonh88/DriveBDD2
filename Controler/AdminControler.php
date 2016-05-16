@@ -99,7 +99,7 @@ class AdminControler extends Controler {
                 }
             }
             if (isset($_POST['reference'])) {
-                
+
                 foreach ($_POST['reference'] as $ref => $osef) {
                     $produit = Produit::getProduit($ref);
                     Objet_promo::insert($_POST["code"], $produit->getReference());
@@ -115,7 +115,7 @@ class AdminControler extends Controler {
 
     public function addPromoL() {
         if (isset($_POST["code"])) {
-           
+
             $dd = explode(":", $_POST['datedebut']);
             $date = explode("/", $dd[0]);
             $jj = explode(" ", $date[2]);
@@ -128,7 +128,7 @@ class AdminControler extends Controler {
 
             $datefin = $jjf[0] . "/" . $datef[1] . "/" . $datef[0] . " " . $jjf[1];
 
-            
+
             P_Lot::insert($_POST['code'], $datedebut, $datefin, $_POST['max'], $_POST['achat'], $_POST['offert']);
 
 
@@ -169,7 +169,7 @@ class AdminControler extends Controler {
                 }
             }
             if (isset($_POST['reference'])) {
-               
+
                 foreach ($_POST['reference'] as $ref => $osef) {
                     $produit = Produit::getProduit($ref);
                     Objet_promo::insert($_POST["code"], $produit->getReference());
@@ -403,7 +403,6 @@ class AdminControler extends Controler {
     }
 
     public function search() { // pour le moment, que la reference du produit
-        
         $produit = Produit::getProduit($_POST["reference"]);
         if (empty($produit)) {
             $vue = new AdminProduitVue();

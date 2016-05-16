@@ -15,11 +15,11 @@ class AjoutRayon extends AdminHomeVue {
 
                 <!-- Form Name -->
                 <legend>Rayon</legend>
-                
+
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="textinput">Rayon</label>  
                     <div class="col-md-4">
-                        <input type="hidden" name="categorie" value="<?php echo $_GET["id"]?>">
+                        <input type="hidden" name="categorie" value="<?php echo $_GET["id"] ?>">
                         <input id="textinput" name="nom" placeholder="Nom du Rayon" class="form-control input-md" required="" type="text">
 
                     </div>

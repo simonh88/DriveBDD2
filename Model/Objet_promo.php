@@ -95,7 +95,7 @@ class Objet_promo {
     }
 
     public static function insert($code_promo, $produit) {
-        $test = Objet_promo::exist($code_promo,$produit);
+        $test = Objet_promo::exist($code_promo, $produit);
         if ($test == true) {
             Objet_promo::delete($code_promo, $produit);
         }

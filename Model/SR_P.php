@@ -106,7 +106,7 @@ class SR_P {
     public static function deleteUn($produit) {
 
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        $stid = oci_parse($oci, "DELETE FROM SR_P WHERE REFERENCE = :produit");        
+        $stid = oci_parse($oci, "DELETE FROM SR_P WHERE REFERENCE = :produit");
         oci_bind_by_name($stid, ':produit', $produit);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {

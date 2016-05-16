@@ -157,7 +157,7 @@ AND " . $where . "= :valeur";
         }
 
         $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
-        
+
         if ($row['NB'] == 1) {
             return true;
         }

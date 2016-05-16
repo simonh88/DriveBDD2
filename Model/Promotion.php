@@ -101,8 +101,8 @@ class Promotion {
         oci_bind_by_name($stid, ":code_promo", $code_promo);
         oci_bind_by_name($stid, ":date_debut", $date_debut);
         oci_bind_by_name($stid, ":date_fin", $date_fin);
-        oci_bind_by_name($stid, ":max_par_client", $max_par_client);        
-        
+        oci_bind_by_name($stid, ":max_par_client", $max_par_client);
+
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);
@@ -129,7 +129,7 @@ class Promotion {
         $oci = Base::getConnexion();
         Item::deleteAll($code);
         $stid = oci_parse($oci, "DELETE FROM PROMOTION where CODE_PROMO = :carte");
-        oci_bind_by_name($stid, ':carte', $code);        
+        oci_bind_by_name($stid, ':carte', $code);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
             $e = oci_error($stid);

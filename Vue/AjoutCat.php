@@ -10,7 +10,7 @@ class AjoutCat extends AdminHomeVue {
     public function displayBody() {
         ?>
 
-<form class="form-horizontal" action="drive.php?acces=Admin&a=AjoutCategorie" method="post" id="form1">
+        <form class="form-horizontal" action="drive.php?acces=Admin&a=AjoutCategorie" method="post" id="form1">
             <fieldset>
 
                 <!-- Form Name -->

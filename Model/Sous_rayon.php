@@ -114,7 +114,7 @@ class Sous_rayon {
     }
 
     public static function delete($nom) {
-        
+
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
         $stid = oci_parse($oci, "DELETE FROM SOUS_RAYON WHERE NOM_SR = :nom ");
         oci_bind_by_name($stid, ":nom", $nom);
@@ -138,7 +138,7 @@ class Sous_rayon {
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
         $numrow = oci_fetch_all($stid, $res);
-        
+
         if ($numrow > 0)
             return true;
         else

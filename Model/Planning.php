@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 class Planning {
 
@@ -89,7 +89,7 @@ class Planning {
 
     /** Fonction calculant le nombre de panier inscrits au planning à une date précisé en paramètres */
     public static function getNbPanierInscrits($date) {
-        
+
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
         $stid = oci_parse($oci, "SELECT count(*) as nb FROM Panier WHERE DATEVALIDATION = to_date(:id,'dd/mm/yyyy hh24:mi')"); // prepare le code
         oci_bind_by_name($stid, ':id', $date);
@@ -103,7 +103,6 @@ class Planning {
         $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
         return $row;
     }
- 
 
     /** On regarde en fonction d'une date si on peut encore ajouter un panier ou non au planning* */
     public static function verifNombreLivraison($date) {
@@ -153,7 +152,7 @@ class Planning {
                 $e = oci_error($stid);
                 trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
             }
-        }else{
+        } else {
             echo("Le planning existait déjà.");
         }
         //S'il existe on fait rien.
@@ -166,7 +165,7 @@ class Planning {
     }
 
     /*     * INsert un planning par défaut rattaché à tout les paniers avec nb_livraison_max = -1 et une date par défaut. * */
-    
+
     public static function insertDefaultPlanning() {
         //Si le planning par défaut n'existe pas, on l'insert, sinon on fait rien
         $dateDefault = Planning::getDefaultDate();
@@ -181,12 +180,9 @@ class Planning {
                 $e = oci_error($stid);
                 trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
             }
-        }else{
+        } else {
             echo("Le planning par défaut existait déjà");
         }
     }
-    
-    
-    
 
 }

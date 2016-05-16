@@ -21,7 +21,7 @@ class ProfilVue extends MainVue {
     public function displayBody() {
         $cli = Client::getInfosClient($_SESSION["user"]);
         if (!$this->aValider) {
-            ?><h5>Vous avez <?php echo($cli->getCredit_carte())?> euros sur la carte à votre disposition.</h5> <?php
+            ?><h5>Vous avez <?php echo($cli->getCredit_carte()) ?> euros sur la carte à votre disposition.</h5> <?php
             if (!$this->infosCorrects) {
                 ?>
                 <body>

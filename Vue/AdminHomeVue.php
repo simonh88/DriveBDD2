@@ -1,7 +1,7 @@
 <?php
 
 class AdminHomeVue extends MainVue {
-    
+
     public function __construct() {
         parent::__construct("Administrateur");
     }

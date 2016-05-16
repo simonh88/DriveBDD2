@@ -15,11 +15,11 @@ class AjoutSRayon extends AdminHomeVue {
 
                 <!-- Form Name -->
                 <legend>Sous Rayon</legend>
-                
+
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="textinput">Sous Rayon</label>  
                     <div class="col-md-4">
-                        <input type="hidden" name="rayon" value="<?php echo $_GET["id"]?>">
+                        <input type="hidden" name="rayon" value="<?php echo $_GET["id"] ?>">
                         <input id="textinput" name="nom" placeholder="Nom du Sous Rayon" class="form-control input-md" required="" type="text">
 
                     </div>

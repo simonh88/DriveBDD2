@@ -138,7 +138,7 @@ class Panier {
         $no = $this->getNo_carte();
         oci_bind_by_name($stid, ':dateVal', $date);
         oci_bind_by_name($stid, ':no', $no);
-        
+
 
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
@@ -162,10 +162,10 @@ class Panier {
         if (!$r) {
             $e = oci_error($stid);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-        }        
+        }
     }
-    
-    public static function getPrix($noCarte){
+
+    public static function getPrix($noCarte) {
         $oci = Base::getConnexion();
         $stid = oci_parse($oci, "Select montant from Panier where NO_CARTE = :carte");
         oci_bind_by_name($stid, ':carte', $noCarte);
@@ -178,5 +178,5 @@ class Panier {
         $prix = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
         return $prix["MONTANT"];
     }
-    
+
 }

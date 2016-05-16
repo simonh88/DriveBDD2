@@ -125,7 +125,8 @@ class PanierVue extends MainVue {
                         ?>">
                         <button type="submit" class="btn btn-succes" form="valPanier">Payer <span class="glyphicon glyphicon-euro"</span></button>
                     </form>
-                <?php }
+                <?php
+                }
             }
             ?>
         </div>
