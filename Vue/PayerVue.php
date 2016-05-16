@@ -47,15 +47,7 @@ class PayerVue extends MainVue {
                         <h3>Veulliez choisir la date de retrait</h3>
                         <link rel="stylesheet" type="text/css" href="lib/datetimepicker/jquery.datetimepicker.css"/>
 
-                        <script src="lib/datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
-                        <div style="overflow:hidden;">
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <div id="datetimepicker12"></div>
-                                    </div>
-                                </div>
-                            </div>
+                        <script src="lib/datetimepicker/build/jquery.datetimepicker.full.min.js"></script>                       
                             <script type="text/javascript">
                                 $(function () {
 
@@ -74,7 +66,7 @@ class PayerVue extends MainVue {
                                     });
                                 });
                             </script>
-                        </div>
+                        
 
                         <form class="form-inline" action="drive.php?a=Payer&c=validPayement" method="post">
                             <input id="datetimepicker12" type="text" value="" name="date" required/>
