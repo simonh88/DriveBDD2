@@ -181,7 +181,7 @@ class ProduitControler extends Controler {
             } else {
                 $eurosCarte = $_POST["eurosCarte"];
                 $eurosAdeduire = $_POST["eurosADeduire"];
-                $prixFinal = 0;
+                $prixFinal = $_POST["prixFinal"];
                 $view = new PayerVue($infos, false, $eurosCarte, $prixFinal, $eurosAdeduire, NULL); //false donc rechoisir
                 $view->displayPage();
             }
