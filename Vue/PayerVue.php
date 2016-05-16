@@ -47,7 +47,7 @@ class PayerVue extends MainVue {
                         $m = $this->msg;
                         if (!empty($m)) {
                             ?>
-                            <div class="alert alert-warning"><strong>Attention!</strong><?php echo($msg); ?></div>
+                            <div class="alert alert-warning"><strong>Attention!</strong><?php echo($this->msg); ?></div>
                         <?php
                         } else {
 
