@@ -161,7 +161,7 @@ class ProduitControler extends Controler {
                             $eurosAdeduire = $_POST["eurosADeduire"];
                             $prixFinal = $_POST["prixFinal"] - $eurosAdeduire;
                             $msgError = "Le nombre de commandes atteinte ici est trop élevé, veuillez choisir un autre moment. Merci";
-                            $view = new PayerVue($infos, false, $eurosCarte, $prixFinal, $eurosAdeduire, $msg); //false donc rechoisir
+                            $view = new PayerVue($infos, false, $eurosCarte, $prixFinal, $eurosAdeduire, $msgError); //false donc rechoisir
                             $view->displayPage();
                         }
                     } else {//Le planning n'existe pas
