@@ -25,7 +25,7 @@ class ProduitControler extends Controler {
 
     private function ajouterPanier() {
         $infos = Panier::getInfos($_SESSION["user"]);
-	$info =$infos->getNo_carte();
+        $info = $infos->getNo_carte();
         if (empty($info)) {
             if (!Planning::existPlanning(Planning::getDefaultDate())) {//On insert un planning par défaut utilisé pour les paniers par défaut.
                 Planning::insertDefaultPlanning();
@@ -137,22 +137,49 @@ class ProduitControler extends Controler {
                 if ($_GET["c"] == "validPayement") {
                     $date = $_POST["date"];
                     var_dump($date);
-                    $eurosCarte = $_POST["eurosCarte"];
-                    $eurosAdeduire = $_POST["eurosADeduire"];
-                    $cli = Client::getInfosClient($_SESSION["user"]);
-                    $eurosCarteFinal = ($cli->getCredit_carte() + $eurosCarte)- $eurosAdeduire;
-                    
-                    $cli->setCredit_carte($eurosCarteFinal);
-                    $cli->update();
-                    Item::deleteAll($_SESSION['user']);
-                    $view = new PayerVue(NULL, true, $eurosCarteFinal, NULL, $eurosAdeduire );
-                    $view->displayPage();
+                    if (Planning::existPlanning($date)) {
+                        if (Planning::verifNombreLivraison($date)) {//Il reste de la place
+                            $p = Panier::getInfos($_SESSION["user"]);
+                            $p->setDate_validation($date);
+                            $p->update();
+                            $eurosCarte = $_POST["eurosCarte"];
+                            $eurosAdeduire = $_POST["eurosADeduire"];
+                            $cli = Client::getInfosClient($_SESSION["user"]);
+                            $eurosCarteFinal = ($cli->getCredit_carte() + $eurosCarte) - $eurosAdeduire;
+                            $cli->setCredit_carte($eurosCarteFinal);
+                            $cli->update();
+                            Item::deleteAll($_SESSION['user']);
+                            $view = new PayerVue(NULL, true, $eurosCarteFinal, NULL, $eurosAdeduire, NULL);
+                            $view->displayPage();
+                        } else {//Le planning est plein il faut rechoisir
+                            $eurosCarte = $_POST["eurosCarte"];
+                            $eurosAdeduire = $_POST["eurosADeduire"];
+                            $prixFinal = $_POST["prixFinal"] - $eurosAdeduire;
+                            $msgError = "Le nombre de commandes atteinte ici est trop élevé, veuillez choisir un autre moment. Merci";
+                            $view = new PayerVue($infos, false, $eurosCarte, $prixFinal, $eurosAdeduire, $msg); //false donc rechoisir
+                            $view->displayPage();
+                        }
+                    } else {//Le planning n'existe pas
+                        Planning::insertPlanning($date, 5); //5 par défaut à toute heures
+                        $p = Panier::getInfos($_SESSION["user"]);
+                        $p->setDate_validation($date);
+                        $p->update();
+                        $eurosCarte = $_POST["eurosCarte"];
+                        $eurosAdeduire = $_POST["eurosADeduire"];
+                        $cli = Client::getInfosClient($_SESSION["user"]);
+                        $eurosCarteFinal = ($cli->getCredit_carte() + $eurosCarte) - $eurosAdeduire;
+                        $cli->setCredit_carte($eurosCarteFinal);
+                        $cli->update();
+                        Item::deleteAll($_SESSION['user']);
+                        $view = new PayerVue(NULL, true, $eurosCarteFinal, NULL, $eurosAdeduire, NULL);
+                        $view->displayPage();
+                    }
                 }
             } else {
-                $eurosCarte = $_POST["eurosCarte"]; 
+                $eurosCarte = $_POST["eurosCarte"];
                 $eurosAdeduire = $_POST["eurosADeduire"];
-                $prixFinal = $_POST["prixFinal"] - $eurosAdeduire; 
-                $view = new PayerVue($infos, false, $eurosCarte, $prixFinal, $eurosAdeduire);
+                $prixFinal = $_POST["prixFinal"] - $eurosAdeduire;
+                $view = new PayerVue($infos, false, $eurosCarte, $prixFinal, $eurosAdeduire, NULL);
                 $view->displayPage();
             }
         } else {
@@ -325,7 +352,7 @@ class ProduitControler extends Controler {
     }
 
     //Pour la fac pas besoin de modif.
-    public static function convertDate2($date) {		
+    public static function convertDate2($date) {
         return $date;
     }
 

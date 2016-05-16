@@ -134,11 +134,11 @@ class Panier {
         $oci = Base::getConnexion();
         $stid = oci_parse($oci, "UPDATE Panier SET montant = :m, DATE_HEURE = :dh, datevalidation = :date, vide_vf = :vf where no_carte = :nocarte and reference = :ref");
 //
-        oci_bind_by_name($stid, ':m', $this->getQuantite());
-        oci_bind_by_name($stid, ':dh', $this->getQuantite());
-        oci_bind_by_name($stid, ':date', $this->getQuantite());
-        oci_bind_by_name($stid, ':vf', $this->getQuantite());
-        oci_bind_by_name($stid, ':no_cartef', $this->getQuantite());
+        oci_bind_by_name($stid, ':m', $this->getMontant());
+        oci_bind_by_name($stid, ':dh', $this->getDate_heure());
+        oci_bind_by_name($stid, ':date', $this->getDate_validation());
+        oci_bind_by_name($stid, ':vf', $this->getVide_VF());
+        oci_bind_by_name($stid, ':no_cartef', $this->getNo_carte());
 
 
 

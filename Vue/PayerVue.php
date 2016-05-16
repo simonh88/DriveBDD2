@@ -12,13 +12,15 @@ class PayerVue extends MainVue {
     private $eurosCarte;
     private $prixAPayer;
     private $eurosAEnlever;
+    private $msg;
 
-    public function __construct($infos, $isPayer, $eurosCarte, $prixAPayer, $eurosAEnlever) {
+    public function __construct($infos, $isPayer, $eurosCarte, $prixAPayer, $eurosAEnlever, $msg) {
         $this->infos = $infos;
         $this->isPayer = $isPayer;
         $this->eurosCarte = $eurosCarte;
         $this->prixAPayer = $prixAPayer;
         $this->eurosAEnlever = $eurosAEnlever;
+        $this->msg = $msg;
         parent::__construct("Payer panier");
     }
 
@@ -42,12 +44,19 @@ class PayerVue extends MainVue {
                         <button type="button" class="btn btn-success disabled">Payer</button>
                         <?php
                     } else {
-                        echo("<h3>Montant à payer :" . $this->prixAPayer . " euros</h3>");
-                        ?>
-                        <h3>Veulliez choisir la date de retrait</h3>
-                        <link rel="stylesheet" type="text/css" href="lib/datetimepicker/jquery.datetimepicker.css"/>
+                        $m = $this->msg;
+                        if (!empty($m)) {
+                            ?>
+                            <div class="alert alert-warning"><strong>Attention!</strong><?php echo($msg); ?></div>
+                        <?php
+                        } else {
 
-                        <script src="lib/datetimepicker/build/jquery.datetimepicker.full.min.js"></script>                       
+                            echo("<h3>Montant à payer :" . $this->prixAPayer . " euros</h3>");
+                            ?>
+                            <h3>Veulliez choisir la date de retrait</h3>
+                            <link rel="stylesheet" type="text/css" href="lib/datetimepicker/jquery.datetimepicker.css"/>
+
+                            <script src="lib/datetimepicker/build/jquery.datetimepicker.full.min.js"></script>                       
                             <script type="text/javascript">
                                 $(function () {
 
@@ -61,20 +70,21 @@ class PayerVue extends MainVue {
                                         },
                                         weekends: ['01.01.2014', '02.01.2014', '03.01.2014', '04.01.2014', '05.01.2014', '06.01.2014'],
                                         allowTimes: [
-                                            '8:00','8:30','9:00','9:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30'
+                                            '8:00', '8:30', '9:00', '9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30'
                                         ]
                                     });
                                 });
                             </script>
-                        
 
-                        <form class="form-inline" action="drive.php?a=Payer&c=validPayement" method="post">
-                            <input id="datetimepicker12" type="text" value="" name="date" required/>
-                            <input type="hidden" name="eurosCarte" value="<?php echo($this->eurosCarte) ?>">
-                            <input type="hidden" name="eurosADeduire" value="<?php echo($this->eurosAEnlever) ?>">
-                            <button type="submit" name="submit" style="display: block; width: 30%;" class="btn btn-success">Finaliser</button>
-                        </form>
-                        <?php
+
+                            <form class="form-inline" action="drive.php?a=Payer&c=validPayement" method="post">
+                                <input id="datetimepicker12" type="text" value="" name="date" required/>
+                                <input type="hidden" name="eurosCarte" value="<?php echo($this->eurosCarte) ?>">
+                                <input type="hidden" name="eurosADeduire" value="<?php echo($this->eurosAEnlever) ?>">
+                                <button type="submit" name="submit" style="display: block; width: 30%;" class="btn btn-success">Finaliser</button>
+                            </form>
+                            <?php
+                        }
                     }
                 }
                 ?>

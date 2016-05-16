@@ -56,7 +56,7 @@ class Planning {
     public static function getInfosPlanning($date) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
 
-        $stid = oci_parse($oci, "SELECT * FROM Planning where date_heure = to_date(:id,'dd/mm/yyyy hh24')"); // prepare le code
+        $stid = oci_parse($oci, "SELECT * FROM Planning where date_heure = to_date(:id,'dd/mm/yyyy hh24:mi')"); // prepare le code
 
         oci_bind_by_name($stid, ':id', $date);
 
@@ -75,7 +75,7 @@ class Planning {
 
     public static function getNombreLivraisonsMax($date) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        $stid = oci_parse($oci, "SELECT nombre_livraisons_max FROM Planning WHERE date_heure = to_date(:id,'dd/mm/yyyy hh24')");
+        $stid = oci_parse($oci, "SELECT nombre_livraisons_max FROM Planning WHERE date_heure = to_date(:id,'dd/mm/yyyy hh24:mi')");
         oci_bind_by_name($stid, ':id', $date);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
@@ -91,7 +91,7 @@ class Planning {
     public static function getNbPanierInscrits($date) {
         
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        $stid = oci_parse($oci, "SELECT count(*) as nb FROM Panier WHERE date_heure = to_date(:id,'dd/mm/yyyy hh24')"); // prepare le code
+        $stid = oci_parse($oci, "SELECT count(*) as nb FROM Panier WHERE date_heure = to_date(:id,'dd/mm/yyyy hh24:mi')"); // prepare le code
         oci_bind_by_name($stid, ':id', $date);
 
         $r = oci_execute($stid); // on l'execute
@@ -103,6 +103,7 @@ class Planning {
         $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS);
         return $row;
     }
+ 
 
     /** On regarde en fonction d'une date si on peut encore ajouter un panier ou non au planning* */
     public static function verifNombreLivraison($date) {
@@ -119,7 +120,7 @@ class Planning {
 
     public static function existPlanning($date) {
         $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-        $stid = oci_parse($oci, "SELECT count(*) as nb FROM Planning WHERE date_heure = to_date(:id,'dd/mm/yyyy hh24')");
+        $stid = oci_parse($oci, "SELECT count(*) as nb FROM Planning WHERE date_heure = to_date(:id,'dd/mm/yyyy hh24:mi')");
         oci_bind_by_name($stid, ':id', $date);
         $r = oci_execute($stid); // on l'execute
         if (!$r) {
@@ -144,7 +145,7 @@ class Planning {
         }
         if (!Planning::existPlanning($dateChoisie)) {//Si le planning existe pas
             $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-            $stid = oci_parse($oci, "INSERT INTO Planning VALUES(to_date(:id,'dd/mm/yyyy hh24'),:nb)");
+            $stid = oci_parse($oci, "INSERT INTO Planning VALUES(to_date(:id,'dd/mm/yyyy hh24:mi'),:nb)");
             oci_bind_by_name($stid, ':id', $dateChoisie);
             oci_bind_by_name($stid, ':nb', $nbLivMax);
             $r = oci_execute($stid); // on l'execute et ça commit en même temps car on a pas utilise oci no auto commit
@@ -160,7 +161,7 @@ class Planning {
 
     /** return la date du planning par défaut * */
     public static function getDefaultDate() {
-        $date = '01/01/2000 12';
+        $date = '01/01/2000 12:00';
         return $date;
     }
 
@@ -172,7 +173,7 @@ class Planning {
         if (!Planning::existPlanning($dateDefault)) {
             $livDefault = -1; //COmme ça on ajoute autant de paniers qu'on veut.
             $oci = Base::getConnexion(); // on recupere la connexion a la base de donnée
-            $stid = oci_parse($oci, "INSERT INTO Planning VALUES(to_date(:id,'dd/mm/yyyy hh24'),:nb)");
+            $stid = oci_parse($oci, "INSERT INTO Planning VALUES(to_date(:id,'dd/mm/yyyy hh24:mi'),:nb)");
             oci_bind_by_name($stid, ':id', $dateDefault);
             oci_bind_by_name($stid, ':nb', $livDefault);
             $r = oci_execute($stid); // on l'execute et ça commit en même temps car on a pas utilise oci no auto commit
