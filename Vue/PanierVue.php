@@ -12,7 +12,7 @@ class PanierVue extends MainVue {
     private $promo;
     private $estValider;
 
-    public function __construct($produits, $infos, $promo,$estValider) {
+    public function __construct($produits, $infos, $promo, $estValider) {
         $this->items = $produits;
         $this->infos = $infos;
         $this->promo = $promo;
@@ -47,20 +47,17 @@ class PanierVue extends MainVue {
                             $q = $item->getQuantite();
                             $prix += $p->getPrix_unit_HT() * $q;
                             $eurosCarte = 0;
-                        }else{
+                        } else {
                             $p = Produit::getProduit($item->getReference());
                             $pos = $this->appartient($item->getReference());
-                            $eurosCarte = $this->promo[0]["CAGNOTTE"];//On recup tout les euros qui vont aller sur la carte
-                            if(((int)$pos > -1)){
+                            $eurosCarte = $this->promo[0]["CAGNOTTE"]; //On recup tout les euros qui vont aller sur la carte
+                            if (((int) $pos > -1)) {
                                 $prix = $promo[$pos]["PRIXFINAL"];
                                 $q = $promo[$pos]["QUANTITE"];
-                            }else{
+                            } else {
                                 $prix = $p->getPrix_unit_HT() * $item->getQuantite();
                                 $q = $item->getQuantite();
-                                
                             }
-                            
-                            
                         }
                         $prixFinal += $prix;
                         echo( "<tr>
@@ -72,6 +69,7 @@ class PanierVue extends MainVue {
                         . "</td>"
                         . "<td>");
                         echo($q . "</td>");
+
                         if (!$this->estValider) {
                             ?>
                             <td>
@@ -100,38 +98,45 @@ class PanierVue extends MainVue {
                     <a href="drive.php?c=ValiderPanier&a=<?php echo($_GET["a"]); ?>"><button type="button" class="btn btn-success">Valider le panier <span class="glyphicon glyphicon-arrow-up"</span></button></a>
                     <?php
                 } else {
-                    echo("<tr><td> </td><td></td><td> </td><td></td><td></td></tr>"
-                    . "<tr><td> </td><td> </td><td> </td><td></td><th>" . "Total(Remises comprises) : " . $prixFinal . " <span class='glyphicon glyphicon-euro'</span></th></tr>");
-                    ?>
-                </table>
-                <h4>Ces courses vous feraient gagner <?php echo($eurosCarte);?> euros sur votre carte de fidélité si vous finalisez la commande.</h4>
-                <a href="drive.php?a=<?php echo($_GET["a"]); ?>"><button type="button" class="btn btn-danger">Annuler la validation <span class="glyphicon glyphicon-remove"</span></button></a>
-                <form class="form-inline" action="drive.php?a=Payer" method="post" id="valPanier">
-                    <input type="hidden" name="eurosCarte" value="<?php echo($eurosCarte) ?>">
-                    <input type="hidden" name="prixFinal" value="<?php echo($prixFinal) ?>">
-                    <br><br>
-                    Vous avez <?php echo($cli->getCredit_carte()) ?> euros à votre disposition.<br>
-                    Voulez vous en utiliser?<br>
-                    <input type="number" name="eurosADeduire" step="0.01" value="0" min="0" max="<?php
-                    if($cli->getCredit_carte() < $prixFinal){
-                        $max = $cli->getCredit_carte();
-                    }else{
-                        $max = $prixFinal;
-                    }
-                        echo($max) ?>">
-                    <button type="submit" class="btn btn-succes" form="valPanier">Payer <span class="glyphicon glyphicon-euro"</span></button>
-                </form>
-            <?php }
+                    if ($prixFinal == 0) {
+                        ?>
+                        <div class="alert alert-warning"><strong>Attention!</strong><?php echo("Votre panier est vide"); ?></div>
+                        <?php
+                    } else {
+                        echo("<tr><td> </td><td></td><td> </td><td></td><td></td></tr>"
+                        . "<tr><td> </td><td> </td><td> </td><td></td><th>" . "Total(Remises comprises) : " . $prixFinal . " <span class='glyphicon glyphicon-euro'</span></th></tr>");
+                        ?>
+                    </table>
+                    <h4>Ces courses vous feraient gagner <?php echo($eurosCarte); ?> euros sur votre carte de fidélité si vous finalisez la commande.</h4>
+                    <a href="drive.php?a=<?php echo($_GET["a"]); ?>"><button type="button" class="btn btn-danger">Annuler la validation <span class="glyphicon glyphicon-remove"</span></button></a>
+                    <form class="form-inline" action="drive.php?a=Payer" method="post" id="valPanier">
+                        <input type="hidden" name="eurosCarte" value="<?php echo($eurosCarte) ?>">
+                        <input type="hidden" name="prixFinal" value="<?php echo($prixFinal) ?>">
+                        <br><br>
+                        Vous avez <?php echo($cli->getCredit_carte()) ?> euros à votre disposition.<br>
+                        Voulez vous en utiliser?<br>
+                        <input type="number" name="eurosADeduire" step="0.01" value="0" min="0" max="<?php
+                        if ($cli->getCredit_carte() < $prixFinal) {
+                            $max = $cli->getCredit_carte();
+                        } else {
+                            $max = $prixFinal;
+                        }
+                        echo($max)
+                        ?>">
+                        <button type="submit" class="btn btn-succes" form="valPanier">Payer <span class="glyphicon glyphicon-euro"</span></button>
+                    </form>
+                <?php }
+            }
             ?>
         </div>
         </body>
         <?php
     }
-    
-    private function appartient($ref){
+
+    private function appartient($ref) {
         $trouver = 0;
-        foreach ($this->promo as $p){
-            if($p["REFERENCE"] == $ref){
+        foreach ($this->promo as $p) {
+            if ($p["REFERENCE"] == $ref) {
                 return $trouver;
             }
             $trouver ++;

@@ -143,6 +143,7 @@ class ProduitControler extends Controler {
                     var_dump($date);
                     if (Planning::existPlanning($date)) {
                         if (Planning::verifNombreLivraison($date)) {//Il reste de la place
+                            echo("coucou");
                             $p = Panier::getInfos($_SESSION["user"]);
                             $p->setDate_validation($date);
                             $p->update();
