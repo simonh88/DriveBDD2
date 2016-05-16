@@ -139,11 +139,9 @@ class ProduitControler extends Controler {
                     $dd = explode(":", $_POST['date']);
                     $date = explode("/", $dd[0]);
                     $jj = explode(" ", $date[2]);
-                    $date = $jj[0] . "/" . $date[1] . "/" . $date[0] . " " . $jj[1] . ":" .$dd[1];
-                    var_dump($date);
+                    $date = $jj[0] . "/" . $date[1] . "/" . $date[0] . " " . $jj[1] . ":" . $dd[1];
                     if (Planning::existPlanning($date)) {
                         if (Planning::verifNombreLivraison($date)) {//Il reste de la place
-                            echo("coucou");
                             $p = Panier::getInfos($_SESSION["user"]);
                             $p->setDate_validation($date);
                             $p->update();
@@ -159,8 +157,8 @@ class ProduitControler extends Controler {
                         } else {//Le planning est plein il faut rechoisir
                             $eurosCarte = $_POST["eurosCarte"];
                             $eurosAdeduire = $_POST["eurosADeduire"];
-                            $prixFinal = $_POST["prixFinal"] - $eurosAdeduire;
-                            $msgError = "Le nombre de commandes atteinte ici est trop élevé, veuillez choisir un autre moment. Merci";
+                            $prixFinal = 0;
+                            $msgError = " Le nombre de commandes atteinte ici est trop élevé, veuillez choisir un autre moment. Merci";
                             $view = new PayerVue($infos, false, $eurosCarte, $prixFinal, $eurosAdeduire, $msgError); //false donc rechoisir
                             $view->displayPage();
                         }
@@ -183,8 +181,8 @@ class ProduitControler extends Controler {
             } else {
                 $eurosCarte = $_POST["eurosCarte"];
                 $eurosAdeduire = $_POST["eurosADeduire"];
-                $prixFinal = $_POST["prixFinal"] - $eurosAdeduire;
-                $view = new PayerVue($infos, false, $eurosCarte, $prixFinal, $eurosAdeduire, NULL);
+                $prixFinal = 0;
+                $view = new PayerVue($infos, false, $eurosCarte, $prixFinal, $eurosAdeduire, NULL); //false donc rechoisir
                 $view->displayPage();
             }
         } else {

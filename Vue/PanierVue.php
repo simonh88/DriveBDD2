@@ -100,7 +100,7 @@ class PanierVue extends MainVue {
                 } else {
                     if ($prixFinal == 0) {
                         ?>
-                        <div class="alert alert-warning"><strong>Attention!</strong><?php echo("Votre panier est vide"); ?></div>
+                        <div class="alert alert-warning"><strong>Attention !</strong><?php echo(" Votre panier est vide"); ?></div>
                         <?php
                     } else {
                         echo("<tr><td> </td><td></td><td> </td><td></td><td></td></tr>"
