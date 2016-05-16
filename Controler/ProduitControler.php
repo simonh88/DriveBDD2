@@ -135,7 +135,8 @@ class ProduitControler extends Controler {
             $infos = Panier::getInfos($_SESSION['user']);
             if (isset($_GET["c"])) {
                 if ($_GET["c"] == "validPayement") {
-                    var_dump($_POST["dateRetrait"]);
+                    $date = $_POST["date"];
+                    var_dump($date);
                     $eurosCarte = $_POST["eurosCarte"];
                     $eurosAdeduire = $_POST["eurosADeduire"];
                     $cli = Client::getInfosClient($_SESSION["user"]);
@@ -323,7 +324,7 @@ class ProduitControler extends Controler {
         return $resFinal;
     }
 
-
+    //Pour la fac pas besoin de modif.
     public static function convertDate2($date) {		
         return $date;
     }
