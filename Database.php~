@@ -12,7 +12,7 @@ class Database
 	/*
 	 * Utilisateur de la base de donnée
 	 */
-	public static $user = 'etud045';
+	public static $user = 'oracle045';
 	
 	/*
 	 * Mot de passe de la base de donnée

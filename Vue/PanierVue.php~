@@ -65,7 +65,7 @@ class PanierVue extends MainVue {
                         . "</td>
                            <td>" . $p->getMarque()
                         . "</td>
-                           <td>" . $p->getPrix_unit_HT() * $q
+                           <td>" . $prix
                         . "</td>"
                         . "<td>");
                         echo($q . "</td>");

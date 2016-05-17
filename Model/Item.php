@@ -255,7 +255,7 @@ class Item {
         $calcul = array();
         $client = Client::getInfosClient($no_carte);
         $i = 0;
-
+	$cagnotteTotal = 0;
         foreach ($data as $ligne) {
             $reference = $ligne["REFERENCE"];
             $quantite = $ligne["QUANTITE"];
@@ -282,14 +282,14 @@ class Item {
                             $cagnotte += $promo->getReduction_absolue();
                             $prixFinal += $ligne["PRIX_UNIT_HT"];
                         } else { // %
-                            $cagnotte += $ligne["PRIX_UNIT_HT"] * ($promo->getReduction_relative() / 100);
+                            $cagnotte += ($ligne["PRIX_UNIT_HT"] * $promo->getReduction_relative()) / 100;
                             $prixFinal += $ligne["PRIX_UNIT_HT"];
                         }
                     } else { // remise immediat
                         if (!empty($test2)) { // €
                             $prixFinal += $ligne["PRIX_UNIT_HT"] - $promo->getReduction_absolue();
                         } else { // %
-                            $prixFinal += $ligne["PRIX_UNIT_HT"] - ($ligne["PRIX_UNIT_HT"] * ($promo->getReduction_relative() / 100));
+                            $prixFinal += $ligne["PRIX_UNIT_HT"] - (($ligne["PRIX_UNIT_HT"] * $promo->getReduction_relative()) / 100);
                         }
                     }
                 }
@@ -311,11 +311,13 @@ class Item {
             $calcul[$i]["QUANTITE"] = $quantite;
             $calcul[$i]["PRIXFINAL"] = $prixFinal;
             $calcul[$i]["CAGNOTTE"] = $cagnotte;
+	    $cagnotteTotal += $cagnotte;
             $calcul[$i]["LIBELLE"] = $ligne["LIBELLE"];
             $calcul[$i]["MARQUE"] = $ligne["MARQUE"];
 
             $i++;
         }
+	$calcul[0]["CAGNOTTE"] = $cagnotteTotal;
         return $calcul;
     }
 

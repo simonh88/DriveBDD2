@@ -25,7 +25,7 @@ class ProduitControler extends Controler {
 
     private function ajouterPanier() {
         $infos = Panier::getInfos($_SESSION["user"]);
-	$info =$infos->getNo_carte();
+        $info = $infos->getNo_carte();
         if (empty($info)) {
             if (!Planning::existPlanning(Planning::getDefaultDate())) {//On insert un planning par défaut utilisé pour les paniers par défaut.
                 Planning::insertDefaultPlanning();
@@ -112,16 +112,16 @@ class ProduitControler extends Controler {
                 } else if ($_GET["c"] == "enleveProduit") {
                     Item::deleteUnProduit($_SESSION["user"], $_POST["ref"], $_POST["qte"]);
                 } else if ($_GET["c"] == "ValiderPanier") {
-                    Item::calculPromotion($_SESSION["user"]);
+                    $items = Item::getInfosPanier($_SESSION["user"]);
+                    $promo = Item::calculPromotion($_SESSION["user"]);
                     $infos = Panier::getInfos($_SESSION['user']);
-                    $items = Item::getInfosPanier($_SESSION['user']);
-                    $view = new PanierVue($items, $infos, true);
+                    $view = new PanierVue($items, $infos, $promo, true);
                 }
             }
             if (empty($view)) {
                 $infos = Panier::getInfos($_SESSION['user']);
                 $items = Item::getInfosPanier($_SESSION['user']);
-                $view = new PanierVue($items, $infos, false);
+                $view = new PanierVue($items, $infos, null, false);
             }
             $view->displayPage();
         } else {
@@ -135,12 +135,55 @@ class ProduitControler extends Controler {
             $infos = Panier::getInfos($_SESSION['user']);
             if (isset($_GET["c"])) {
                 if ($_GET["c"] == "validPayement") {
-                    Item::deleteAll($_SESSION['user']);
-                    $view = new PayerVue($infos, true);
-                    $view->displayPage();
+                    $dd = $_POST["date"];
+                    $dd = explode(":", $_POST['date']);
+                    $date = explode("/", $dd[0]);
+                    $jj = explode(" ", $date[2]);
+                    $date = $jj[0] . "/" . $date[1] . "/" . $date[0] . " " . $jj[1] . ":" . $dd[1];
+                    if (Planning::existPlanning($date)) {
+                        if (Planning::verifNombreLivraison($date)) {//Il reste de la place
+                            $p = Panier::getInfos($_SESSION["user"]);
+                            $p->setDate_validation($date);
+                            $p->update();
+                            $eurosCarte = $_POST["eurosCarte"];
+                            $eurosAdeduire = $_POST["eurosADeduire"];
+                            $cli = Client::getInfosClient($_SESSION["user"]);
+                            $eurosCarteFinal = ($cli->getCredit_carte() + $eurosCarte) - $eurosAdeduire;
+                            $cli->setCredit_carte($eurosCarteFinal);
+                            $cli->update();
+                            Item::deleteAll($_SESSION['user']);
+                            $view = new PayerVue(NULL, true, $eurosCarteFinal, NULL, $eurosAdeduire, NULL);
+                            $view->displayPage();
+                        } else {//Le planning est plein il faut rechoisir
+                            $eurosCarte = $_POST["eurosCarte"];
+                            $eurosAdeduire = $_POST["eurosADeduire"];
+                            $p = Panier::getInfos($_SESSION["user"]);
+                            $prixFinal = $_POST["prixFinal"];
+                            $msgError = " Le nombre de commandes atteinte ici est trop élevé, veuillez choisir un autre moment. Merci";
+                            $view = new PayerVue($infos, false, $eurosCarte, $prixFinal, $eurosAdeduire, $msgError); //false donc rechoisir
+                            $view->displayPage();
+                        }
+                    } else {//Le planning n'existe pas
+                        Planning::insertPlanning($date, 5); //5 par défaut à toute heures
+                        $p = Panier::getInfos($_SESSION["user"]);
+                        $p->setDate_validation($date);
+                        $p->update();
+                        $eurosCarte = $_POST["eurosCarte"];
+                        $eurosAdeduire = $_POST["eurosADeduire"];
+                        $cli = Client::getInfosClient($_SESSION["user"]);
+                        $eurosCarteFinal = ($cli->getCredit_carte() + $eurosCarte) - $eurosAdeduire;
+                        $cli->setCredit_carte($eurosCarteFinal);
+                        $cli->update();
+                        Item::deleteAll($_SESSION['user']);
+                        $view = new PayerVue(NULL, true, $eurosCarteFinal, NULL, $eurosAdeduire, NULL);
+                        $view->displayPage();
+                    }
                 }
             } else {
-                $view = new PayerVue($infos, false);
+                $eurosCarte = $_POST["eurosCarte"];
+                $eurosAdeduire = $_POST["eurosADeduire"];
+                $prixFinal = $_POST["prixFinal"];
+                $view = new PayerVue($infos, false, $eurosCarte, $prixFinal, $eurosAdeduire, NULL); //false donc rechoisir
                 $view->displayPage();
             }
         } else {
@@ -295,7 +338,7 @@ class ProduitControler extends Controler {
     }
 
     public static function verifDates($dateDebut, $dateFin) {
-        if ((strtotime("now") - strtotime(ProduitControler::convertDate2($dateDebut)) >= 0) && (strtotime("now") - strtotime(ProduitControler::convertDate2($dateFin)) <= 0)) {
+        if ((strtotime("now") - strtotime(ProduitControler::convertDate($dateDebut)) >= 0) && (strtotime("now") - strtotime(ProduitControler::convertDate($dateFin)) <= 0)) {
             return true;
         }
         return false;
@@ -304,7 +347,6 @@ class ProduitControler extends Controler {
     //d-mm-YYYY H:i
     //d-mm-YYYY H:i
     public static function convertDate($date) {
-	var_dump(strtotime($date));
         $res1 = explode(" ", $date);
         $res2 = explode("/", $res1[0]);
         $res3 = "20" . $res2[2];
@@ -313,8 +355,8 @@ class ProduitControler extends Controler {
         return $resFinal;
     }
 
-
-    public static function convertDate2($date) {		
+    //Pour la fac pas besoin de modif.
+    public static function convertDate2($date) {
         return $date;
     }
 

@@ -255,10 +255,8 @@ class Item {
         $calcul = array();
         $client = Client::getInfosClient($no_carte);
         $i = 0;
-
-        var_dump($data);
+	$cagnotteTotal = 0;
         foreach ($data as $ligne) {
-            var_dump($ligne["REFERENCE"]);
             $reference = $ligne["REFERENCE"];
             $quantite = $ligne["QUANTITE"];
             $prixFinal = 0;
@@ -274,25 +272,24 @@ class Item {
                 $limite = $ligne["MAX_PAR_CLIENT"];
 
             $promo = P_lot::getPromotion($ligne['CODE_PROMO']);
-	$test = $promo->getCode_promo();
+            $test = $promo->getCode_promo();
             if (empty($test)) { // INDIVIDUEL
                 $promo = P_individuelle::getPromotion($ligne['CODE_PROMO']);
                 for ($index = 0; $index < $limite; $index++) {
-	$test2 = $promo->getReduction_absolue();
-                    if ($promo->getImmediate_VF() == "F") { //Cagnotte
-		
+                    $test2 = $promo->getReduction_absolue();
+                    if ($promo->getImmediate_VF() == "0" || $promo->getImmediate_VF() == "F") { //Cagnotte
                         if (!empty($test2)) { // €
                             $cagnotte += $promo->getReduction_absolue();
                             $prixFinal += $ligne["PRIX_UNIT_HT"];
                         } else { // %
-                            $cagnotte += $ligne["PRIX_UNIT_HT"] * ($promo->getReduction_relative() / 100);
+                            $cagnotte += ($ligne["PRIX_UNIT_HT"] * $promo->getReduction_relative()) / 100;
                             $prixFinal += $ligne["PRIX_UNIT_HT"];
                         }
                     } else { // remise immediat
                         if (!empty($test2)) { // €
                             $prixFinal += $ligne["PRIX_UNIT_HT"] - $promo->getReduction_absolue();
                         } else { // %
-                            $prixFinal += $ligne["PRIX_UNIT_HT"] - ($ligne["PRIX_UNIT_HT"] * ($promo->getReduction_relative() / 100));
+                            $prixFinal += $ligne["PRIX_UNIT_HT"] - (($ligne["PRIX_UNIT_HT"] * $promo->getReduction_relative()) / 100);
                         }
                     }
                 }
@@ -312,15 +309,15 @@ class Item {
 
             $calcul[$i]["REFERENCE"] = $reference;
             $calcul[$i]["QUANTITE"] = $quantite;
-            $calcul[$i]["PIRXFINAL"] = $prixFinal;
+            $calcul[$i]["PRIXFINAL"] = $prixFinal;
             $calcul[$i]["CAGNOTTE"] = $cagnotte;
+	    $cagnotteTotal += $cagnotte;
             $calcul[$i]["LIBELLE"] = $ligne["LIBELLE"];
             $calcul[$i]["MARQUE"] = $ligne["MARQUE"];
+
             $i++;
-            
-            
-            
         }
+	$calcul[0]["CAGNOTTE"] = $cagnotteTotal;
         return $calcul;
     }
 
