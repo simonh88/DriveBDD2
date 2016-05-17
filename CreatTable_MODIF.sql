@@ -930,7 +930,7 @@ UNION
 
 
 --
--- 4 images pour tous les produits du catalogue
+-- 4 images pour tous les produits du catalogue	
 --
 
 UPDATE PRODUIT P 
